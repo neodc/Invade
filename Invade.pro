@@ -16,11 +16,16 @@ SOURCES += main.cpp\
         invadeui.cpp \
     phase.cpp \
     side.cpp \
-    dicetype.cpp
+    dicetype.cpp \
+    model/dicetype.cpp \
+    model/phase.cpp \
+    model/side.cpp
 
 HEADERS  += invadeui.h \
     phase.h \
     side.h \
-    dicetype.h
+    model/dicetype.h \
+    model/phase.h \
+    model/side.h
 
 FORMS    += invadeui.ui
