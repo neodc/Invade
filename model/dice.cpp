@@ -2,7 +2,7 @@
 
 Dice::Dice(){
 	srand (time(NULL));
-	value = rand() % 6 + 1;
+	roll();
 }
 
 void Dice::roll(){

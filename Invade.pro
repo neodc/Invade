@@ -19,7 +19,7 @@ SOURCES += main.cpp\
 	model/dicetype.cpp \
 	model/phase.cpp \
 	model/side.cpp \
-	model/dice.cpp
+	model/dice.cpp \
 	model/unittype.cpp
 
 HEADERS  += invadeui.h \
@@ -27,7 +27,7 @@ HEADERS  += invadeui.h \
 	model/phase.h \
 	model/side.h \
     model/dice.h \
-	model/Position.h
+	model/Position.h \
 	model/unittype.h
 
 FORMS	+= invadeui.ui
