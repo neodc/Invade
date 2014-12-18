@@ -1,5 +1,6 @@
 #ifndef DICETYPE_H
 #define DICETYPE_H
+#include <iotream>
 
 enum class DiceType : char{
     ABS,

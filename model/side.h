@@ -1,5 +1,6 @@
 #ifndef SIDE_H
 #define SIDE_H
+#include <iotream>
 
 enum class Side : char{
     NORTH,

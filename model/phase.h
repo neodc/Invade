@@ -1,5 +1,6 @@
 #ifndef PHASE_H
 #define PHASE_H
+#include <iotream>
 
 enum class Phase : char{
     NO_PLAYER,
