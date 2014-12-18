@@ -3,11 +3,9 @@
 
 #include "invadeui.h"
 #include "model/unittype.h"
+#include "model/position.h"
 
-int main(int argc, char *argv[]){
-
-	std::cout << UnitType::NORMAL.pvMax() << std::endl;
-
+int main(int, char *[]){
 /*
 	QApplication a(argc, argv);
 	InvadeUI w;

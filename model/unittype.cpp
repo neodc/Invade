@@ -1,4 +1,4 @@
-#include "model/unittype.h"
+#include "unittype.h"
 
 UnitType::UnitType(unsigned pvMax, int speed, int accuracy, bool elite, unsigned bombshell) :
 	pvMax_{pvMax}, speed_{speed}, accuracy_{accuracy}, elite_{elite}, bombshell_{bombshell}{}

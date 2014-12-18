@@ -20,14 +20,15 @@ SOURCES += main.cpp\
 	model/phase.cpp \
 	model/side.cpp \
 	model/dice.cpp \
-	model/unittype.cpp
+	model/unittype.cpp \
+    model/position.cpp
 
 HEADERS  += invadeui.h \
 	model/dicetype.h \
 	model/phase.h \
 	model/side.h \
     model/dice.h \
-	model/Position.h \
-	model/unittype.h
+	model/unittype.h \
+    model/position.h
 
 FORMS	+= invadeui.ui
