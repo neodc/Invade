@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT	   += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -12,17 +12,17 @@ TARGET = Invade
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11 \
-    -pedantic-errors
+	-pedantic-errors
 
 SOURCES += main.cpp\
 	invadeui.cpp \
-    model/dicetype.cpp \
-    model/phase.cpp \
-    model/side.cpp
+	model/dicetype.cpp \
+	model/phase.cpp \
+	model/side.cpp
 
 HEADERS  += invadeui.h \
-    model/dicetype.h \
-    model/phase.h \
-    model/side.h
+	model/dicetype.h \
+	model/phase.h \
+	model/side.h
 
-FORMS    += invadeui.ui
+FORMS	+= invadeui.ui
