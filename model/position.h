@@ -7,6 +7,6 @@ typedef struct{
 	unsigned y;
 } Position;
 
-std::ostream & operator<< (std::ostream & out, Position in);
+std::ostream & operator<< (std::ostream & out, const Position& in);
 
 #endif // POSITION_H

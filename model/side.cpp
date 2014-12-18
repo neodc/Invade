@@ -1,6 +1,6 @@
 #include "side.h"
 
-std::ostream & operator<< ( std::ostream & out, Side in){
+std::ostream & operator<< ( std::ostream & out, const Side& in){
 	switch (in){
 	case Side::NORTH:
 		out << "north";

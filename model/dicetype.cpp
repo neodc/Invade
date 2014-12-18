@@ -1,6 +1,6 @@
 #include "dicetype.h"
 
-std::ostream & operator<< ( std::ostream & out, DiceType in){
+std::ostream & operator<< ( std::ostream & out, const DiceType& in){
 	switch (in){
 	case DiceType::ABS:
 		out << "abscissa";

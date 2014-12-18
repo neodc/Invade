@@ -1,6 +1,8 @@
 #ifndef UNITTYPE_H
 #define UNITTYPE_H
 
+#include <iostream>
+
 class UnitType{
 	public:
 		static const UnitType NORMAL;
@@ -24,6 +26,10 @@ class UnitType{
 		int accuracy() const;
 		bool elite() const;
 		unsigned bombshell() const;
+		bool operator==(const UnitType& other) const;
+		bool operator!=(const UnitType& other) const;
 };
+
+std::ostream & operator<<(std::ostream & out, const UnitType& in);
 
 #endif // UNITTYPE_H

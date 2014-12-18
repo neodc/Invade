@@ -21,7 +21,14 @@ unsigned Unit::reductHP(unsigned u){
 	return hp_;
 }
 
-const UnitType& Unit::type(){ return type(); }
-const Side& Unit::side(){ return side_; }
-unsigned Unit::hp(){ return hp_; }
-bool Unit::enable(){ return enable_; }
+const UnitType& Unit::type() const{ return type_; }
+const Side& Unit::side() const{ return side_; }
+unsigned Unit::hp() const{ return hp_; }
+bool Unit::enable() const{ return enable_; }
+
+std::ostream & operator<< (std::ostream & out, const Unit& in){
+
+	out << '{' << in.type() << ',' << in.side() << ',' << in.hp() << ',' << in.enable() << '}';
+
+	return out;
+}

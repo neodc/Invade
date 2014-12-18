@@ -6,9 +6,15 @@ Dice::Dice(){
 }
 
 void Dice::roll(){
-	value = rand() % 6 + 1;
+	value_ = rand() % 6 + 1;
 }
 
-unsigned Dice::getValue(){
-	return value;
+unsigned Dice::value() const{
+	return value_;
+}
+
+std::ostream & operator<< (std::ostream & out, const Dice& in){
+	out << in.value();
+
+	return out;
 }

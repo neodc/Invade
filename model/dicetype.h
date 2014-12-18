@@ -10,6 +10,6 @@ enum class DiceType : char{
 	ATT
 };
 
-std::ostream & operator<< (std::ostream & out, DiceType in);
+std::ostream & operator<< (std::ostream & out, const DiceType& in);
 
 #endif // DICETYPE_H

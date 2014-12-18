@@ -8,11 +8,13 @@
 
 class Dice{
 private:
-	unsigned value;
+	unsigned value_;
 public:
 	Dice();
 	void roll();
-	unsigned getValue();
+	unsigned value() const;
 };
+
+std::ostream & operator<< (std::ostream & out, const Dice& in);
 
 #endif // DICE_H

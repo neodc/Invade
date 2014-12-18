@@ -8,6 +8,6 @@ enum class Phase : char{
 	END
 };
 
-std::ostream & operator<< (std::ostream & out, Phase in);
+std::ostream & operator<< (std::ostream & out, const Phase& in);
 
 #endif // PHASE_H

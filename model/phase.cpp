@@ -1,6 +1,6 @@
 #include "phase.h"
 
-std::ostream & operator<< ( std::ostream & out, Phase in){
+std::ostream & operator<< ( std::ostream & out, const Phase& in){
 	switch (in){
 	case Phase::NO_PLAYER:
 		out << "no player";
