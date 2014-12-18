@@ -13,17 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        invadeui.cpp \
-    phase.cpp \
-    side.cpp \
-    dicetype.cpp \
+	invadeui.cpp \
     model/dicetype.cpp \
     model/phase.cpp \
     model/side.cpp
 
 HEADERS  += invadeui.h \
-    phase.h \
-    side.h \
     model/dicetype.h \
     model/phase.h \
     model/side.h
