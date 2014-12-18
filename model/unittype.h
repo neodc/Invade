@@ -9,7 +9,7 @@ class UnitType{
 		static const UnitType ELITE_C;
 
 	private:
-		unsigned pvMax_;
+		unsigned hpMax_;
 		int speed_;
 		int accuracy_;
 		bool elite_;
@@ -19,7 +19,7 @@ class UnitType{
 		UnitType(unsigned pvMax, int speed, int accuracy, bool elite, unsigned bombshell);
 
 	public:
-		unsigned pvMax() const;
+		unsigned hpMax() const;
 		int speed() const;
 		int accuracy() const;
 		bool elite() const;

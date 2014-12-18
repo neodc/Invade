@@ -1,10 +1,10 @@
 #include "unittype.h"
 
-UnitType::UnitType(unsigned pvMax, int speed, int accuracy, bool elite, unsigned bombshell) :
-	pvMax_{pvMax}, speed_{speed}, accuracy_{accuracy}, elite_{elite}, bombshell_{bombshell}{}
+UnitType::UnitType(unsigned hpMax, int speed, int accuracy, bool elite, unsigned bombshell) :
+	hpMax_{hpMax}, speed_{speed}, accuracy_{accuracy}, elite_{elite}, bombshell_{bombshell}{}
 
 
-unsigned UnitType::pvMax() const{ return pvMax_; }
+unsigned UnitType::hpMax() const{ return hpMax_; }
 int UnitType::speed() const{ return speed_; }
 int UnitType::accuracy() const{ return accuracy_; }
 bool UnitType::elite() const{ return elite_; }
