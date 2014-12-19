@@ -19,7 +19,7 @@ class Player{
 		void swapDice(const DiceType &t1, const DiceType &t2);
 		void swapDice(const DiceType &t1, const DiceType &t2, const DiceType &t3);
 		void rollDice();
-		void reductAttack(unsigned u);
+		void reduceAttack(unsigned u);
 		unsigned unit(const UnitType &type) const;
 		bool addUnit(const UnitType &type);
 

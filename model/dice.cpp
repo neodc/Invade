@@ -12,7 +12,7 @@ unsigned Dice::value() const{
 	return value_;
 }
 
-void Dice::reduct(unsigned u){
+void Dice::reduce(unsigned u){
 	if( u < value_ ){
 		value_ -= u;
 	}else{

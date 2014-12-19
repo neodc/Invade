@@ -11,7 +11,7 @@ void Unit::reset(){
 	hp_ = type_.hpMax();
 }
 
-unsigned Unit::reductHP(unsigned u){
+unsigned Unit::reduceHP(unsigned u){
 	if( u > hp_ ){
 		hp_ = 0;
 	}else{

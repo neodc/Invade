@@ -7,14 +7,14 @@
 #include "side.h"
 
 class Unit{
-		const UnitType type_;
-		const Side side_;
+		UnitType type_;
+		Side side_;
 		unsigned hp_;
 		bool enable_;
 	public:
 		Unit(UnitType type, Side side);
 		void reset();
-		unsigned reductHP(unsigned u);
+		unsigned reduceHP(unsigned u);
 
 		const UnitType& type() const;
 		const Side& side() const;

@@ -9,4 +9,6 @@ typedef struct{
 
 std::ostream & operator<< (std::ostream & out, const Position& in);
 
+bool operator<(const Position & first, const Position & second);
+
 #endif // POSITION_H

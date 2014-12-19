@@ -35,8 +35,8 @@ void Player::rollDice(){
 	}
 }
 
-void Player::reductAttack(unsigned u){
-	dice_[DiceType::ATT].reduct(u);
+void Player::reduceAttack(unsigned u){
+	dice_[DiceType::ATT].reduce(u);
 }
 
 unsigned Player::unit(const UnitType& type) const{

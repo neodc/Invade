@@ -23,7 +23,8 @@ SOURCES += main.cpp\
 	model/unittype.cpp \
     model/position.cpp \
     model/unit.cpp \
-    model/player.cpp
+    model/player.cpp \
+    model/board.cpp
 
 HEADERS  += invadeui.h \
 	model/dicetype.h \
@@ -33,6 +34,7 @@ HEADERS  += invadeui.h \
 	model/unittype.h \
     model/position.h \
     model/unit.h \
-    model/player.h
+    model/player.h \
+    model/board.h
 
 FORMS	+= invadeui.ui
