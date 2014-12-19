@@ -1,7 +1,7 @@
 #include "unittype.h"
 
 UnitType::UnitType(unsigned hpMax, int speed, int accuracy, bool elite, unsigned bombshell) :
-	hpMax_{hpMax}, speed_{speed}, accuracy_{accuracy}, elite_{elite}, bombshell_{bombshell}{}
+	id_{nextId_++}, hpMax_{hpMax}, speed_{speed}, accuracy_{accuracy}, elite_{elite}, bombshell_{bombshell}{}
 
 
 unsigned UnitType::hpMax() const{ return hpMax_; }
@@ -11,17 +11,15 @@ bool UnitType::elite() const{ return elite_; }
 unsigned UnitType::bombshell() const{ return bombshell_; }
 
 bool UnitType::operator==(const UnitType& other) const{
-	return (
-				hpMax_ == other.hpMax_
-				&& speed_ == other.speed_
-				&& accuracy_ == other.accuracy_
-				&& elite_ == other.elite_
-				&& bombshell_ == other.bombshell_
-			);
+	return id_ == other.id_;
 }
 
 bool UnitType::operator!=(const UnitType& other) const{
 	return !operator ==(other);
+}
+
+bool UnitType::operator<(const UnitType& other) const{
+	return id_ < other.id_;
 }
 
 std::ostream & operator<< (std::ostream & out, const UnitType& in){
@@ -38,6 +36,8 @@ std::ostream & operator<< (std::ostream & out, const UnitType& in){
 
 	return out;
 }
+
+unsigned UnitType::nextId_ = 0;
 
 const UnitType UnitType::NORMAL		= UnitType(2, 0, 0, false,0);
 const UnitType UnitType::ELITE_A	= UnitType(2, -1, 1,true, 0);

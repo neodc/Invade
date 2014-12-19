@@ -11,6 +11,8 @@ class UnitType{
 		static const UnitType ELITE_C;
 
 	private:
+		static unsigned nextId_;
+		unsigned id_;
 		unsigned hpMax_;
 		int speed_;
 		int accuracy_;
@@ -28,6 +30,7 @@ class UnitType{
 		unsigned bombshell() const;
 		bool operator==(const UnitType& other) const;
 		bool operator!=(const UnitType& other) const;
+		bool operator<(const UnitType& other) const;
 };
 
 std::ostream & operator<<(std::ostream & out, const UnitType& in);

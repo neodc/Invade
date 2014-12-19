@@ -5,12 +5,15 @@
 #include "model/unittype.h"
 #include "model/position.h"
 #include "model/unit.h"
+#include "model/player.h"
 
 int main(int, char *[]){
+	srand (time(NULL));
 
-	Unit u(UnitType::NORMAL, Side::NORTH);
+	Player p("name");
 
-	std::cout << u << std::endl;
+	std::cout << p << std::endl;
+
 /*
 	QApplication a(argc, argv);
 	InvadeUI w;

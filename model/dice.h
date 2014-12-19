@@ -13,6 +13,7 @@ public:
 	Dice();
 	void roll();
 	unsigned value() const;
+	void reduct(unsigned u);
 };
 
 std::ostream & operator<< (std::ostream & out, const Dice& in);

@@ -1,7 +1,6 @@
 #include "dice.h"
 
 Dice::Dice(){
-	srand (time(NULL));
 	roll();
 }
 
@@ -11,6 +10,14 @@ void Dice::roll(){
 
 unsigned Dice::value() const{
 	return value_;
+}
+
+void Dice::reduct(unsigned u){
+	if( u < value_ ){
+		value_ -= u;
+	}else{
+		value_ = 1;
+	}
 }
 
 std::ostream & operator<< (std::ostream & out, const Dice& in){
