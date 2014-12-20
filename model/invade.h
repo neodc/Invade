@@ -30,7 +30,7 @@ class Invade{
 		void endAttack();
 
 		const Board & board() const;
-		const Player & player(const Side);
+		const Player & player(const Side side);
 		const Side current() const;
 		const Side winner() const;
 		const Phase phase() const;
