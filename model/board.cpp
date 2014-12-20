@@ -34,7 +34,11 @@ bool Board::moveUnit(const Position origin, const Position dest){
 }
 
 bool Board::isPathClear(const Position origin, const Position dest) const{
-	if(!isPositionValid(origin) || !isPositionValid(dest) || !isCaseEmpty(dest)){
+	return isPathClear(origin, dest, true);
+}
+
+bool Board::isPathClear(const Position origin, const Position dest, bool checkLast) const{
+	if(!isPositionValid(origin) || !isPositionValid(dest) || (!isCaseEmpty(dest) && checkLast)){
 		return false;
 	}
 
@@ -43,16 +47,18 @@ bool Board::isPathClear(const Position origin, const Position dest) const{
 	int yDirection = (origin.y <= dest.y) ? 1 : -1;
 
 	for(unsigned u = origin.y + yDirection ; u != dest.y + yDirection ; u += yDirection){
-		if(!isCaseEmpty({origin.x, u})
-				&& (units_.at({origin.x, u}).type() != UnitType::ELITE_A
-					|| units_.at({origin.x, u}).side() != side)){
+		Position p{origin.x, u};
+		if( !isCaseEmpty(p)
+				&& !( (units_.at(p).type() == UnitType::ELITE_A) && (units_.at(p).side() == side) )
+				&& (checkLast || p != dest) ){
 			return false;
 		}
 	}
 	for(unsigned u = origin.x + xDirection ; u != dest.x + xDirection ; u += xDirection){
-		if(!isCaseEmpty({u, dest.y})
-				&& (units_.at({u, dest.y}).type() != UnitType::ELITE_A
-					|| units_.at({u, dest.y}).side() != side)){
+		Position p{u, dest.y};
+		if(!isCaseEmpty(p)
+				&& !( (units_.at(p).type() == UnitType::ELITE_A) && (units_.at(p).side() == side) )
+				&& (checkLast || p != dest)){
 			return false;
 		}
 	}
@@ -61,7 +67,11 @@ bool Board::isPathClear(const Position origin, const Position dest) const{
 }
 
 bool Board::canAttack(const Position origin, const Position dest) const{
-	return origin.x == (dest.x || origin.y == dest.y);
+	if( !isAligned(origin, dest) ){
+		return false;
+	}
+
+	return isPathClear(origin, dest, false);
 }
 
 Unit &Board::unitAt(const Position pos){

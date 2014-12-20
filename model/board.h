@@ -28,6 +28,8 @@ public:
 	void removeUnit(const Position pos);
 	bool isCaseEmpty(const Position pos) const;
 	friend std::ostream & operator<< (std::ostream & out, const Board& in);
+private:
+	bool isPathClear(const Position origin, const Position dest, bool checkLast) const;
 };
 
 #endif // BOARD_H

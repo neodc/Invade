@@ -8,3 +8,11 @@ std::ostream & operator<< ( std::ostream & out, const Position& in){
 bool operator<(const Position & first, const Position & second){
 	return (first.y < second.y) || (first.y == second.y && first.x < second.x);
 }
+
+bool operator==(const Position & first, const Position & second){
+	return (first.y == second.y) && (first.x == second.x);
+}
+
+bool operator!=(const Position & first, const Position & second){
+	return !(first == second);
+}
