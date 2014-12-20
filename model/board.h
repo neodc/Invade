@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <map>
+#include <iostream>
 #include "position.h"
 #include "unit.h"
 
@@ -26,6 +27,7 @@ public:
 	void addUnit(const Position pos, Unit & unit);
 	void removeUnit(const Position pos);
 	bool isCaseEmpty(const Position pos) const;
+	friend std::ostream & operator<< (std::ostream & out, const Board& in);
 };
 
 #endif // BOARD_H

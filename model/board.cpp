@@ -73,7 +73,9 @@ const Unit &Board::unitAt(const Position pos) const{
 }
 
 void Board::addUnit(const Position pos, Unit &unit){
-	units_.insert(std::make_pair(pos, unit));
+	if( isPositionValid(pos) ){
+		units_.insert(std::make_pair(pos, unit));
+	}
 }
 
 void Board::removeUnit(const Position pos){
@@ -82,4 +84,17 @@ void Board::removeUnit(const Position pos){
 
 bool Board::isCaseEmpty(const Position pos) const{
 	return (isPositionValid(pos) && units_.count(pos) == 0);
+}
+
+std::ostream & operator<< (std::ostream & out, const Board& in){
+
+	out << "{\n";
+
+	for( const std::pair<const Position, const Unit>& u : in.units_ ){
+		out << "\t" << u.first << " =>\t" << u.second << '\n';
+	}
+
+	out << "}";
+
+	return out;
 }
