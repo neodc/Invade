@@ -1,30 +1,30 @@
 #include <cmath>
 #include "board.h"
 
-bool Board::isAligned(Position p1, Position p2){
+bool Board::isAligned(const Position p1, const Position p2){
 	return (distanceX(p1, p2) == 0 || distanceY(p1, p2) == 0);
 }
 
-unsigned Board::distance(Position p1, Position p2){
+unsigned Board::distance(const Position p1, const Position p2){
 	return distanceX(p1, p2) + distanceY(p1, p2);
 }
 
-unsigned Board::distanceX(Position p1, Position p2){
+unsigned Board::distanceX(const Position p1, const Position p2){
 	return abs(p1.x - p2.x);
 }
 
-unsigned Board::distanceY(Position p1, Position p2){
+unsigned Board::distanceY(const Position p1, const Position p2){
 	return abs(p1.y - p2.y);
 }
 
 Board::Board(const Position dimensions) : dimensions_(dimensions){
 }
 
-bool Board::isPositionValid(Position pos) const{
+bool Board::isPositionValid(const Position pos) const{
 	return (pos.x <= dimensions_.x && pos.y <= dimensions_.y);
 }
 
-bool Board::moveUnit(Position origin, Position dest){
+bool Board::moveUnit(const Position origin, const Position dest){
 	if (isPathClear(origin, dest)){
 		units_.insert(std::make_pair(dest, units_.at(origin)));
 		units_.erase(origin);
@@ -33,7 +33,7 @@ bool Board::moveUnit(Position origin, Position dest){
 	return false;
 }
 
-bool Board::isPathClear(Position origin, Position dest) const{
+bool Board::isPathClear(const Position origin, const Position dest) const{
 	if(!isPositionValid(origin) || !isPositionValid(dest) || !isCaseEmpty(dest)){
 		return false;
 	}
@@ -60,22 +60,26 @@ bool Board::isPathClear(Position origin, Position dest) const{
 	return true;
 }
 
-const Unit &Board::unitAt(Position pos) const{
-
+bool Board::canAttack(const Position origin, const Position dest) const{
+	return origin.x == (dest.x || origin.y == dest.y);
 }
 
-void Board::addUnit(Position pos, Unit &unit){
-
+Unit &Board::unitAt(const Position pos){
+	return units_.at(pos);
 }
 
-void Board::removeUnit(Position pos){
-
+const Unit &Board::unitAt(const Position pos) const{
+	return units_.at(pos);
 }
 
-void Board::attackUnit(Position attacker, Position target){
-
+void Board::addUnit(const Position pos, Unit &unit){
+	units_.insert(std::make_pair(pos, unit));
 }
 
-bool Board::isCaseEmpty(Position pos) const{
+void Board::removeUnit(const Position pos){
+	units_.erase(pos);
+}
+
+bool Board::isCaseEmpty(const Position pos) const{
 	return (isPositionValid(pos) && units_.count(pos) == 0);
 }
