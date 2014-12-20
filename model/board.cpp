@@ -67,11 +67,7 @@ bool Board::isPathClear(const Position origin, const Position dest, bool checkLa
 }
 
 bool Board::canAttack(const Position origin, const Position dest) const{
-	if( !isAligned(origin, dest) ){
-		return false;
-	}
-
-	return isPathClear(origin, dest, false);
+	return isAligned(origin, dest) && isPathClear(origin, dest, false);
 }
 
 Unit &Board::unitAt(const Position pos){
