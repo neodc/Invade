@@ -6,6 +6,7 @@
 #include "player.h"
 #include "phase.h"
 #include "effect.h"
+#include "vector"
 
 #include <map>
 
@@ -15,9 +16,8 @@ class Invade{
 		Side current_;
 		Side winner_;
 		Phase phase_;
-		Effect effect1_;
-		Effect effect2_;
-		unsigned nbMovement_;
+		std::vector<Effect> effects_;
+		unsigned nbActions_;
 
 	public:
 		Invade();
@@ -26,9 +26,7 @@ class Invade{
 		void swapDice(const DiceType d1, const DiceType d2);
 		void endDice();
 
-		bool choseEffect(unsigned effect1);
-		bool choseEffect(unsigned effect1, unsigned effect2);
-		bool choseEffect(unsigned effect1, unsigned effect2, UnitType elite);
+		bool choseEffect(Effect effect, UnitType elite = UnitType::NORMAL);
 		void endEffect();
 
 		bool move(const Position origin, const Position dest);
@@ -39,14 +37,13 @@ class Invade{
 
 		const Board & board() const;
 		const Player & player(const Side side);
-		const Side current() const;
-		const Side opponent() const;
-		const Side winner() const;
-		const Phase phase() const;
+		Side current() const;
+		Side opponent() const;
+		Side winner() const;
+		Phase phase() const;
 
 	private:
-		void applyEffect(unsigned effect);
-		void applyEffect(unsigned effect, UnitType elite);
+		void applyEffect(Effect effect, UnitType elite = UnitType::NORMAL);
 };
 
 #endif // INVADE_H

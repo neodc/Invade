@@ -4,15 +4,34 @@
 #include <iostream>
 
 enum class Effect : char{
-	NO_EFFECT,
-	INCREASED_MOVEMENT,
-	INCREMENT_SOLDIER,
-	IMPROVED_ATTACK,
-	CHANGE_SOLDIER,
-	TWO_EFFECT
+	NO_EFFECT = 1,
+	INCREASED_MOVEMENT = 2,
+	INCREMENT_SOLDIER = 3,
+	IMPROVED_ATTACK = 4,
+	CHANGE_SOLDIER = 5,
+	TWO_EFFECT = 6
 };
 
 std::ostream & operator<< (std::ostream & out, const Effect& in);
 
-Effect convert(unsigned effect);
+
+bool operator<(const Effect & first, const Effect & second);
+bool operator>(const Effect & first, const Effect & second);
+bool operator<=(const Effect & first, const Effect & second);
+bool operator>=(const Effect & first, const Effect & second);
+
+bool operator<(const int first, const Effect & second);
+bool operator>(const int first, const Effect & second);
+bool operator<=(const int first, const Effect & second);
+bool operator>=(const int first, const Effect & second);
+bool operator==(const int first, const Effect & second);
+bool operator!=(const int first, const Effect & second);
+
+bool operator<(const Effect & first, const int second);
+bool operator>(const Effect & first, const int second);
+bool operator<=(const Effect & first, const int second);
+bool operator>=(const Effect & first, const int second);
+bool operator==(const Effect & first, const int second);
+bool operator!=(const Effect & first, const int second);
+
 #endif // EFFECT_H

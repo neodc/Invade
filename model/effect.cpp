@@ -23,26 +23,54 @@ std::ostream & operator<< ( std::ostream & out, const Effect& in){
 	}
 	return out;
 }
-
-Effect convert(unsigned effect){
-	switch (effect){
-	case 1:
-		return Effect::NO_EFFECT;
-		break;
-	case 2:
-		return Effect::INCREASED_MOVEMENT;
-		break;
-	case 3:
-		return Effect::INCREMENT_SOLDIER;
-		break;
-	case 4:
-		return Effect::IMPROVED_ATTACK;
-		break;
-	case 5:
-		return Effect::CHANGE_SOLDIER;
-		break;
-	default:
-		return Effect::NO_EFFECT;
-		break;
-	}
+//Effect - Effect
+bool operator<(const Effect & first, const Effect & second){
+	return (static_cast<int>(first) < static_cast<int>(second));
+}
+bool operator>(const Effect & first, const Effect & second){
+	return (static_cast<int>(first) > static_cast<int>(second));
+}
+bool operator<=(const Effect & first, const Effect & second){
+	return (static_cast<int>(first) <= static_cast<int>(second));
+}
+bool operator>=(const Effect & first, const Effect & second){
+	return (static_cast<int>(first) >= static_cast<int>(second));
+}
+//Int - Effect
+bool operator<(const int first, const Effect & second){
+	return (first < static_cast<int>(second));
+}
+bool operator>(const int first, const Effect & second){
+	return (first > static_cast<int>(second));
+}
+bool operator<=(const int first, const Effect & second){
+	return (first <= static_cast<int>(second));
+}
+bool operator>=(const int first, const Effect & second){
+	return (first >= static_cast<int>(second));
+}
+bool operator==(const int first, const Effect & second){
+	return (first == static_cast<int>(second));
+}
+bool operator!=(const int first, const Effect & second){
+	return (first != static_cast<int>(second));
+}
+//Effect - Int
+bool operator<(const Effect & first, const int second){
+	return (static_cast<int>(first) < second);
+}
+bool operator>(const Effect & first, const int second){
+	return (static_cast<int>(first) > second);
+}
+bool operator<=(const Effect & first, const int second){
+	return (static_cast<int>(first) <= second);
+}
+bool operator>=(const Effect & first, const int second){
+	return (static_cast<int>(first) >= second);
+}
+bool operator==(const Effect & first, const int second){
+	return (static_cast<int>(first) == second);
+}
+bool operator!=(const Effect & first, const int second){
+	return (static_cast<int>(first) != second);
 }
