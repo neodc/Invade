@@ -26,6 +26,10 @@ const Side& Unit::side() const{ return side_; }
 unsigned Unit::hp() const{ return hp_; }
 bool Unit::enable() const{ return enable_; }
 
+void Unit::disable(){
+	enable_ = false;
+}
+
 std::ostream & operator<< (std::ostream & out, const Unit& in){
 
 	out << '{' << in.type() << ',' << in.side() << ',' << in.hp() << ',' << in.enable() << '}';

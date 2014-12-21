@@ -20,6 +20,7 @@ class Unit{
 		const Side& side() const;
 		unsigned hp() const;
 		bool enable() const;
+		void disable();
 };
 
 std::ostream & operator<< (std::ostream & out, const Unit& in);
