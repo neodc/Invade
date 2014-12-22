@@ -24,16 +24,16 @@ void Invade::begin(const std::string p1, const std::string p2){
 bool Invade::endPhase(){
 	switch (phase_){
 		case Phase::PLAYING_DICE:
+			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
 		case Phase::PLAYING_EFFECT:
 			if( effects_.empty() ){
 				return false;
 			}
-			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
 		case Phase::PLAYING_MOVE:
-			nbActions_ = player(current_).dice(DiceType::COM);
 			player(current_).disruption();
+			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
 		case Phase::PLAYING_ATTACK:
 			player(current_).reduceAttack(player(current_).dice(DiceType::ATT) - nbActions_);
@@ -61,7 +61,7 @@ void Invade::swapDice(const DiceType d1, const DiceType d2){
 	}
 }
 
-bool Invade::choseEffect(Effect effect, UnitType elite){
+bool Invade::chooseEffect(Effect effect, UnitType elite){
 	if (phase_ != Phase::PLAYING_EFFECT){
 		return false;
 	}
@@ -121,7 +121,7 @@ void Invade::applyEffect(Effect effect, UnitType elite){
 
 //TODO ajouter la capacité du commandant
 bool Invade::move(const Position origin, const Position dest){
-	if (phase_ == Phase::PLAYING_MOVE || nbActions_ == 0){
+	if (phase_ != Phase::PLAYING_MOVE || nbActions_ == 0){
 		return false;
 	}
 
@@ -133,9 +133,9 @@ bool Invade::move(const Position origin, const Position dest){
 	int diffX = player(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
 	int diffY = player(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
 
-	if( diffX > 0 && diffY > 0 ){
+	if( diffX >= 0 && diffY >= 0 ){
 		ok = true;
-	}else if( hasEffect(Effect::INCREASED_MOVEMENT) && ((diffX > -1) != (diffY > -1)) ){
+	}else if( hasEffect(Effect::INCREASED_MOVEMENT) && ((diffX >= -1) && (diffY >= -1)) && (diffX >= 0 || diffY >= 0) ){
 		ok = true;
 	}
 
@@ -150,7 +150,7 @@ bool Invade::move(const Position origin, const Position dest){
 }
 
 bool Invade::addUnit(const Position p, const UnitType type){
-	if (phase_ == Phase::PLAYING_MOVE || nbActions_ == 0){
+	if (phase_ != Phase::PLAYING_MOVE || nbActions_ == 0){
 		return false;
 	}
 
@@ -182,8 +182,8 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 
 	bool ok = false;
 	unsigned accuracyCurrent = player(current_).dice(DiceType::ATT) + board_.unitAt(origin).type().accuracy();
-	unsigned defenceOpponentBase = player(!current_).dice(DiceType::ATT);
-	unsigned defenceOpponent = defenceOpponentBase + board_.unitAt(dest).type().accuracy();
+	unsigned defenseOpponentBase = player(!current_).dice(DiceType::ATT);
+	unsigned defenseOpponent = defenseOpponentBase + board_.unitAt(dest).type().accuracy();
 
 	if ((current_ == Side::NORTH && (origin.y < dest.y))
 			|| (current_ == Side::SOUTH && (origin.y > dest.y))){
@@ -195,13 +195,13 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 
 
 	if ( board_.canAttack(origin,dest)
-			&& (accuracyCurrent > defenceOpponent)){
+			&& (accuracyCurrent > defenseOpponent)){
 			if (bombshell){
 				Position p = dest;
 
 				p.x = dest.x+1;
 				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenceOpponentBase + board_.unitAt(p).type().accuracy() ){
+						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
 					if (board_.unitAt(p).reduceHP(1) == 0){
 						board_.removeUnit(p);
 					}
@@ -209,7 +209,7 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 
 				p.x = dest.x-1;
 				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenceOpponentBase + board_.unitAt(p).type().accuracy() ){
+						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
 					if (board_.unitAt(p).reduceHP(1) == 0){
 						board_.removeUnit(p);
 					}
@@ -217,7 +217,7 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 
 				p.y = dest.y+1;
 				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenceOpponentBase + board_.unitAt(p).type().accuracy() ){
+						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
 					if (board_.unitAt(p).reduceHP(1) == 0){
 						board_.removeUnit(p);
 					}
@@ -225,7 +225,7 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 
 				p.y = dest.y-1;
 				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenceOpponentBase + board_.unitAt(p).type().accuracy() ){
+						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
 					if (board_.unitAt(p).reduceHP(1) == 0){
 						board_.removeUnit(p);
 					}

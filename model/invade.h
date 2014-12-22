@@ -27,7 +27,7 @@ class Invade{
 
 		void swapDice(const DiceType d1, const DiceType d2);
 
-		bool choseEffect(Effect effect, UnitType elite = UnitType::NORMAL);
+		bool chooseEffect(Effect effect, UnitType elite = UnitType::NORMAL);
 
 		bool move(const Position origin, const Position dest);
 		bool addUnit(const Position p, const UnitType type);

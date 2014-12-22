@@ -9,7 +9,7 @@ enum class Effect : char{
 	INCREMENT_SOLDIER = 3,
 	IMPROVED_ATTACK = 4,
 	CHANGE_SOLDIER = 5,
-	TWO_EFFECT = 6
+	TWO_EFFECTS = 6
 };
 
 std::ostream & operator<< (std::ostream & out, const Effect& in);
