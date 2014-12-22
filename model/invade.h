@@ -23,27 +23,28 @@ class Invade{
 		Invade();
 		void begin(const std::string p1, const std::string p2); // start/restart the game.
 
+		bool endPhase();
+
 		void swapDice(const DiceType d1, const DiceType d2);
-		void endDice();
 
 		bool choseEffect(Effect effect, UnitType elite = UnitType::NORMAL);
-		void endEffect();
 
 		bool move(const Position origin, const Position dest);
-		void endMove();
+		bool addUnit(const Position p, const UnitType type);
 
 		bool attack(const Position origin, const Position dest, bool bombshell = false);
-		void endAttack();
 
 		const Board & board() const;
-		const Player & player(const Side side);
+		const Player & player(const Side side) const;
 		Side current() const;
-		Side opponent() const;
 		Side winner() const;
 		Phase phase() const;
 
 	private:
 		void applyEffect(Effect effect, UnitType elite = UnitType::NORMAL);
+		Player & player(const Side side);
+		bool hasEffect(Effect e) const;
+		bool isVictory();
 };
 
 #endif // INVADE_H

@@ -20,7 +20,9 @@ int main(int, char *[]){
 	b.addUnit({0,1}, u);
 	b.addUnit({1,1}, u);
 
-	b.removeUnit({0,0});
+	b.unitAt({0,0}).disable();
+
+	b.reset();
 
 	std::cout << b << std::endl;
 

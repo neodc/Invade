@@ -27,9 +27,6 @@ std::ostream & operator<< ( std::ostream & out, const Phase& in){
 
 Phase next(Phase phase){
 	switch (phase){
-		case Phase::NO_PLAYER:
-			return Phase::PLAYING_DICE;
-			break;
 		case Phase::PLAYING_DICE:
 			return Phase::PLAYING_EFFECT;
 			break;
@@ -43,7 +40,7 @@ Phase next(Phase phase){
 			return Phase::PLAYING_DICE;
 			break;
 		default:
-			return Phase::END;
+			return phase;
 			break;
 	}
 }

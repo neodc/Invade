@@ -22,11 +22,11 @@ class Player{
 		void reduceAttack(unsigned u);
 		unsigned unit(const UnitType &type) const;
 		bool addUnit(const UnitType &type);
-
+		void disruption();
 		const std::string& name() const;
+		unsigned nbUnit() const;
 
 	private:
-		unsigned nbUnit() const;
 		friend std::ostream & operator<< (std::ostream & out, const Player& in);
 };
 

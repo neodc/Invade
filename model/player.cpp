@@ -59,6 +59,26 @@ bool Player::addUnit(const UnitType& type){
 	return false;
 }
 
+void Player::disruption(){
+	switch (dice(DiceType::EFF)) {
+		case 1:
+			swapDice(DiceType::ABS, DiceType::COM);
+			break;
+		case 2:
+			swapDice(DiceType::COM, DiceType::ORD);
+			break;
+		case 3:
+			swapDice(DiceType::ORD, DiceType::ABS);
+			break;
+		case 4:
+			swapDice(DiceType::ORD, DiceType::ABS, DiceType::COM);
+			break;
+		case 5:
+			swapDice(DiceType::COM, DiceType::ABS, DiceType::ORD);
+			break;
+	}
+}
+
 const std::string& Player::name() const{
 	return name_;
 }

@@ -8,5 +8,6 @@ enum class Side : char{
 };
 
 std::ostream & operator<< (std::ostream & out, const Side& in);
+Side operator!(Side s);
 
 #endif // SIDE_H

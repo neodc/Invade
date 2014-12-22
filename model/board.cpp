@@ -20,6 +20,10 @@ unsigned Board::distanceY(const Position p1, const Position p2){
 Board::Board(const Position dimensions) : dimensions_(dimensions){
 }
 
+Position Board::dimensions() const{
+	return dimensions_;
+}
+
 bool Board::isPositionValid(const Position pos) const{
 	return (pos.x <= dimensions_.x && pos.y <= dimensions_.y);
 }
@@ -78,7 +82,7 @@ const Unit &Board::unitAt(const Position pos) const{
 	return units_.at(pos);
 }
 
-void Board::addUnit(const Position pos, Unit &unit){
+void Board::addUnit(const Position pos, Unit unit){
 	if( isPositionValid(pos) ){
 		units_.insert(std::make_pair(pos, unit));
 	}
@@ -90,6 +94,16 @@ void Board::removeUnit(const Position pos){
 
 bool Board::isCaseEmpty(const Position pos) const{
 	return (isPositionValid(pos) && units_.count(pos) == 0);
+}
+
+void Board::clear(){
+	units_.clear();
+}
+
+void Board::reset(){
+	for( std::pair<const Position, Unit>& u : units_ ){
+		u.second.reset();
+	}
 }
 
 std::ostream & operator<< (std::ostream & out, const Board& in){

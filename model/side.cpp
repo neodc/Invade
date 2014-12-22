@@ -11,3 +11,7 @@ std::ostream & operator<< ( std::ostream & out, const Side& in){
 	}
 	return out;
 }
+
+Side operator!(Side s){
+	return (s == Side::NORTH)? (Side::SOUTH):(Side::NORTH);
+}
