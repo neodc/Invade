@@ -79,7 +79,7 @@ bool Invade::choseEffect(Effect effect, UnitType elite){
 			ok = true;
 		}
 	}else if (effects_.size() == 1){
-		if (player(current_).dice(DiceType::EFF) == Effect::TWO_EFFECT
+		if (player(current_).dice(DiceType::EFF) == Effect::TWO_EFFECTS
 				&& effect >= 2 && effect <= 4
 				&& effects_[0] >= 2 && effects_[0] <= 4){
 			effects_.push_back(effect);

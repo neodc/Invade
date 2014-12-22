@@ -17,7 +17,7 @@ std::ostream & operator<< ( std::ostream & out, const Effect& in){
 	case Effect::CHANGE_SOLDIER:
 		out << "change soldier";
 		break;
-	case Effect::TWO_EFFECT:
+	case Effect::TWO_EFFECTS:
 		out << "two effect";
 		break;
 	}
