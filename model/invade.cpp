@@ -96,20 +96,17 @@ bool Invade::chooseEffect(Effect effect, UnitType elite){
 void Invade::applyEffect(Effect effect, UnitType elite){
 	switch (effect) {
 		case Effect::NO_EFFECT:
-			//NO_EFFECT
 			break;
 		case Effect::INCREASED_MOVEMENT:
-			//IMPROVED_MOVEMENT : checked in the movement method
+			//checked in the movement method
 			break;
 		case Effect::INCREMENT_SOLDIER:
-			//INCREMENT_SOLDIER
 			player(current_).addUnit(UnitType::NORMAL);
 			break;
 		case Effect::IMPROVED_ATTACK:
-			//IMPROVED_ATTACK : checked in the attack method
+			//checked in the attack method
 			break;
 		case Effect::CHANGE_SOLDIER:
-			//CHANGE_SOLDIER
 			if (elite.elite()){
 				player(current_).addUnit(elite);
 			}
