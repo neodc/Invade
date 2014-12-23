@@ -23,19 +23,6 @@ std::ostream & operator<< ( std::ostream & out, const Effect& in){
 	}
 	return out;
 }
-//Effect - Effect
-bool operator<(const Effect & first, const Effect & second){
-	return (static_cast<int>(first) < static_cast<int>(second));
-}
-bool operator>(const Effect & first, const Effect & second){
-	return (static_cast<int>(first) > static_cast<int>(second));
-}
-bool operator<=(const Effect & first, const Effect & second){
-	return (static_cast<int>(first) <= static_cast<int>(second));
-}
-bool operator>=(const Effect & first, const Effect & second){
-	return (static_cast<int>(first) >= static_cast<int>(second));
-}
 //Int - Effect
 bool operator<(const int first, const Effect & second){
 	return (first < static_cast<int>(second));

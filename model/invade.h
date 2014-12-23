@@ -6,9 +6,9 @@
 #include "player.h"
 #include "phase.h"
 #include "effect.h"
-#include "vector"
 
 #include <map>
+#include <set>
 
 class Invade{
 		Board board_;
@@ -16,7 +16,7 @@ class Invade{
 		Side current_;
 		Side winner_;
 		Phase phase_;
-		std::vector<Effect> effects_;
+		std::set<Effect> effects_;
 		unsigned nbActions_;
 
 	public:

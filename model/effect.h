@@ -14,12 +14,6 @@ enum class Effect : char{
 
 std::ostream & operator<< (std::ostream & out, const Effect& in);
 
-
-bool operator<(const Effect & first, const Effect & second);
-bool operator>(const Effect & first, const Effect & second);
-bool operator<=(const Effect & first, const Effect & second);
-bool operator>=(const Effect & first, const Effect & second);
-
 bool operator<(const int first, const Effect & second);
 bool operator>(const int first, const Effect & second);
 bool operator<=(const int first, const Effect & second);
