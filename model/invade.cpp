@@ -241,7 +241,7 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 }
 
 bool Invade::hasEffect(Effect e) const{
-	return std::find(effects_.begin(), effects_.end(), e)!=effects_.end();
+	return effects_.count(e) != 0;
 }
 
 bool Invade::isVictory(){
