@@ -15,6 +15,9 @@ std::ostream & operator<< ( std::ostream & out, const Phase& in){
 		case Phase::PLAYING_MOVE:
 			out << "playing move";
 			break;
+		case Phase::PLAYING_COMMANDER:
+			out << "playing commander";
+			break;
 		case Phase::PLAYING_ATTACK:
 			out << "playing attack";
 			break;
@@ -35,6 +38,9 @@ Phase next(Phase phase){
 			break;
 		case Phase::PLAYING_MOVE:
 			return Phase::PLAYING_ATTACK;
+			break;
+		case Phase::PLAYING_COMMANDER:
+			return Phase::PLAYING_MOVE;
 			break;
 		case Phase::PLAYING_ATTACK:
 			return Phase::PLAYING_DICE;

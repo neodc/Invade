@@ -18,6 +18,7 @@ class Invade{
 		Phase phase_;
 		std::set<Effect> effects_;
 		unsigned nbActions_;
+		Position commander_;
 
 	public:
 		Invade();
@@ -31,6 +32,8 @@ class Invade{
 
 		bool move(const Position origin, const Position dest);
 		bool addUnit(const Position p, const UnitType type);
+
+		bool moveCommander(const Position origin, const Position dest);
 
 		bool attack(const Position origin, const Position dest, bool bombshell = false);
 

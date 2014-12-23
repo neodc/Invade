@@ -35,6 +35,8 @@ bool Invade::endPhase(){
 			player(current_).disruption();
 			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
+		case Phase::PLAYING_COMMANDER:
+			break;
 		case Phase::PLAYING_ATTACK:
 			player(current_).reduceAttack(player(current_).dice(DiceType::ATT) - nbActions_);
 			current_ = !current_;
@@ -117,7 +119,6 @@ void Invade::applyEffect(Effect effect, UnitType elite){
 	}
 }
 
-//TODO ajouter la capacité du commandant
 bool Invade::move(const Position origin, const Position dest){
 	if (phase_ != Phase::PLAYING_MOVE || nbActions_ == 0){
 		return false;
@@ -142,6 +143,10 @@ bool Invade::move(const Position origin, const Position dest){
 		if (ok){
 			board_.unitAt(dest).disable();
 			nbActions_--;
+			if( board_.unitAt(dest).type() == UnitType::ELITE_C ){
+				phase_ = Phase::PLAYING_COMMANDER;
+				commander_ = dest;
+			}
 		}
 	}
 	return ok;
@@ -163,6 +168,56 @@ bool Invade::addUnit(const Position p, const UnitType type){
 	board_.addUnit(p, Unit{type, current_});
 
 	return true;
+}
+
+bool Invade::moveCommander(const Position origin, const Position dest){
+	if (phase_ != Phase::PLAYING_COMMANDER){
+		return false;
+	}
+
+	if (board_.isCaseEmpty(origin) || board_.unitAt(origin).side() != current_){
+		return false;
+	}
+
+	if( Board::distanceX(origin,dest) != 0 && Board::distanceY(origin,dest) != 0 ){
+		return false;
+	}
+
+	if( Board::distanceX(origin,commander_) <= Board::distanceX(dest,commander_) || Board::distanceY(origin,commander_) <= Board::distanceY(dest,commander_) ){
+		return false;
+	}
+
+	if( dest.x != commander_.x && (origin.x < commander_.x) != (dest.x < commander_.x) ){
+		return false;
+	}
+
+	if( dest.y != commander_.y && (origin.y < commander_.y) != (dest.y < commander_.y) ){
+		return false;
+	}
+
+	int diff;
+	bool ok = false;
+	if( Board::distanceX(origin,dest) != 0 ){
+		diff = player(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
+	}else{
+		diff = player(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
+	}
+
+	if( hasEffect(Effect::INCREASED_MOVEMENT) ){
+		++diff;
+	}
+
+	if ( diff >= 0 ){
+		ok = board_.moveUnit(origin, dest);
+		if (ok){
+			if( board_.unitAt(dest).type() == UnitType::ELITE_C ){
+				commander_ = dest;
+			}else{
+				endPhase();
+			}
+		}
+	}
+	return ok;
 }
 
 bool Invade::attack(const Position origin, const Position dest, bool bombshell){
