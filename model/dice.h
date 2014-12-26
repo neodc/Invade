@@ -13,6 +13,7 @@ public:
 	Dice();
 	void roll();
 	unsigned value() const;
+	void value(unsigned value);
 	void reduce(unsigned u);
 };
 

@@ -12,6 +12,12 @@ unsigned Dice::value() const{
 	return value_;
 }
 
+void Dice::value(unsigned value){
+	if( value >= 1 && value <= 6 ){
+		value_ = value;
+	}
+}
+
 void Dice::reduce(unsigned u){
 	if( u < value_ ){
 		value_ -= u;
