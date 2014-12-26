@@ -3,13 +3,14 @@
 
 #include <string>
 #include <map>
+#include <QJsonObject>
 
 #include "dicetype.h"
 #include "dice.h"
 #include "unittype.h"
 
 class Player{
-		const std::string name_;
+		std::string name_;
 		std::map<const DiceType, Dice> dice_;
 		std::map<const UnitType, unsigned> units_;
 	public:
@@ -25,6 +26,8 @@ class Player{
 		void disruption();
 		const std::string& name() const;
 		unsigned nbUnit() const;
+		void read(const QJsonObject &json);
+		void write(QJsonObject &json) const;
 
 	private:
 		friend std::ostream & operator<< (std::ostream & out, const Player& in);

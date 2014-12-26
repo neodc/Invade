@@ -1,5 +1,8 @@
 #include "player.h"
 
+#include <QString>
+#include <QJsonArray>
+
 Player::Player(std::string name) : name_{name}{
 
 	dice_[DiceType::ABS];
@@ -91,6 +94,54 @@ unsigned Player::nbUnit() const{
 	}
 
 	return ret;
+}
+
+void Player::read(const QJsonObject &json){
+	name_ = json["name"].toString().toStdString();
+
+	QJsonArray dice = json["dice"].toArray();
+
+	for (int i = 0; i < dice.size(); ++i) {
+		QJsonObject diceObject = dice[i].toObject();
+		dice_.at( static_cast<DiceType>(diceObject["type"].toInt()) ).value(diceObject["value"].toInt());
+	}
+
+	QJsonArray units = json["units"].toArray();
+
+	for (int i = 0; i < units.size(); ++i) {
+		QJsonObject unitObject = units[i].toObject();
+		units_.at( UnitType::fromId(unitObject["type"].toInt()) ) = unitObject["value"].toInt();
+	}
+}
+
+void Player::write(QJsonObject &json) const{
+	json["name"] = QString::fromStdString(name_);
+
+	QJsonArray dice;
+
+	for( const std::pair<const DiceType, Dice>& d : dice_ ){
+		QJsonObject diceObject;
+
+		diceObject["type"] = static_cast<int>(d.first);
+		diceObject["value"] = static_cast<int>(d.second.value());
+
+		dice.append(diceObject);
+	}
+
+	json["dice"] = dice;
+
+	QJsonArray units;
+
+	for( const std::pair<const UnitType, unsigned>& u : units_ ){
+		QJsonObject unitObject;
+
+		unitObject["type"] = static_cast<int>(u.first.id());
+		unitObject["value"] = static_cast<int>(u.second);
+
+		units.append(unitObject);
+	}
+
+	json["units"] = units;
 }
 
 std::ostream & operator<< (std::ostream & out, const Player& in){
