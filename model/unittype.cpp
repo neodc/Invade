@@ -9,6 +9,7 @@ int UnitType::speed() const{ return speed_; }
 int UnitType::accuracy() const{ return accuracy_; }
 bool UnitType::elite() const{ return elite_; }
 unsigned UnitType::bombshell() const{ return bombshell_; }
+unsigned UnitType::id() const{ return id_; }
 
 bool UnitType::operator==(const UnitType& other) const{
 	return id_ == other.id_;
@@ -35,6 +36,18 @@ std::ostream & operator<< (std::ostream & out, const UnitType& in){
 	}
 
 	return out;
+}
+
+const UnitType & UnitType::fromId(unsigned i){
+	if( i == UnitType::ELITE_A.id() ){
+		return UnitType::ELITE_A;
+	}else if( i == UnitType::ELITE_B.id() ){
+		return UnitType::ELITE_B;
+	}else if( i == UnitType::ELITE_C.id() ){
+		return UnitType::ELITE_C;
+	}else{
+		return UnitType::NORMAL;
+	}
 }
 
 unsigned UnitType::nextId_ = 0;

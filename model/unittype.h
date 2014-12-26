@@ -28,9 +28,12 @@ class UnitType{
 		int accuracy() const;
 		bool elite() const;
 		unsigned bombshell() const;
+		unsigned id() const;
 		bool operator==(const UnitType& other) const;
 		bool operator!=(const UnitType& other) const;
 		bool operator<(const UnitType& other) const;
+
+		static const UnitType & fromId(unsigned i);
 };
 
 std::ostream & operator<<(std::ostream & out, const UnitType& in);
