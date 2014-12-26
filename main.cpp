@@ -8,6 +8,8 @@
 #include "model/player.h"
 #include "model/board.h"
 
+#include "network/serverinvade.h"
+
 int main(int argc, char *argv[]){
 	srand (time(NULL));
 
@@ -32,9 +34,12 @@ int main(int argc, char *argv[]){
 
 
 	QApplication a(argc, argv);
+	/*
 	InvadeUI w{invade};
 	w.show();
-
+	*/
+	ServerInvade w{invade};
+	w.show();
 	return a.exec();
 
 }
