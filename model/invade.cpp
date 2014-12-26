@@ -4,7 +4,7 @@
 Invade::Invade(): current_{Side::NORTH}, winner_{Side::NORTH}, phase_{Phase::NO_PLAYER}{}
 
 const Board & Invade::board() const{ return board_; }
-const Player & Invade::player(const Side side) const{ return player(side); }
+const Player & Invade::constPlayer(const Side side) const{ return players_.at(side); }
 Player & Invade::player(const Side side){ return players_.at(side); }
 Side Invade::current() const{ return current_; }
 Side Invade::winner() const{ return winner_; }
@@ -54,6 +54,7 @@ bool Invade::endPhase(){
 	}
 
 	phase_ = next(phase_);
+	notifierChangement();
 	return true;
 }
 
@@ -61,6 +62,7 @@ void Invade::swapDice(const DiceType d1, const DiceType d2){
 	if (phase_ == Phase::PLAYING_DICE){
 		player(current_).swapDice(d1,d2);
 	}
+	notifierChangement();
 }
 
 bool Invade::chooseEffect(Effect effect, UnitType elite){
@@ -92,6 +94,7 @@ bool Invade::chooseEffect(Effect effect, UnitType elite){
 		}
 
 	}
+	notifierChangement();
 	return ok;
 }
 
@@ -149,6 +152,7 @@ bool Invade::move(const Position origin, const Position dest){
 			}
 		}
 	}
+	notifierChangement();
 	return ok;
 }
 
@@ -166,6 +170,7 @@ bool Invade::addUnit(const Position p, const UnitType type){
 	}
 
 	board_.addUnit(p, Unit{type, current_});
+	notifierChangement();
 
 	return true;
 }

@@ -11,7 +11,7 @@
 int main(int argc, char *argv[]){
 	srand (time(NULL));
 
-	Board b;
+	/*Board b;
 
 	Unit u{UnitType::NORMAL, Side::NORTH};
 
@@ -24,11 +24,15 @@ int main(int argc, char *argv[]){
 
 	b.reset();
 
-	std::cout << b << std::endl;
+	std::cout << b << std::endl;*/
+
+	Invade * invade;
+	invade = new Invade;
+	invade->begin("YOLO","SWAG");
 
 
 	QApplication a(argc, argv);
-	InvadeUI w;
+	InvadeUI w{invade};
 	w.show();
 
 	return a.exec();

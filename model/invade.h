@@ -39,7 +39,7 @@ class Invade : public SujetDObservation{
 		bool attack(const Position origin, const Position dest, bool bombshell = false);
 
 		const Board & board() const;
-		const Player & player(const Side side) const;
+		const Player & constPlayer(const Side side) const;
 		Side current() const;
 		Side winner() const;
 		Phase phase() const;
