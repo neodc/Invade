@@ -106,6 +106,38 @@ void Board::reset(){
 	}
 }
 
+void Board::read(const QJsonObject &json){
+
+	dimensions_ = str2pos( json["dimension"].toString() );
+
+	units_.clear();
+
+	QJsonObject units = json["units"].toObject();
+	QJsonObject::ConstIterator i;
+
+	for( i = units.constBegin(); i != units.constEnd(); ++i ){
+		QJsonObject o = i.value().toObject();
+		Unit u;
+		u.read(o);
+		units_.insert( std::make_pair( str2pos(i.key()), u) );
+	}
+
+}
+
+void Board::write(QJsonObject &json) const{
+	json["dimension"] = pos2str(dimensions_);
+
+	QJsonObject units;
+
+	for( const std::pair<const Position, Unit>& u : units_ ){
+		QJsonObject o;
+		u.second.write(o);
+		units[ pos2str(u.first) ] = o;
+	}
+
+	json["units"] = units;
+}
+
 std::ostream & operator<< (std::ostream & out, const Board& in){
 
 	out << "{\n";

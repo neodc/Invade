@@ -2,6 +2,7 @@
 #define BOARD_H
 #include <map>
 #include <iostream>
+#include <QJsonObject>
 #include "position.h"
 #include "unit.h"
 
@@ -9,7 +10,7 @@ class Board {
 
 private:
 	std::map<Position, Unit> units_;
-	const Position dimensions_;
+	Position dimensions_;
 
 public:
 	static bool isAligned(const Position p1, const Position p2);
@@ -30,6 +31,8 @@ public:
 	bool isCaseEmpty(const Position pos) const;
 	void clear();
 	void reset();
+	void read(const QJsonObject &json);
+	void write(QJsonObject &json) const;
 	friend std::ostream & operator<< (std::ostream & out, const Board& in);
 private:
 	bool isPathClear(const Position origin, const Position dest, bool checkLast) const;
