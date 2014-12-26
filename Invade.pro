@@ -27,7 +27,9 @@ SOURCES += main.cpp\
     model/board.cpp \
     model/invade.cpp \
     model/effect.cpp \
-    view/sujetDObservation.cpp
+    view/sujetDObservation.cpp \
+    newgame.cpp \
+    view/dicelabel.cpp
 
 HEADERS  += invadeui.h \
 	model/dicetype.h \
@@ -42,6 +44,9 @@ HEADERS  += invadeui.h \
     model/invade.h \
     model/effect.h \
     view/sujetDObservation.h \
-    view/observateur.h
+    view/observateur.h \
+    newgame.h \
+    view/dicelabel.h
 
-FORMS	+= invadeui.ui
+FORMS	+= invadeui.ui \
+    newgame.ui

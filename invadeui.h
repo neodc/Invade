@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include "view/observateur.h"
+#include "view/dicelabel.h"
 #include "model/invade.h"
+#include "newgame.h"
 
 namespace Ui {
 	class InvadeUI;
@@ -12,7 +14,13 @@ namespace Ui {
 class InvadeUI : public QMainWindow, public Observateur{
 	Q_OBJECT
 	Invade *invade_;
-
+	DiceLabel * DiceTmp = NULL;
+	DiceLabel * COM;
+	DiceLabel * ATT;
+	DiceLabel * EFF;
+	DiceLabel * ABS;
+	DiceLabel * ORD;
+	DiceLabel * DEF;
 	public:
 		explicit InvadeUI(Invade * invade, QWidget *parent = 0);
 		void rafraichir(SujetDObservation *);
@@ -27,7 +35,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 		void move();
 		void moveCommender();
 		void attack();
-		void newGame();
+		void begin();
 		void quit();
 };
 

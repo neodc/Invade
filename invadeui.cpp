@@ -7,7 +7,37 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 
 	connect(ui->Next_, &QPushButton::clicked, this, &InvadeUI::nextPhase);
 	connect(ui->actionQuit, &QAction::triggered, this, &InvadeUI::quit);
-	connect(ui->actionNew_Game, &QAction::triggered, this, &InvadeUI::newGame);
+	connect(ui->actionNew_Game, &QAction::triggered, this, &InvadeUI::begin);
+
+	QLabel * labelCOM = new QLabel("COM");
+	QLabel * labelATT = new QLabel("ATT");
+	QLabel * labelEFF = new QLabel("EFF");
+	QLabel * labelABS = new QLabel("ABS");
+	QLabel * labelORD = new QLabel("ORD");
+	QLabel * labelDEF = new QLabel("DEF");
+	COM = new DiceLabel(DiceType::COM, "COM");
+	ATT = new DiceLabel(DiceType::ATT, "ATT");
+	EFF = new DiceLabel(DiceType::EFF, "EFF");
+	ABS = new DiceLabel(DiceType::ABS, "ABS");
+	ORD = new DiceLabel(DiceType::ORD, "ORD");
+	DEF = new DiceLabel(DiceType::ATT, "DEF");
+	connect(COM, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	connect(ATT, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	connect(EFF, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	connect(ABS, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	connect(ORD, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	ui->statLayout->addWidget(labelCOM, 0, 0);
+	ui->statLayout->addWidget(labelATT, 1, 0);
+	ui->statLayout->addWidget(labelEFF, 2, 0);
+	ui->statLayout->addWidget(labelABS, 3, 0);
+	ui->statLayout->addWidget(labelORD, 4, 0);
+	ui->statLayout->addWidget(labelDEF, 5, 0);
+	ui->statLayout->addWidget(COM, 0, 1);
+	ui->statLayout->addWidget(ATT, 1, 1);
+	ui->statLayout->addWidget(EFF, 2, 1);
+	ui->statLayout->addWidget(ABS, 3, 1);
+	ui->statLayout->addWidget(ORD, 4, 1);
+	ui->statLayout->addWidget(DEF, 5, 1);
 
 	invade_->attacher(this);
 	rafraichir(invade_);
@@ -23,7 +53,22 @@ void InvadeUI::quit(){
 }
 
 void InvadeUI::swapDice(){
+	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	if (!Widget){
+	   return;
+	}
+	int index = ui->statLayout->indexOf(Widget);
+	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
+	ui->statLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 
+	if (DiceTmp == NULL){
+		DiceTmp = dynamic_cast<DiceLabel*>(ui->statLayout->itemAt(index)->widget());
+	}else{
+		DiceLabel *tmp = dynamic_cast<DiceLabel*>(ui->statLayout->itemAt(index)->widget());
+		invade_->swapDice(DiceTmp->type(),tmp->type());
+		DiceTmp = NULL;
+	}
+	rafraichir(invade_);
 }
 
 void InvadeUI::choseEffect(){
@@ -42,14 +87,20 @@ void InvadeUI::attack(){
 
 }
 
-void InvadeUI::newGame(){
-	//invade_->begin();
+void InvadeUI::begin(){
+	newGame game{this};
+	game.setWindowTitle("New Game");
+	int retour = game.exec();
+
+	if (retour == QDialog::Rejected) return;
+
+	invade_->begin(game.p1(), game.p2());
+	rafraichir(invade_);
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
 	QString laGrille;
 	QLayoutItem *child;
-	//Player p{invade_->player(invade_->current())};
 	Player p {invade_->constPlayer(invade_->current())};
 	while ((child = ui->Board_->takeAt(0)) != 0){
 		delete child->widget();
@@ -105,12 +156,13 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		default:
 			break;
 	}
-	ui->ABS_value_->setText(QString::number(p.dice(DiceType::ABS)));
-	ui->ATT_value_->setText(QString::number(p.dice(DiceType::ATT)));
-	ui->COM_value_->setText(QString::number(p.dice(DiceType::COM)));
-	ui->ORD_value_->setText(QString::number(p.dice(DiceType::ORD)));
-	ui->EFF_value_->setText(QString::number(p.dice(DiceType::EFF)));
-	ui->DEF_value_->setText(QString::number(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
+	ORD->setText(QString::number(p.dice(DiceType::ORD)));
+	ABS->setText(QString::number(p.dice(DiceType::ABS)));
+	ATT->setText(QString::number(p.dice(DiceType::ATT)));
+	COM->setText(QString::number(p.dice(DiceType::COM)));
+	EFF->setText(QString::number(p.dice(DiceType::EFF)));
+	DEF->setText(QString::number(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
+
 	ui->Soldiers_value_->setText(QString::number(p.unit(UnitType::NORMAL)));
 	ui->ELITEA_value_->setText(QString::number(p.unit(UnitType::ELITE_A)));
 	ui->ELITEB_value_->setText(QString::number(p.unit(UnitType::ELITE_B)));

@@ -63,162 +63,6 @@
     <property name="title">
      <string>Stats</string>
     </property>
-    <widget class="QLabel" name="COM_label_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>COM</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ABS_label_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ABS</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ORD_label_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>70</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ORD</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="EFF_label_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>90</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>EFF</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ATT_label_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ATT</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="DEF_label_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>130</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>DEF</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="COM_value_">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>30</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ABS_value_">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>50</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ORD_value_">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>70</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="EFF_value_">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>90</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="DEF_value_">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>130</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="ATT_value_">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>110</y>
-       <width>46</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="Soldiers_label_">
      <property name="geometry">
       <rect>
@@ -322,6 +166,17 @@
      <property name="text">
       <string>TextLabel</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>131</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="statLayout"/>
     </widget>
    </widget>
    <widget class="QGroupBox" name="Effect_">
