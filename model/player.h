@@ -13,7 +13,7 @@ class Player{
 		std::map<const DiceType, Dice> dice_;
 		std::map<const UnitType, unsigned> units_;
 	public:
-		Player(std::string name);
+		Player(std::string name = "");
 
 		unsigned dice(const DiceType &type) const;
 		void swapDice(const DiceType &t1, const DiceType &t2);

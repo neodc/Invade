@@ -13,7 +13,7 @@ class Unit{
 		unsigned hp_;
 		bool enable_;
 	public:
-		Unit(UnitType type, Side side);
+		Unit(UnitType type = UnitType::NORMAL, Side side = Side::NORTH);
 		void reset();
 		unsigned reduceHP(unsigned u);
 
