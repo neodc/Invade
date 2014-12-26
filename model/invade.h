@@ -10,6 +10,7 @@
 
 #include <map>
 #include <set>
+#include <QJsonObject>
 
 class Invade : public SujetDObservation{
 		Board board_;
@@ -43,6 +44,8 @@ class Invade : public SujetDObservation{
 		Side current() const;
 		Side winner() const;
 		Phase phase() const;
+		void read(const QJsonObject &json);
+		void write(QJsonObject &json) const;
 
 	private:
 		void applyEffect(Effect effect, UnitType elite = UnitType::NORMAL);

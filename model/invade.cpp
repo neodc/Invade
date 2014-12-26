@@ -1,5 +1,6 @@
 #include "invade.h"
 #include <algorithm>
+#include <QJsonArray>
 
 Invade::Invade(): current_{Side::NORTH}, winner_{Side::NORTH}, phase_{Phase::NO_PLAYER}{}
 
@@ -323,4 +324,64 @@ bool Invade::isVictory(){
 	}
 
 	return false;
+}
+
+
+void Invade::read(const QJsonObject &json){
+	current_ = static_cast<Side>(json["current"].toInt());
+	winner_ = static_cast<Side>(json["winner"].toInt());
+	phase_ = static_cast<Phase>(json["phase"].toInt());
+	nbActions_ = json["nbActions"].toInt();
+	commander_ = str2pos(json["commander"].toString());
+
+	board_.read( json["board"].toObject() );
+
+	QJsonArray players = json["players"].toArray();
+	players_.clear();
+
+	for (int i = 0; i < players.size(); ++i) {
+		QJsonObject playerObject = players[i].toObject();
+		players_[ static_cast<Side>(playerObject["type"].toInt()) ].read( playerObject["value"].toObject() );
+	}
+
+	QJsonArray effects = json["effects"].toArray();
+	effects_.clear();
+
+	for (int i = 0; i < effects.size(); ++i) {
+		effects_.insert( static_cast<Effect>(effects[i].toInt()) );
+	}
+}
+
+void Invade::write(QJsonObject &json) const{
+	json["current"] = static_cast<int>(current_);
+	json["winner"] = static_cast<int>(winner_);
+	json["phase"] = static_cast<int>(phase_);
+	json["nbActions"] = static_cast<int>(nbActions_);
+	json["commander"] = pos2str(commander_);
+
+	QJsonObject board;
+	board_.write(board);
+	json["board"] = board;
+
+	QJsonArray players;
+
+	for( const std::pair<const Side, Player>& p : players_ ){
+		QJsonObject playerObject;
+		QJsonObject pObject;
+
+		playerObject["type"] = static_cast<int>(p.first);
+
+		p.second.write(pObject);
+		playerObject["value"] = pObject;
+
+		players.append(playerObject);
+	}
+
+	json["players"] = players;
+
+	QJsonArray effects;
+
+	for( const Effect& e : effects_ ){
+		effects.append( static_cast<int>(e) );
+	}
 }
