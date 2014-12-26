@@ -8,7 +8,7 @@
 #include "model/player.h"
 #include "model/board.h"
 
-int main(int, char *[]){
+int main(int argc, char *argv[]){
 	srand (time(NULL));
 
 	Board b;
@@ -26,11 +26,11 @@ int main(int, char *[]){
 
 	std::cout << b << std::endl;
 
-/*
+
 	QApplication a(argc, argv);
 	InvadeUI w;
 	w.show();
 
 	return a.exec();
-*/
+
 }

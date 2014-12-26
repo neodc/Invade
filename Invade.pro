@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     model/player.cpp \
     model/board.cpp \
     model/invade.cpp \
-    model/effect.cpp
+    model/effect.cpp \
+    view/sujetDObservation.cpp
 
 HEADERS  += invadeui.h \
 	model/dicetype.h \
@@ -39,6 +40,8 @@ HEADERS  += invadeui.h \
     model/player.h \
     model/board.h \
     model/invade.h \
-    model/effect.h
+    model/effect.h \
+    view/sujetDObservation.h \
+    view/observateur.h
 
 FORMS	+= invadeui.ui

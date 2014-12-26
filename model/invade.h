@@ -6,11 +6,12 @@
 #include "player.h"
 #include "phase.h"
 #include "effect.h"
+#include "view/sujetDObservation.h"
 
 #include <map>
 #include <set>
 
-class Invade{
+class Invade : public SujetDObservation{
 		Board board_;
 		std::map<Side, Player> players_;
 		Side current_;

@@ -31,9 +31,9 @@ unsigned Unit::hp() const{ return hp_; }
 bool Unit::enable() const{ return enable_; }
 
 void Unit::read(const QJsonObject &json){
-	type_ = UnitType::fromId(json["type"].toInt());
-	side_ = static_cast<Side>(json["side"].toInt());
-	hp_ = json["hp"].toInt();
+	//type_ = UnitType::fromId(json["type"].toInt());
+	//side_ = static_cast<Side>(json["side"].toInt());
+	//hp_ = json["hp"].toInt();
 	enable_ = json["enable"].toBool();
 }
 
