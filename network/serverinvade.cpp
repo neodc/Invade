@@ -108,10 +108,10 @@ void ServerInvade::readyRead(){
 	}
 
 	for( const std::pair<const Side, QTcpSocket*>& c : clients ){
-		if( c.second == client ){
+/*		if( c.second == client ){
 			receveOrder(d.object(), c.first);
 			return;
-		}
+		}*/
 	}
 
 }
@@ -147,16 +147,16 @@ bool ServerInvade::isOrderValid(QJsonObject json){
 	return json["method"].isString() && json["parameters"].isObject();
 }
 
-void ServerInvade::receveOrder(QJsonObject json, Side side){
+void ServerInvade::receiveOrder(QJsonObject json, Side side){
 
 	if( !isOrderValid(json) ){
 		return;
 	}
 
-	switch (json["method"]) { // TODO : remplir les méthode dispo.
+/*	switch (json["method"]) { // TODO : remplir les méthode dispo.
 		case "":
 
 			break;
-	}
+	}*/
 
 }

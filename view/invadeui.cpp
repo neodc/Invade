@@ -239,12 +239,12 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		default:
 			break;
 	}
-	ORD->setText(QString::number(p.dice(DiceType::ORD)));
-	ABS->setText(QString::number(p.dice(DiceType::ABS)));
-	ATT->setText(QString::number(p.dice(DiceType::ATT)));
-	COM->setText(QString::number(p.dice(DiceType::COM)));
-	EFF->setText(QString::number(p.dice(DiceType::EFF)));
-	DEF->setText(QString::number(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
+	ORD->setImage(p.dice(DiceType::ORD), DiceTmp == ORD);
+	ABS->setImage(p.dice(DiceType::ABS), DiceTmp == ABS);
+	ATT->setImage(p.dice(DiceType::ATT), DiceTmp == ATT);
+	COM->setImage(p.dice(DiceType::COM), DiceTmp == COM);
+	EFF->setImage(p.dice(DiceType::EFF), DiceTmp == EFF);
+	DEF->setImage(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT));
 
 	SoldierValue->setText(QString::number(p.unit(UnitType::NORMAL)));
 	EliteAValue->setText(QString::number(p.unit(UnitType::ELITE_A)));
