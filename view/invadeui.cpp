@@ -4,6 +4,14 @@
 InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invade_{invade}, ui(new Ui::InvadeUI){
 	ui->setupUi(this);
 
+	ClickableLabel * label;
+	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
+		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
+			label = new ClickableLabel("");
+			ui->Board_->addWidget(label,j,i);
+			connect(label, &ClickableLabel::clicked, this, &InvadeUI::move);
+		}
+	}
 
 	connect(ui->Next_, &QPushButton::clicked, this, &InvadeUI::nextPhase);
 	connect(ui->actionQuit, &QAction::triggered, this, &InvadeUI::quit);
@@ -194,28 +202,27 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	QLayoutItem *child;
 	Player p {invade_->constPlayer(invade_->current())};
 	ClickableLabel * label;
-	while ((child = ui->Board_->takeAt(0)) != 0){
+	/*while ((child = ui->Board_->takeAt(0)) != 0){
 		delete child->widget();
-	}
+	}*/
 
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
+			label = dynamic_cast<ClickableLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
 			if (!invade_->board().isCaseEmpty(Position{i,j})){
 				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
 				if (tmp == UnitType::NORMAL){
-					label = new ClickableLabel("N");
+					label->setText("N");
 				}else if (tmp == UnitType::ELITE_A){
-					label = new ClickableLabel("A");
+					label->setText("A");
 				}else if (tmp == UnitType::ELITE_B){
-					label = new ClickableLabel("B");
+					label->setText("B");
 				}else if (tmp == UnitType::ELITE_C){
-					label = new ClickableLabel("C");
+					label->setText("C");
 				}
 			}else{
-				label = new ClickableLabel("X");
+				label->setText("X");
 			}
-			ui->Board_->addWidget(label,j,i);
-			connect(label, &ClickableLabel::clicked, this, &InvadeUI::move);
 		}
 	}
 	switch (invade_->phase()) {
