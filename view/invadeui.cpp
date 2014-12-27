@@ -21,11 +21,27 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	ABS = new DiceLabel(DiceType::ABS, "ABS");
 	ORD = new DiceLabel(DiceType::ORD, "ORD");
 	DEF = new DiceLabel(DiceType::ATT, "DEF");
+
+	EliteLabel * Soldier = new EliteLabel(UnitType::NORMAL, "Soldiers");
+	EliteLabel * EliteA = new EliteLabel(UnitType::ELITE_A, "EliteA");
+	EliteLabel * EliteB = new EliteLabel(UnitType::ELITE_B, "EliteB");
+	EliteLabel * EliteC = new EliteLabel(UnitType::ELITE_C, "EliteC");
+	SoldierValue = new QLabel(this);
+	EliteAValue = new QLabel(this);
+	EliteBValue = new QLabel(this);
+	EliteCValue = new QLabel(this);
+
 	connect(COM, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ATT, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(EFF, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ABS, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ORD, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	connect(Soldier, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(EliteA, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(EliteB, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(EliteC, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
+
+
 	ui->statLayout->addWidget(labelCOM, 0, 0);
 	ui->statLayout->addWidget(labelATT, 1, 0);
 	ui->statLayout->addWidget(labelEFF, 2, 0);
@@ -38,6 +54,15 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	ui->statLayout->addWidget(ABS, 3, 1);
 	ui->statLayout->addWidget(ORD, 4, 1);
 	ui->statLayout->addWidget(DEF, 5, 1);
+
+	ui->statLayout->addWidget(Soldier, 0, 2);
+	ui->statLayout->addWidget(SoldierValue, 1, 2);
+	ui->statLayout->addWidget(EliteA, 0, 3);
+	ui->statLayout->addWidget(EliteAValue, 1, 3);
+	ui->statLayout->addWidget(EliteB, 2, 2);
+	ui->statLayout->addWidget(EliteBValue, 3, 2);
+	ui->statLayout->addWidget(EliteC, 2, 3);
+	ui->statLayout->addWidget(EliteCValue, 3, 3);
 
 	invade_->attacher(this);
 	rafraichir(invade_);
@@ -96,6 +121,19 @@ void InvadeUI::begin(){
 
 	invade_->begin(game.p1(), game.p2());
 	rafraichir(invade_);
+}
+
+void InvadeUI::selectUnit(){
+	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	if (!Widget){
+	   return;
+	}
+	int index = ui->statLayout->indexOf(Widget);
+	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
+	ui->statLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
+	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->statLayout->itemAt(index)->widget());
+	selectedUnitType = tmp->type().type();
+	std::cout << selectedUnitType << std::endl;
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
@@ -163,10 +201,10 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EFF->setText(QString::number(p.dice(DiceType::EFF)));
 	DEF->setText(QString::number(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
 
-	ui->Soldiers_value_->setText(QString::number(p.unit(UnitType::NORMAL)));
-	ui->ELITEA_value_->setText(QString::number(p.unit(UnitType::ELITE_A)));
-	ui->ELITEB_value_->setText(QString::number(p.unit(UnitType::ELITE_B)));
-	ui->ELITEC_value_->setText(QString::number(p.unit(UnitType::ELITE_C)));
+	SoldierValue->setText(QString::number(p.unit(UnitType::NORMAL)));
+	EliteAValue->setText(QString::number(p.unit(UnitType::ELITE_A)));
+	EliteBValue->setText(QString::number(p.unit(UnitType::ELITE_B)));
+	EliteCValue->setText(QString::number(p.unit(UnitType::ELITE_C)));
 
 
 }

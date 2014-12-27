@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     view/dicelabel.cpp \
     network/serverinvade.cpp \
     view/invadeui.cpp \
-    view/newgame.cpp
+    view/newgame.cpp \
+    view/elitelabel.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -49,7 +50,8 @@ HEADERS  += \
     view/dicelabel.h \
     network/serverinvade.h \
     view/invadeui.h \
-    view/newgame.h
+    view/newgame.h \
+    view/elitelabel.h
 
 FORMS	+= invadeui.ui \
     newgame.ui \
