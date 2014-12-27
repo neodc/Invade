@@ -204,7 +204,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
-			label = ui->Board_->itemAtPosition(j,i)->widget();
+			label = dynamic_cast<ClickableLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
 			if (!invade_->board().isCaseEmpty(Position{i,j})){
 				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
 				if (tmp == UnitType::NORMAL){
