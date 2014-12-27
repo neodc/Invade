@@ -199,16 +199,12 @@ void InvadeUI::selectUnit(){
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
-	QLayoutItem *child;
 	Player p {invade_->constPlayer(invade_->current())};
 	ClickableLabel * label;
-	/*while ((child = ui->Board_->takeAt(0)) != 0){
-		delete child->widget();
-	}*/
 
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
-			label = dynamic_cast<ClickableLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+			label = ui->Board_->itemAtPosition(j,i)->widget();
 			if (!invade_->board().isCaseEmpty(Position{i,j})){
 				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
 				if (tmp == UnitType::NORMAL){
@@ -266,5 +262,15 @@ void InvadeUI::rafraichir(SujetDObservation *){
 }
 
 InvadeUI::~InvadeUI() noexcept{
+	QLayoutItem *child;
+	while ((child = ui->Board_->takeAt(0)) != 0){
+		delete child->widget();
+	}
+	while ((child = ui->statLayout->takeAt(0)) != 0){
+		delete child->widget();
+	}
+	while ((child = ui->effectLayout->takeAt(0)) != 0){
+		delete child->widget();
+	}
 	delete ui;
 }
