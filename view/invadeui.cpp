@@ -30,16 +30,28 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	EliteAValue = new QLabel(this);
 	EliteBValue = new QLabel(this);
 	EliteCValue = new QLabel(this);
+	EffectLabel * noEffect = new EffectLabel(Effect::NO_EFFECT, "No effect");
+	EffectLabel * increasedMovement = new EffectLabel(Effect::INCREASED_MOVEMENT, "Increased movement");
+	EffectLabel * incrementSoldier = new EffectLabel(Effect::INCREMENT_SOLDIER, "Increment soldier");
+	EffectLabel * improvedAttack = new EffectLabel(Effect::IMPROVED_ATTACK, "Improved attack");
+	EffectLabel * changeSoldier = new EffectLabel(Effect::CHANGE_SOLDIER, "Change soldier");
 
 	connect(COM, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ATT, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(EFF, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ABS, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ORD, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+
 	connect(Soldier, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
 	connect(EliteA, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
 	connect(EliteB, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
 	connect(EliteC, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
+
+	connect(noEffect, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
+	connect(increasedMovement, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
+	connect(incrementSoldier, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
+	connect(improvedAttack, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
+	connect(changeSoldier, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
 
 
 	ui->statLayout->addWidget(labelCOM, 0, 0);
@@ -48,6 +60,7 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	ui->statLayout->addWidget(labelABS, 3, 0);
 	ui->statLayout->addWidget(labelORD, 4, 0);
 	ui->statLayout->addWidget(labelDEF, 5, 0);
+
 	ui->statLayout->addWidget(COM, 0, 1);
 	ui->statLayout->addWidget(ATT, 1, 1);
 	ui->statLayout->addWidget(EFF, 2, 1);
@@ -63,6 +76,12 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	ui->statLayout->addWidget(EliteBValue, 3, 2);
 	ui->statLayout->addWidget(EliteC, 2, 3);
 	ui->statLayout->addWidget(EliteCValue, 3, 3);
+
+	ui->effectLayout->addWidget(noEffect, 0, 0);
+	ui->effectLayout->addWidget(increasedMovement, 1, 0);
+	ui->effectLayout->addWidget(incrementSoldier, 2, 0);
+	ui->effectLayout->addWidget(improvedAttack, 3, 0);
+	ui->effectLayout->addWidget(changeSoldier, 4, 0);
 
 	invade_->attacher(this);
 	rafraichir(invade_);
@@ -97,6 +116,19 @@ void InvadeUI::swapDice(){
 }
 
 void InvadeUI::choseEffect(){
+	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	if (!Widget){
+	   return;
+	}
+	int index = ui->effectLayout->indexOf(Widget);
+	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
+	ui->effectLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
+	EffectLabel * tmp = dynamic_cast<EffectLabel*>(ui->effectLayout->itemAt(index)->widget());
+	if (!(tmp->type() == Effect::CHANGE_SOLDIER && selectedUnitType == UnitType::NORMAL)){
+		invade_->chooseEffect(tmp->type(), selectedUnitType);
+	}
+	std::cout << selectedUnitType << std::endl;
+	std::cout << tmp->type() << std::endl;
 
 }
 
@@ -133,7 +165,6 @@ void InvadeUI::selectUnit(){
 	ui->statLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->statLayout->itemAt(index)->widget());
 	selectedUnitType = tmp->type().type();
-	std::cout << selectedUnitType << std::endl;
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){

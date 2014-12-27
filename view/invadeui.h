@@ -5,6 +5,7 @@
 #include "view/observateur.h"
 #include "view/dicelabel.h"
 #include "view/elitelabel.h"
+#include "view/effectlabel.h"
 #include "model/invade.h"
 #include "newgame.h"
 
