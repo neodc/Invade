@@ -128,7 +128,7 @@ bool Invade::move(const Position origin, const Position dest){
 		return false;
 	}
 
-	if (board_.isCaseEmpty(origin) || board_.unitAt(origin).side() != current_){
+	if (board_.isCaseEmpty(origin) || board_.unitAt(origin).side() != current_ || !board_.unitAt(origin).isEnabled()){
 		return false;
 	}
 
@@ -171,6 +171,7 @@ bool Invade::addUnit(const Position p, const UnitType type){
 	}
 
 	board_.addUnit(p, Unit{type, current_});
+	board_.unitAt(p).disable();
 	nbActions_--;
 	player(current_).removeUnit(type);
 	notifierChangement();

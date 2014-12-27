@@ -25,6 +25,10 @@ void Unit::disable(){
 	enable_ = false;
 }
 
+bool Unit::isEnabled(){
+	return enable_;
+}
+
 const UnitType& Unit::type() const{ return type_; }
 const Side& Unit::side() const{ return side_; }
 unsigned Unit::hp() const{ return hp_; }

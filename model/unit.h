@@ -22,6 +22,7 @@ class Unit{
 		unsigned hp() const;
 		bool enable() const;
 		void disable();
+		bool isEnabled();
 		void read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
 };
