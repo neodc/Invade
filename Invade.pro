@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     view/newgame.cpp \
     view/elitelabel.cpp \
     view/effectlabel.cpp \
-    view/clickablelabel.cpp
+    view/clickablelabel.cpp \
+    network/clientinvade.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -55,13 +56,15 @@ HEADERS  += \
     view/newgame.h \
     view/elitelabel.h \
     view/effectlabel.h \
-    view/clickablelabel.h
+    view/clickablelabel.h \
+    network/clientinvade.h
 
 FORMS	+= invadeui.ui \
     newgame.ui \
     network/serverinvade.ui
 
 RESOURCES += \
-    resources/resources.qrc
+	resources/resources.qrc
 
-DISTFILES +=
+OTHER_FILES += \
+    network/listMethode.txt

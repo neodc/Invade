@@ -1,0 +1,30 @@
+S => C
+	error
+		- reason
+	refresh
+		- invade
+		- side
+
+C => S
+	name
+		- name
+	endPhase
+	swapDice
+		- d1
+		- d2
+	chooseEffect
+		- effect
+		? elite
+	move
+		- origin
+		- dest
+	addUnit
+		- position
+		- type
+	moveCommander
+		- origin
+		- dest
+	attack
+		- origin
+		- dest
+		? bombshell

@@ -6,25 +6,24 @@
 #include <QDebug>
 #include <QJsonDocument>
 
-ServerInvade::ServerInvade(Invade *model, QWidget *parent) :
+ServerInvade::ServerInvade(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::ServerInvade),
-	model{model},
-	blockSize{0}{
+	blockSize_{0}{
 
 	ui->setupUi(this);
 
-	tcpServer = new QTcpServer(this);
-	if (!tcpServer->listen(QHostAddress::Any, 5423)) {
+	tcpServer_ = new QTcpServer(this);
+	if (!tcpServer_->listen(QHostAddress::Any, 5423)) {
 		QMessageBox::critical(this, tr("Fortune Server"),
-							  tr("Unable to start the server: %1.").arg(tcpServer->errorString()));
+							  tr("Unable to start the server: %1.").arg(tcpServer_->errorString()));
 		close();
 		return;
 	}
 
-	ui->label->setText( tr("The server is running on port %1").arg(tcpServer->serverPort()) );
+	ui->label->setText( tr("The server is running on port %1").arg(tcpServer_->serverPort()) );
 
-	connect(tcpServer, &QTcpServer::newConnection, this, &ServerInvade::newConnection);
+	connect(tcpServer_, &QTcpServer::newConnection, this, &ServerInvade::newConnection);
 }
 
 ServerInvade::~ServerInvade(){
@@ -35,40 +34,40 @@ void ServerInvade::rafraichir(SujetDObservation *){
 	QJsonObject o;
 	QJsonObject param;
 
-	model->write(o);
+	model_.write(o);
 
 	param["invade"] = o;
 
-	for( const std::pair<const Side, QTcpSocket*>& c : clients ){
+	for( const std::pair<const Side, QTcpSocket*>& c : clients_ ){
 		param["side"] = static_cast<int>(c.first);
 		sendMessage("refresh", param, c.second);
 	}
 }
 
 void ServerInvade::newConnection(){
-	QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
+	QTcpSocket *clientConnection = tcpServer_->nextPendingConnection();
 
-	if( clients.empty() ){
-		clients[Side::NORTH] = clientConnection;
-	}else if( clients.size() == 1 ){
-		clients[Side::SOUTH] = clientConnection;
+	if( clients_.empty() ){
+		clients_[Side::NORTH] = clientConnection;
+	}else if( clients_.size() == 1 ){
+		clients_[Side::SOUTH] = clientConnection;
 	}else{
-		// TODO error.
-		clientConnection->disconnectFromHost();
+		sendError("No place left.", clientConnection);
 		return;
 	}
 
 	connect(clientConnection, &QTcpSocket::disconnected, this, &ServerInvade::lostConnection);
 	connect(clientConnection, &QTcpSocket::readyRead, this, &ServerInvade::readyRead);
-	rafraichir(model);
+	rafraichir(&model_);
 }
 
 void ServerInvade::lostConnection(){
-	for( const std::pair<const Side, QTcpSocket*>& c : clients ){
+	for( const std::pair<const Side, QTcpSocket*>& c : clients_ ){
 		sendError("Client disconnected", c.second);
 	}
 
-	clients.clear();
+	clients_.clear();
+	model_.reset();
 }
 
 void ServerInvade::readyRead(){
@@ -78,17 +77,17 @@ void ServerInvade::readyRead(){
 	QDataStream in(clientConnection);
 	in.setVersion(QDataStream::Qt_4_0);
 
-	if (blockSize == 0) {
+	if (blockSize_ == 0) {
 		if (clientConnection->bytesAvailable() < (int)sizeof(quint16))
 			return;
 
-		in >> blockSize;
+		in >> blockSize_;
 	}
 
-	if (clientConnection->bytesAvailable() < blockSize)
+	if (clientConnection->bytesAvailable() < blockSize_)
 		return;
 
-	blockSize = 0;
+	blockSize_ = 0;
 
 	QByteArray block;
 
@@ -103,22 +102,22 @@ void ServerInvade::readyRead(){
 	}
 
 	if( !d.isObject() ){
-		qDebug() << "Le json recu les pas valide";
+		qDebug() << "Le json recu n'est pas valide";
 		return;
 	}
 
-	for( const std::pair<const Side, QTcpSocket*>& c : clients ){
-/*		if( c.second == client ){
-			receveOrder(d.object(), c.first);
+	for( const std::pair<const Side, QTcpSocket*>& c : clients_ ){
+		if( c.second == clientConnection ){
+			receiveOrder(d.object(), c.first);
 			return;
-		}*/
+		}
 	}
 
 }
 
 void ServerInvade::sendMessage(QString method, QJsonObject parameters, QTcpSocket * client){
 	QJsonObject o;
-	o["methode"] = method;
+	o["method"] = method;
 	o["parameters"] = parameters;
 	QJsonDocument d{o};
 
@@ -153,10 +152,69 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 		return;
 	}
 
-/*	switch (json["method"]) { // TODO : remplir les méthode dispo.
-		case "":
+	if( model_.phase() != Phase::NO_PLAYER && model_.phase() != Phase::END && side != model_.current() ){
+		return;
+	}
 
-			break;
-	}*/
+	QString method = json["method"].toString();
+	QJsonObject parameters = json["parameters"].toObject();
+
+	if( method == "name" ){
+		if( !parameters["name"].isString() || model_.phase() != Phase::NO_PLAYER ){
+			return;
+		}
+		names_[side] = parameters["name"].toString().toStdString();
+
+		if( names_.size() == 2 ){
+			model_.begin(names_[Side::NORTH], names_[Side::SOUTH]);
+		}
+	}else if( method == "endPhase" ){
+		model_.endPhase();
+	}else if( method == "swapDice" ){
+		if( !parameters["d1"].isString() || !parameters["d2"].isString() ){
+			return;
+		}
+
+		model_.swapDice( static_cast<DiceType>(parameters["d1"].toInt()), static_cast<DiceType>(parameters["d2"].toInt()) );
+	}else if( method == "chooseEffect" ){
+		if( !parameters["effect"].isDouble() ){
+			return;
+		}
+
+		if( parameters["elite"].isDouble() ){
+			model_.chooseEffect(static_cast<Effect>(parameters["effect"].toInt()), UnitType::fromId(parameters["effect"].toInt()));
+		}else{
+			model_.chooseEffect(static_cast<Effect>(parameters["effect"].toInt()));
+		}
+	}else if( method == "move" ){
+		if( !parameters["origin"].isString() || !parameters["dest"].isString() ){
+			return;
+		}
+
+		model_.move( str2pos(parameters["origin"].toString()), str2pos(parameters["dest"].toString()) );
+	}else if( method == "addUnit" ){
+		if( !parameters["position"].isString() || !parameters["type"].isDouble() ){
+			return;
+		}
+
+		model_.addUnit( str2pos(parameters["position"].toString()), UnitType::fromId( parameters["type"].toInt() ) );
+
+	}else if( method == "moveCommander" ){
+		if( !parameters["origin"].isString() || !parameters["dest"].isString() ){
+			return;
+		}
+
+		model_.moveCommander( str2pos(parameters["origin"].toString()), str2pos(parameters["dest"].toString()) );
+	}else if( method == "attack" ){
+		if( !parameters["origin"].isString() || !parameters["dest"].isString() ){
+			return;
+		}
+
+		if( parameters["bombshell"].isBool() ){
+			model_.attack( str2pos(parameters["origin"].toString()), str2pos(parameters["dest"].toString()), parameters["bombshell"].toBool() );
+		}else{
+			model_.attack( str2pos(parameters["origin"].toString()), str2pos(parameters["dest"].toString()) );
+		}
+	}
 
 }

@@ -24,6 +24,8 @@ class Invade : public SujetDObservation{
 
 	public:
 		Invade();
+		void reset();
+
 		void begin(const std::string p1, const std::string p2); // start/restart the game.
 
 		bool endPhase();

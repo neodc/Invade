@@ -9,6 +9,7 @@
 #include "model/board.h"
 
 #include "network/serverinvade.h"
+#include "network/clientinvade.h"
 
 int main(int argc, char *argv[]){
 	srand (time(NULL));
@@ -35,9 +36,11 @@ int main(int argc, char *argv[]){
 
 	QApplication a(argc, argv);
 
-	InvadeUI w{invade};
+	ClientInvade c;
+	c.connectToHost("127.0.0.1", 5423);
+	//InvadeUI w{invade};
 	//ServerInvade w{invade};
-	w.show();
+	//w.show();
 	return a.exec();
 
 }

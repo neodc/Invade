@@ -19,17 +19,18 @@ class ServerInvade : public QDialog, public Observateur{
 		Q_OBJECT
 
 	public:
-		explicit ServerInvade(Invade * model, QWidget *parent = 0);
+		explicit ServerInvade(QWidget *parent = 0);
 		~ServerInvade();
 		void rafraichir(SujetDObservation *);
 
 	private:
 		Ui::ServerInvade *ui;
-		Invade * model;
-		QTcpServer *tcpServer;
+		Invade model_;
+		QTcpServer *tcpServer_;
 
-		std::map<Side, QTcpSocket*> clients;
-		quint16 blockSize;
+		std::map<Side, QTcpSocket*> clients_;
+		std::map<Side, std::string> names_;
+		quint16 blockSize_;
 
 	private slots:
 		void newConnection();

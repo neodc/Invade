@@ -11,10 +11,15 @@ Side Invade::current() const{ return current_; }
 Side Invade::winner() const{ return winner_; }
 Phase Invade::phase() const{ return phase_; }
 
-void Invade::begin(const std::string p1, const std::string p2){
+void Invade::reset(){
 	effects_.clear();
 	board_.clear();
 	players_.clear();
+	phase_ = Phase::NO_PLAYER;
+}
+
+void Invade::begin(const std::string p1, const std::string p2){
+	reset();
 	players_.insert(std::make_pair(Side::NORTH, Player{p1}));
 	players_.insert(std::make_pair(Side::SOUTH, Player{p2}));
 	current_ = Side::NORTH;
