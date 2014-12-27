@@ -7,5 +7,6 @@
         <file>5.png</file>
         <file>6.png</file>
         <file>Pawn.png</file>
+        <file>boardTile.png</file>
     </qresource>
 </RCC>
