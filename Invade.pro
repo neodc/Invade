@@ -15,7 +15,6 @@ QMAKE_CXXFLAGS += -std=c++11 \
 	-pedantic-errors
 
 SOURCES += main.cpp\
-	invadeui.cpp \
 	model/dicetype.cpp \
 	model/phase.cpp \
 	model/side.cpp \
@@ -28,11 +27,12 @@ SOURCES += main.cpp\
     model/invade.cpp \
     model/effect.cpp \
     view/sujetDObservation.cpp \
-    newgame.cpp \
     view/dicelabel.cpp \
-    network/serverinvade.cpp
+    network/serverinvade.cpp \
+    view/invadeui.cpp \
+    view/newgame.cpp
 
-HEADERS  += invadeui.h \
+HEADERS  += \
 	model/dicetype.h \
 	model/phase.h \
 	model/side.h \
@@ -46,9 +46,10 @@ HEADERS  += invadeui.h \
     model/effect.h \
     view/sujetDObservation.h \
     view/observateur.h \
-    newgame.h \
     view/dicelabel.h \
-    network/serverinvade.h
+    network/serverinvade.h \
+    view/invadeui.h \
+    view/newgame.h
 
 FORMS	+= invadeui.ui \
     newgame.ui \
