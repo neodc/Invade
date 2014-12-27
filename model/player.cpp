@@ -65,7 +65,9 @@ bool Player::addUnit(const UnitType& type){
 bool Player::removeUnit(const UnitType& type){
 	if(units_[type] > 0 ){
 		--units_[type];
+		return true;
 	}
+	return false;
 }
 
 void Player::disruption(){

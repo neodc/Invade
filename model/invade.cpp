@@ -128,7 +128,7 @@ bool Invade::move(const Position origin, const Position dest){
 		return false;
 	}
 
-	if (board_.isCaseEmpty(origin) || board_.unitAt(origin).side() != current_ || !board_.unitAt(origin).isEnabled()){
+	if (board_.isCaseEmpty(origin) || board_.unitAt(origin).side() != current_ || !board_.unitAt(origin).enable()){
 		return false;
 	}
 
