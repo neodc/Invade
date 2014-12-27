@@ -171,6 +171,10 @@ void InvadeUI::begin(){
 	if (retour == QDialog::Rejected) return;
 
 	invade_->begin(game.p1(), game.p2());
+
+	selectedUnitType = UnitType::NORMAL;
+	PosTmp = Position{100,100};
+	DiceTmp = NULL;
 	rafraichir(invade_);
 }
 
