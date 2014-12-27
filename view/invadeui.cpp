@@ -127,13 +127,32 @@ void InvadeUI::choseEffect(){
 	if (!(tmp->type() == Effect::CHANGE_SOLDIER && selectedUnitType == UnitType::NORMAL)){
 		invade_->chooseEffect(tmp->type(), selectedUnitType);
 	}
-	std::cout << selectedUnitType << std::endl;
-	std::cout << tmp->type() << std::endl;
-
 }
 
 void InvadeUI::move(){
-
+	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	if (!Widget){
+	   return;
+	}
+	int index = ui->Board_->indexOf(Widget);
+	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
+	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
+	unsigned x = columnOfButton;
+	unsigned y = rowOfButton;
+	if (invade_->board().isCaseEmpty(Position{x,y}) && (PosTmp.x == 100)){
+		if ((y == 15 && (invade_->current() == Side::SOUTH))
+				|| (y == 0 && (invade_->current() == Side::NORTH))){
+			invade_->addUnit(Position{x,y}, selectedUnitType);
+		}
+	}else{
+		if (PosTmp.x == 100){
+			PosTmp = Position{x,y};
+		}else{
+			invade_->move(PosTmp, Position{x,y});
+			PosTmp = Position{100,100};
+		}
+	}
+	rafraichir(invade_);
 }
 
 void InvadeUI::moveCommender(){
@@ -168,36 +187,31 @@ void InvadeUI::selectUnit(){
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
-	QString laGrille;
 	QLayoutItem *child;
 	Player p {invade_->constPlayer(invade_->current())};
+	ClickableLabel * label;
 	while ((child = ui->Board_->takeAt(0)) != 0){
 		delete child->widget();
 	}
+
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
 			if (!invade_->board().isCaseEmpty(Position{i,j})){
-				switch (invade_->board().unitAt(Position{i,j}).type().id()) {
-					case 0:
-						laGrille.append("N");
-						break;
-					case 1:
-						laGrille.append("A");
-						break;
-					case 2:
-						laGrille.append("B");
-						break;
-					case 3:
-						laGrille.append("C");
-						break;
-					default:
-						break;
+				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
+				if (tmp == UnitType::NORMAL){
+					label = new ClickableLabel("N");
+				}else if (tmp == UnitType::ELITE_A){
+					label = new ClickableLabel("A");
+				}else if (tmp == UnitType::ELITE_B){
+					label = new ClickableLabel("B");
+				}else if (tmp == UnitType::ELITE_C){
+					label = new ClickableLabel("C");
 				}
 			}else{
-				laGrille.append("X");
+				label = new ClickableLabel("X");
 			}
-			ui->Board_->addWidget(new QLabel(laGrille),i,j);
-			laGrille.clear();
+			ui->Board_->addWidget(label,j,i);
+			connect(label, &ClickableLabel::clicked, this, &InvadeUI::move);
 		}
 	}
 	switch (invade_->phase()) {

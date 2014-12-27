@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     view/invadeui.cpp \
     view/newgame.cpp \
     view/elitelabel.cpp \
-    view/effectlabel.cpp
+    view/effectlabel.cpp \
+    view/clickablelabel.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -53,7 +54,8 @@ HEADERS  += \
     view/invadeui.h \
     view/newgame.h \
     view/elitelabel.h \
-    view/effectlabel.h
+    view/effectlabel.h \
+    view/clickablelabel.h
 
 FORMS	+= invadeui.ui \
     newgame.ui \
@@ -61,3 +63,5 @@ FORMS	+= invadeui.ui \
 
 RESOURCES += \
     resources/resources.qrc
+
+DISTFILES +=

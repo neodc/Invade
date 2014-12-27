@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "view/observateur.h"
+#include "view/clickablelabel.h"
 #include "view/dicelabel.h"
 #include "view/elitelabel.h"
 #include "view/effectlabel.h"
@@ -17,6 +18,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 	Q_OBJECT
 	Invade *invade_;
 	UnitType selectedUnitType = UnitType::NORMAL;
+	Position PosTmp{100,100};
 	DiceLabel * DiceTmp = NULL;
 	DiceLabel * COM;
 	DiceLabel * ATT;

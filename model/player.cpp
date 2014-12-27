@@ -62,6 +62,12 @@ bool Player::addUnit(const UnitType& type){
 	return false;
 }
 
+bool Player::removeUnit(const UnitType& type){
+	if(units_[type] > 0 ){
+		--units_[type];
+	}
+}
+
 void Player::disruption(){
 	switch (dice(DiceType::EFF)) {
 		case 1:

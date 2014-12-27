@@ -171,6 +171,8 @@ bool Invade::addUnit(const Position p, const UnitType type){
 	}
 
 	board_.addUnit(p, Unit{type, current_});
+	nbActions_--;
+	player(current_).removeUnit(type);
 	notifierChangement();
 
 	return true;

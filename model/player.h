@@ -23,6 +23,7 @@ class Player{
 		void reduceAttack(unsigned u);
 		unsigned unit(const UnitType &type) const;
 		bool addUnit(const UnitType &type);
+		bool removeUnit(const UnitType &type);
 		void disruption();
 		const std::string& name() const;
 		unsigned nbUnit() const;
