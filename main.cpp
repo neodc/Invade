@@ -14,7 +14,7 @@
 int main(int argc, char *argv[]){
 	srand (time(NULL));
 
-	/*Board b;
+	Board b;
 
 	Unit u{UnitType::NORMAL, Side::NORTH};
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
 
 	b.reset();
 
-	std::cout << b << std::endl;*/
+	std::cout << b << std::endl;
 
 	Invade * invade;
 	invade = new Invade;
@@ -36,11 +36,11 @@ int main(int argc, char *argv[]){
 
 	QApplication a(argc, argv);
 
-	ClientInvade c;
-	c.connectToHost("127.0.0.1", 5423);
-	//InvadeUI w{invade};
-	//ServerInvade w{invade};
-	//w.show();
+//	ClientInvade c;
+//	c.connectToHost("127.0.0.1", 5423);
+	InvadeUI w{invade};
+	//ServerInvade w;
+	w.show();
 	return a.exec();
 
 }

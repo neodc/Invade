@@ -4,12 +4,12 @@
 InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invade_{invade}, ui(new Ui::InvadeUI){
 	ui->setupUi(this);
 
-	ClickableLabel * label;
+	TileLabel * label;
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
-			label = new ClickableLabel("");
+			label = new TileLabel("");
 			ui->Board_->addWidget(label,j,i);
-			connect(label, &ClickableLabel::clicked, this, &InvadeUI::move);
+			connect(label, &TileLabel::clicked, this, &InvadeUI::move);
 		}
 	}
 
@@ -31,6 +31,7 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	DEF = new DiceLabel(DiceType::ATT, "DEF");
 
 	EliteLabel * Soldier = new EliteLabel(UnitType::NORMAL, "Soldiers");
+	Soldier->setPixmap(Images::pawn());
 	EliteLabel * EliteA = new EliteLabel(UnitType::ELITE_A, "EliteA");
 	EliteLabel * EliteB = new EliteLabel(UnitType::ELITE_B, "EliteB");
 	EliteLabel * EliteC = new EliteLabel(UnitType::ELITE_C, "EliteC");
@@ -55,11 +56,11 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	connect(EliteB, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
 	connect(EliteC, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
 
-	connect(noEffect, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
-	connect(increasedMovement, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
-	connect(incrementSoldier, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
-	connect(improvedAttack, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
-	connect(changeSoldier, &EffectLabel::clicked, this, &InvadeUI::choseEffect);
+	connect(noEffect, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
+	connect(increasedMovement, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
+	connect(incrementSoldier, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
+	connect(improvedAttack, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
+	connect(changeSoldier, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
 
 
 	ui->statLayout->addWidget(labelCOM, 0, 0);
@@ -123,7 +124,7 @@ void InvadeUI::swapDice(){
 	rafraichir(invade_);
 }
 
-void InvadeUI::choseEffect(){
+void InvadeUI::chooseEffect(){
 	QWidget *Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
 	   return;
@@ -163,7 +164,7 @@ void InvadeUI::move(){
 	rafraichir(invade_);
 }
 
-void InvadeUI::moveCommender(){
+void InvadeUI::moveCommander(){
 
 }
 
@@ -200,12 +201,12 @@ void InvadeUI::selectUnit(){
 
 void InvadeUI::rafraichir(SujetDObservation *){
 	Player p {invade_->constPlayer(invade_->current())};
-	ClickableLabel * label;
+	TileLabel * label;
 
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
-			label = dynamic_cast<ClickableLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
-			if (!invade_->board().isCaseEmpty(Position{i,j})){
+			label = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+		/*	if (!invade_->board().isCaseEmpty(Position{i,j})){
 				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
 				if (tmp == UnitType::NORMAL){
 					label->setText("N");
@@ -218,7 +219,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 				}
 			}else{
 				label->setText("X");
-			}
+			}*/
 		}
 	}
 	switch (invade_->phase()) {
@@ -246,12 +247,19 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		default:
 			break;
 	}
-	ORD->setImage(p.dice(DiceType::ORD), DiceTmp == ORD);
+/*	ORD->setImage(p.dice(DiceType::ORD), DiceTmp == ORD);
 	ABS->setImage(p.dice(DiceType::ABS), DiceTmp == ABS);
 	ATT->setImage(p.dice(DiceType::ATT), DiceTmp == ATT);
 	COM->setImage(p.dice(DiceType::COM), DiceTmp == COM);
 	EFF->setImage(p.dice(DiceType::EFF), DiceTmp == EFF);
 	DEF->setImage(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT));
+*/
+	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD));
+	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS));
+	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT));
+	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM));
+	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF));
+	DEF->setPixmap(Images::dice(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
 
 	SoldierValue->setText(QString::number(p.unit(UnitType::NORMAL)));
 	EliteAValue->setText(QString::number(p.unit(UnitType::ELITE_A)));

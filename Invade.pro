@@ -33,8 +33,9 @@ SOURCES += main.cpp\
     view/newgame.cpp \
     view/elitelabel.cpp \
     view/effectlabel.cpp \
-    view/clickablelabel.cpp \
-    network/clientinvade.cpp
+	network/clientinvade.cpp \
+    view/tilelabel.cpp \
+    view/images.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -55,9 +56,11 @@ HEADERS  += \
     view/invadeui.h \
     view/newgame.h \
     view/elitelabel.h \
-    view/effectlabel.h \
-    view/clickablelabel.h \
-    network/clientinvade.h
+	view/effectlabel.h \
+	network/clientinvade.h \
+    view/tilelabel.h \
+    view/images.h
+
 
 FORMS	+= invadeui.ui \
     newgame.ui \

@@ -6,7 +6,10 @@
         <file>4.png</file>
         <file>5.png</file>
         <file>6.png</file>
-        <file>Pawn.png</file>
+        <file>pawn.png</file>
         <file>boardTile.png</file>
+        <file>A.png</file>
+        <file>B.png</file>
+        <file>C.png</file>
     </qresource>
 </RCC>

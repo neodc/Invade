@@ -1,6 +1,7 @@
 #include "elitelabel.h"
 
 EliteLabel::EliteLabel(Unit type, const QString& text, QWidget * parent ) : QLabel(parent){
+	this->setScaledContents(true);
 	this->setText(text);
 	type_ = type;
 }

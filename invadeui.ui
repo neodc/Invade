@@ -23,7 +23,11 @@
       <height>401</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="Board_"/>
+    <layout class="QGridLayout" name="Board_">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+    </layout>
    </widget>
    <widget class="QLabel" name="Phase_">
     <property name="geometry">

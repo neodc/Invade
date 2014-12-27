@@ -3,14 +3,14 @@
 
 #include <QLabel>
 
-class ClickableLabel : public QLabel
+class TileLabel : public QLabel
 {
 
 Q_OBJECT
 
 public:
-	explicit ClickableLabel( const QString& text ="", QWidget * parent = 0 );
-	~ClickableLabel();
+	explicit TileLabel( const QString& text ="", QWidget * parent = 0 );
+	~TileLabel();
 
 signals:
 	void clicked();

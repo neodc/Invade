@@ -3,10 +3,11 @@
 
 #include <QMainWindow>
 #include "view/observateur.h"
-#include "view/clickablelabel.h"
+#include "view/tilelabel.h"
 #include "view/dicelabel.h"
 #include "view/elitelabel.h"
 #include "view/effectlabel.h"
+#include "view/images.h"
 #include "model/invade.h"
 #include "newgame.h"
 
@@ -41,9 +42,9 @@ class InvadeUI : public QMainWindow, public Observateur{
 	private slots:
 		void nextPhase();
 		void swapDice();
-		void choseEffect();
+		void chooseEffect();
 		void move();
-		void moveCommender();
+		void moveCommander();
 		void attack();
 		void begin();
 		void selectUnit();
