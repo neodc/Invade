@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <iostream>
 
-#include "invadeui.h"
+#include "view/invadeui.h"
 #include "model/unittype.h"
 #include "model/position.h"
 #include "model/unit.h"

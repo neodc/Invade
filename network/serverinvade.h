@@ -40,7 +40,7 @@ class ServerInvade : public QDialog, public Observateur{
 		void sendMessage(QString method, QJsonObject parameters, QTcpSocket *client);
 		void sendError(QString reason, QTcpSocket *client);
 		bool isOrderValid(QJsonObject json);
-		void receveOrder(QJsonObject json, Side side);
+		void receiveOrder(QJsonObject json, Side side);
 };
 
 #endif // SERVERINVADE_H

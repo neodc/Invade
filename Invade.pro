@@ -56,3 +56,6 @@ HEADERS  += \
 FORMS	+= invadeui.ui \
     newgame.ui \
     network/serverinvade.ui
+
+RESOURCES += \
+    resources/resources.qrc
