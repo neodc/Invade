@@ -10,7 +10,7 @@ Q_OBJECT
 Unit type_;
 
 public:
-	explicit EliteLabel(Unit type, const QString& text ="", QWidget * parent = 0 );
+	explicit EliteLabel(Unit type, QPixmap pix, QWidget * parent = 0 );
 	void setType(Unit type);
 	Unit type();
 	~EliteLabel();

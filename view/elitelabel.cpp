@@ -1,8 +1,8 @@
 #include "elitelabel.h"
 
-EliteLabel::EliteLabel(Unit type, const QString& text, QWidget * parent ) : QLabel(parent){
+EliteLabel::EliteLabel(Unit type, QPixmap pix, QWidget * parent ) : QLabel(parent){
 	this->setScaledContents(true);
-	this->setText(text);
+	this->setPixmap(pix);
 	type_ = type;
 }
 

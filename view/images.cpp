@@ -33,7 +33,7 @@ QPixmap Images::tile(bool selected){
 	return pix;
 }
 
-QPixmap Images::pawn(UnitType type, Side side, bool selected, bool damaged){
+QPixmap Images::pawn(UnitType type, bool selected, bool damaged, Side side){
 	QPixmap pix;
 
 	if(selected){

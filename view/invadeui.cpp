@@ -30,11 +30,11 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	ORD = new DiceLabel(DiceType::ORD, "ORD");
 	DEF = new DiceLabel(DiceType::ATT, "DEF");
 
-	EliteLabel * Soldier = new EliteLabel(UnitType::NORMAL, "Soldiers");
-	Soldier->setPixmap(Images::pawn());
-	EliteLabel * EliteA = new EliteLabel(UnitType::ELITE_A, "EliteA");
-	EliteLabel * EliteB = new EliteLabel(UnitType::ELITE_B, "EliteB");
-	EliteLabel * EliteC = new EliteLabel(UnitType::ELITE_C, "EliteC");
+	Soldier = new EliteLabel(UnitType::NORMAL, Images::pawn());
+	EliteA = new EliteLabel(UnitType::ELITE_A, Images::pawn(UnitType::ELITE_A));
+	EliteB = new EliteLabel(UnitType::ELITE_B, Images::pawn(UnitType::ELITE_B));
+	EliteC = new EliteLabel(UnitType::ELITE_C, Images::pawn(UnitType::ELITE_C));
+
 	SoldierValue = new QLabel(this);
 	EliteAValue = new QLabel(this);
 	EliteBValue = new QLabel(this);
@@ -197,6 +197,7 @@ void InvadeUI::selectUnit(){
 	ui->statLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->statLayout->itemAt(index)->widget());
 	selectedUnitType = tmp->type().type();
+	rafraichir(invade_);
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
@@ -260,6 +261,11 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM));
 	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF));
 	DEF->setPixmap(Images::dice(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
+
+	Soldier->setPixmap(Images::pawn(UnitType::NORMAL, selectedUnitType == UnitType::NORMAL));
+	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A));
+	EliteB->setPixmap(Images::pawn(UnitType::ELITE_B, selectedUnitType == UnitType::ELITE_B));
+	EliteC->setPixmap(Images::pawn(UnitType::ELITE_C, selectedUnitType == UnitType::ELITE_C));
 
 	SoldierValue->setText(QString::number(p.unit(UnitType::NORMAL)));
 	EliteAValue->setText(QString::number(p.unit(UnitType::ELITE_A)));

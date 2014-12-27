@@ -17,7 +17,7 @@ class Images
 
 public:
 	static QPixmap tile(bool selected = false);
-	static QPixmap pawn(UnitType type = UnitType::NORMAL, Side side = Side::NORTH, bool selected = false, bool damaged = false);
+	static QPixmap pawn(UnitType type = UnitType::NORMAL, bool selected = false, bool damaged = false, Side side = Side::NORTH);
 	static QPixmap dice(unsigned value, bool selected = false);
 	static QPixmap effArrows(unsigned value);
 private:
