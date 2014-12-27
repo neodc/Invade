@@ -39,7 +39,7 @@ QPixmap Images::pawn(UnitType type, Side side, bool selected, bool damaged){
 	if(selected){
 		pix.convertFromImage(changeImage(pawn_, 0, 0, -50));
 	} else if(damaged){
-		pix.convertFromImage(changeImage(pawn_, 0, -100, -100));
+		pix.convertFromImage(changeImage(pawn_, -50, -255, -255));
 	} else {
 		switch (side){
 		case Side::NORTH:
