@@ -34,11 +34,9 @@ int main(int argc, char *argv[]){
 
 
 	QApplication a(argc, argv);
-	/*
+
 	InvadeUI w{invade};
-	w.show();
-	*/
-	ServerInvade w{invade};
+	//ServerInvade w{invade};
 	w.show();
 	return a.exec();
 
