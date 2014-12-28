@@ -48,6 +48,7 @@ bool Invade::endPhase(){
 			current_ = !current_;
 			player(current_).rollDice();
 			board_.reset();
+			effects_.clear();
 			if( isVictory() ){
 				phase_ = Phase::END;
 				winner_ = current_;
@@ -172,6 +173,10 @@ bool Invade::addUnit(const Position p, const UnitType type){
 	}
 
 	if (!board_.isCaseEmpty(p)){
+		return false;
+	}
+
+	if (player(current_).unit(type) == 0){
 		return false;
 	}
 

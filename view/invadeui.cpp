@@ -9,13 +9,9 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
 			label = new TileLabel("");
 			ui->Board_->addWidget(label,j,i);
-			connect(label, &TileLabel::clicked, this, &InvadeUI::move);
+			connect(label, &TileLabel::clicked, this, &InvadeUI::UnitAction);
 		}
 	}
-
-	connect(ui->Next_, &QPushButton::clicked, this, &InvadeUI::nextPhase);
-	connect(ui->actionQuit, &QAction::triggered, this, &InvadeUI::quit);
-	connect(ui->actionNew_Game, &QAction::triggered, this, &InvadeUI::begin);
 
 	QLabel * labelCOM = new QLabel("COM");
 	QLabel * labelATT = new QLabel("ATT");
@@ -45,6 +41,13 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	EffectLabel * improvedAttack = new EffectLabel(Effect::IMPROVED_ATTACK, "Improved attack");
 	EffectLabel * changeSoldier = new EffectLabel(Effect::CHANGE_SOLDIER, "Change soldier");
 
+	BombShell = new QCheckBox(this);
+	BombShell->setText("BombShell");
+
+	connect(ui->Next_, &QPushButton::clicked, this, &InvadeUI::nextPhase);
+	connect(ui->actionQuit, &QAction::triggered, this, &InvadeUI::quit);
+	connect(ui->actionNew_Game, &QAction::triggered, this, &InvadeUI::begin);
+
 	connect(COM, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(ATT, &DiceLabel::clicked, this, &InvadeUI::swapDice);
 	connect(EFF, &DiceLabel::clicked, this, &InvadeUI::swapDice);
@@ -61,7 +64,6 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	connect(incrementSoldier, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
 	connect(improvedAttack, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
 	connect(changeSoldier, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
-
 
 	ui->statLayout->addWidget(labelCOM, 0, 0);
 	ui->statLayout->addWidget(labelATT, 1, 0);
@@ -92,12 +94,18 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	ui->effectLayout->addWidget(improvedAttack, 3, 0);
 	ui->effectLayout->addWidget(changeSoldier, 4, 0);
 
+	ui->effectLayout->addWidget(BombShell, 0, 1);
+
 	invade_->attacher(this);
 	rafraichir(invade_);
 }
 
 void InvadeUI::nextPhase(){
 	invade_->endPhase();
+	PosTmp = Position{100,100};
+	DiceTmp = NULL;
+	BombShell->setChecked(false);
+	//TODO debugger le dé de defence
 }
 
 void InvadeUI::quit(){
@@ -138,40 +146,6 @@ void InvadeUI::chooseEffect(){
 	}
 }
 
-void InvadeUI::move(){
-	QWidget *Widget = qobject_cast<QWidget*>(sender());
-	if (!Widget){
-	   return;
-	}
-	int index = ui->Board_->indexOf(Widget);
-	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
-	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
-	unsigned x = columnOfButton;
-	unsigned y = rowOfButton;
-	if (invade_->board().isCaseEmpty(Position{x,y}) && (PosTmp.x == 100)){
-		if ((y == 15 && (invade_->current() == Side::SOUTH))
-				|| (y == 0 && (invade_->current() == Side::NORTH))){
-			invade_->addUnit(Position{x,y}, selectedUnitType);
-		}
-	}else{
-		if (PosTmp.x == 100){
-			PosTmp = Position{x,y};
-		}else{
-			invade_->move(PosTmp, Position{x,y});
-			PosTmp = Position{100,100};
-		}
-	}
-	rafraichir(invade_);
-}
-
-void InvadeUI::moveCommander(){
-
-}
-
-void InvadeUI::attack(){
-
-}
-
 void InvadeUI::begin(){
 	newGame game{this};
 	game.setWindowTitle("New Game");
@@ -187,6 +161,7 @@ void InvadeUI::begin(){
 	rafraichir(invade_);
 }
 
+
 void InvadeUI::selectUnit(){
 	QWidget *Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
@@ -200,6 +175,62 @@ void InvadeUI::selectUnit(){
 	rafraichir(invade_);
 }
 
+void InvadeUI::UnitAction(){
+	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	if (!Widget){
+	   return;
+	}
+	int index = ui->Board_->indexOf(Widget);
+	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
+	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
+	unsigned x = columnOfButton;
+	unsigned y = rowOfButton;
+	if (invade_->phase() == Phase::PLAYING_MOVE){
+		move(Position{x,y});
+	}else if (invade_->phase() == Phase::PLAYING_COMMANDER){
+		moveCommander(Position{x,y});
+	}else if (invade_->phase() == Phase::PLAYING_ATTACK){
+		attack(Position{x,y});
+	}
+	rafraichir(invade_);
+}
+
+void InvadeUI::move(Position sender){
+	if (invade_->board().isCaseEmpty(sender) && (PosTmp.x == 100)){
+		if ((sender.y == 15 && (invade_->current() == Side::SOUTH))
+				|| (sender.y == 0 && (invade_->current() == Side::NORTH))){
+			invade_->addUnit(sender, selectedUnitType);
+		}
+	}else{
+		if (PosTmp.x == 100){
+			PosTmp = sender;
+		}else{
+			invade_->move(PosTmp, sender);
+			PosTmp = Position{100,100};
+		}
+	}
+}
+
+void InvadeUI::moveCommander(Position sender){
+	if (PosTmp.x == 100){
+		PosTmp = sender;
+	}else{
+		invade_->moveCommander(PosTmp, sender);
+		PosTmp = Position{100,100};
+	}
+	//TODO Faire en sorte que ca marche
+}
+
+void InvadeUI::attack(Position sender){
+	if (PosTmp.x == 100){
+		PosTmp = sender;
+	}else{
+		invade_->attack(PosTmp, sender, BombShell->isChecked());
+		PosTmp = Position{100,100};
+	}
+	//TODO tester BombShell
+}
+
 void InvadeUI::rafraichir(SujetDObservation *){
 	Player p {invade_->constPlayer(invade_->current())};
 	TileLabel * label;
@@ -207,20 +238,22 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
 			label = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
-		/*	if (!invade_->board().isCaseEmpty(Position{i,j})){
+			if (!invade_->board().isCaseEmpty(Position{i,j})){
 				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
+				bool selected = Position{i,j} == PosTmp;
+				bool damaged = invade_->board().unitAt(Position{i,j}).hp() < invade_->board().unitAt(Position{i,j}).type().hpMax();
 				if (tmp == UnitType::NORMAL){
-					label->setText("N");
+					label->setPixmap(Images::pawn(UnitType::NORMAL, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
 				}else if (tmp == UnitType::ELITE_A){
-					label->setText("A");
+					label->setPixmap(Images::pawn(UnitType::ELITE_A, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
 				}else if (tmp == UnitType::ELITE_B){
-					label->setText("B");
+					label->setPixmap(Images::pawn(UnitType::ELITE_B, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
 				}else if (tmp == UnitType::ELITE_C){
-					label->setText("C");
+					label->setPixmap(Images::pawn(UnitType::ELITE_C, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
 				}
 			}else{
-				label->setText("X");
-			}*/
+				label->setPixmap(Images::tile());
+			}
 		}
 	}
 	switch (invade_->phase()) {
@@ -272,7 +305,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EliteBValue->setText(QString::number(p.unit(UnitType::ELITE_B)));
 	EliteCValue->setText(QString::number(p.unit(UnitType::ELITE_C)));
 
-
+	//TODO afficher pv unit?
 }
 
 InvadeUI::~InvadeUI() noexcept{

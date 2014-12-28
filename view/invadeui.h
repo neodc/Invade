@@ -2,6 +2,7 @@
 #define INVADEUI_H
 
 #include <QMainWindow>
+#include <QCheckBox>
 #include "view/observateur.h"
 #include "view/tilelabel.h"
 #include "view/dicelabel.h"
@@ -35,6 +36,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 	QLabel * EliteAValue;
 	QLabel * EliteBValue;
 	QLabel * EliteCValue;
+	QCheckBox * BombShell;
 
 	public:
 		explicit InvadeUI(Invade * invade, QWidget *parent = 0);
@@ -43,13 +45,14 @@ class InvadeUI : public QMainWindow, public Observateur{
 
 	private:
 		Ui::InvadeUI *ui;
+		void move(Position sender);
+		void moveCommander(Position sender);
+		void attack(Position sender);
 	private slots:
 		void nextPhase();
 		void swapDice();
 		void chooseEffect();
-		void move();
-		void moveCommander();
-		void attack();
+		void UnitAction();
 		void begin();
 		void selectUnit();
 		void quit();
