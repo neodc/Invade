@@ -27,10 +27,9 @@ void Invade::begin(const std::string p1, const std::string p2){
 	player(current_).rollDice();
 }
 
-bool Invade::endPhase(){
+bool Invade::canEndPhase() const{
 	switch (phase_){
 		case Phase::PLAYING_DICE:
-			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
 		case Phase::PLAYING_EFFECT:
 			if( effects_.empty() ){
@@ -38,10 +37,31 @@ bool Invade::endPhase(){
 			}
 			break;
 		case Phase::PLAYING_MOVE:
-			player(current_).disruption();
-			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
 		case Phase::PLAYING_COMMANDER:
+			break;
+		case Phase::PLAYING_ATTACK:
+			break;
+		default:
+			return false;
+			break;
+	}
+
+	return true;
+}
+
+bool Invade::endPhase(){
+	if( !canEndPhase() ){
+		return false;
+	}
+
+	switch (phase_){
+		case Phase::PLAYING_DICE:
+			nbActions_ = player(current_).dice(DiceType::COM);
+			break;
+		case Phase::PLAYING_MOVE:
+			player(current_).disruption();
+			nbActions_ = player(current_).dice(DiceType::COM);
 			break;
 		case Phase::PLAYING_ATTACK:
 			player(current_).reduceAttack(player(current_).dice(DiceType::COM) - nbActions_);
@@ -53,10 +73,8 @@ bool Invade::endPhase(){
 				phase_ = Phase::END;
 				winner_ = current_;
 			}
-
 			break;
 		default:
-			return false;
 			break;
 	}
 
@@ -72,7 +90,7 @@ void Invade::swapDice(const DiceType d1, const DiceType d2){
 	notifierChangement();
 }
 
-bool Invade::chooseEffect(Effect effect, UnitType elite){
+bool Invade::canChooseEffect(Effect effect, UnitType) const{
 	if (phase_ != Phase::PLAYING_EFFECT){
 		return false;
 	}
@@ -84,27 +102,36 @@ bool Invade::chooseEffect(Effect effect, UnitType elite){
 	bool ok = false;
 
 	if (effects_.empty()){
-		if (effect <= player(current_).dice(DiceType::EFF)){
-			effects_.insert(effect);
-			applyEffect(effect, elite);
+		if (effect <= constPlayer(current_).dice(DiceType::EFF)){
 			ok = true;
 		}
 	}else if (effects_.size() == 1){
 		Effect e = *(effects_.begin());
-		if (player(current_).dice(DiceType::EFF) == Effect::TWO_EFFECTS
+		if (constPlayer(current_).dice(DiceType::EFF) == Effect::TWO_EFFECTS
 				&& effect >= 2 && effect <= 4
 				&& e >= 2 && e <= 4){
-			effects_.insert(effect);
-			applyEffect(effect);
-			endPhase();
 			ok = true;
 		}
 
 	}
-	notifierChangement();
 	return ok;
 }
 
+bool Invade::chooseEffect(Effect effect, UnitType elite){
+	if ( !canChooseEffect(effect, elite) ){
+		return false;
+	}
+
+	effects_.insert(effect);
+	applyEffect(effect, elite);
+
+	if (effects_.size() == 2){
+		endPhase();
+	}
+
+	notifierChangement();
+	return true;
+}
 
 void Invade::applyEffect(Effect effect, UnitType elite){
 	switch (effect) {
@@ -129,7 +156,7 @@ void Invade::applyEffect(Effect effect, UnitType elite){
 	}
 }
 
-bool Invade::move(const Position origin, const Position dest){
+bool Invade::canMove(const Position origin, const Position dest) const{
 	if (phase_ != Phase::PLAYING_MOVE || nbActions_ == 0){
 		return false;
 	}
@@ -139,8 +166,8 @@ bool Invade::move(const Position origin, const Position dest){
 	}
 
 	bool ok = false;
-	int diffX = player(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
-	int diffY = player(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
+	int diffX = constPlayer(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
+	int diffY = constPlayer(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
 
 	if( diffX >= 0 && diffY >= 0 ){
 		ok = true;
@@ -148,22 +175,32 @@ bool Invade::move(const Position origin, const Position dest){
 		ok = true;
 	}
 
-	if (ok){
-		ok = board_.moveUnit(origin, dest);
-		if (ok){
-			board_.unitAt(dest).disable();
-			nbActions_--;
-			if( board_.unitAt(dest).type() == UnitType::ELITE_C ){
-				phase_ = Phase::PLAYING_COMMANDER;
-				commander_ = dest;
-			}
-		}
+	if( !ok ){
+		return false;
 	}
-	notifierChangement();
-	return ok;
+
+	return board_.isPathClear(origin, dest);
 }
 
-bool Invade::addUnit(const Position p, const UnitType type){
+bool Invade::move(const Position origin, const Position dest){
+	if ( !canMove(origin, dest) ){
+		return false;
+	}
+
+	board_.moveUnit(origin, dest);
+	board_.unitAt(dest).disable();
+	nbActions_--;
+
+	if( board_.unitAt(dest).type() == UnitType::ELITE_C ){
+		phase_ = Phase::PLAYING_COMMANDER;
+		commander_ = dest;
+	}
+
+	notifierChangement();
+	return true;
+}
+
+bool Invade::canAddUnit(const Position p, const UnitType type) const{
 	if (phase_ != Phase::PLAYING_MOVE || nbActions_ == 0){
 		return false;
 	}
@@ -176,7 +213,15 @@ bool Invade::addUnit(const Position p, const UnitType type){
 		return false;
 	}
 
-	if (player(current_).unit(type) == 0){
+	if (constPlayer(current_).unit(type) == 0){
+		return false;
+	}
+
+	return true;
+}
+
+bool Invade::addUnit(const Position p, const UnitType type){
+	if ( !canAddUnit(p, type) ){
 		return false;
 	}
 
@@ -189,7 +234,7 @@ bool Invade::addUnit(const Position p, const UnitType type){
 	return true;
 }
 
-bool Invade::moveCommander(const Position origin, const Position dest){
+bool Invade::canMoveCommander(const Position origin, const Position dest) const{
 	if (phase_ != Phase::PLAYING_COMMANDER){
 		return false;
 	}
@@ -215,31 +260,39 @@ bool Invade::moveCommander(const Position origin, const Position dest){
 	}
 
 	int diff;
-	bool ok = false;
 	if( Board::distanceX(origin,dest) != 0 ){
-		diff = player(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
+		diff = constPlayer(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
 	}else{
-		diff = player(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
+		diff = constPlayer(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
 	}
 
 	if( hasEffect(Effect::INCREASED_MOVEMENT) ){
 		++diff;
 	}
 
-	if ( diff >= 0 ){
-		ok = board_.moveUnit(origin, dest);
-		if (ok){
-			if( board_.unitAt(dest).type() == UnitType::ELITE_C ){
-				commander_ = dest;
-			}else{
-				endPhase();
-			}
-		}
+	if ( diff < 0 ){
+		return false;
 	}
-	return ok;
+
+	return board_.isPathClear(origin, dest);
 }
 
-bool Invade::attack(const Position origin, const Position dest, bool bombshell){
+bool Invade::moveCommander(const Position origin, const Position dest){
+	if ( !canMoveCommander(origin, dest) ){
+		return false;
+	}
+
+	board_.moveUnit(origin, dest);
+
+	if( board_.unitAt(dest).type() == UnitType::ELITE_C ){
+		commander_ = dest;
+	}else{
+		endPhase();
+	}
+	return true;
+}
+
+bool Invade::canAttack(const Position origin, const Position dest, bool bombshell) const{
 	if (phase_ != Phase::PLAYING_ATTACK || nbActions_ == 0){
 		return false;
 	}
@@ -256,13 +309,12 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 		return false;
 	}
 
-	if( Board::distanceX(origin, dest) > player(current_).dice(DiceType::ABS) || Board::distanceY(origin, dest) > player(current_).dice(DiceType::ORD) ){
+	if( Board::distanceX(origin, dest) > constPlayer(current_).dice(DiceType::ABS) || Board::distanceY(origin, dest) > constPlayer(current_).dice(DiceType::ORD) ){
 		return false;
 	}
 
-	bool ok = false;
-	unsigned accuracyCurrent = player(current_).dice(DiceType::ATT) + board_.unitAt(origin).type().accuracy();
-	unsigned defenseOpponentBase = player(!current_).dice(DiceType::ATT);
+	unsigned accuracyCurrent = constPlayer(current_).dice(DiceType::ATT) + board_.unitAt(origin).type().accuracy();
+	unsigned defenseOpponentBase = constPlayer(!current_).dice(DiceType::ATT);
 	unsigned defenseOpponent = defenseOpponentBase + board_.unitAt(dest).type().accuracy();
 
 	if ((current_ == Side::NORTH && (origin.y < dest.y))
@@ -273,53 +325,72 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 		accuracyCurrent++;
 	}
 
-
-	if ( board_.canAttack(origin,dest)
-			&& (accuracyCurrent > defenseOpponent)){
-			if (bombshell){
-				Position p = dest;
-
-				p.x = dest.x+1;
-				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-					if (board_.unitAt(p).reduceHP(1) == 0){
-						board_.removeUnit(p);
-					}
-				}
-
-				p.x = dest.x-1;
-				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-					if (board_.unitAt(p).reduceHP(1) == 0){
-						board_.removeUnit(p);
-					}
-				}
-
-				p.y = dest.y+1;
-				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-					if (board_.unitAt(p).reduceHP(1) == 0){
-						board_.removeUnit(p);
-					}
-				}
-
-				p.y = dest.y-1;
-				if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-						&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-					if (board_.unitAt(p).reduceHP(1) == 0){
-						board_.removeUnit(p);
-					}
-				}
-				board_.unitAt(origin).reduceBombshell(1);
-				++accuracyCurrent;
-			}
-			if (board_.unitAt(dest).reduceHP(1) == 0){
-				board_.removeUnit(dest);
-			}
-			nbActions_--;
-			ok = true;
+	if ( !board_.canAttack(origin,dest) || (accuracyCurrent <= defenseOpponent)){
+		return false;
 	}
-	return ok;
+
+	return true;
+}
+
+bool Invade::attack(const Position origin, const Position dest, bool bombshell){
+	if ( canAttack(origin, dest, bombshell) ){
+		return false;
+	}
+
+	unsigned accuracyCurrent = player(current_).dice(DiceType::ATT) + board_.unitAt(origin).type().accuracy();
+	unsigned defenseOpponentBase = player(!current_).dice(DiceType::ATT);
+
+	if ((current_ == Side::NORTH && (origin.y < dest.y))
+			|| (current_ == Side::SOUTH && (origin.y > dest.y))){
+		accuracyCurrent++;
+	}
+	if (hasEffect(Effect::IMPROVED_ATTACK)){
+		accuracyCurrent++;
+	}
+
+
+	if (bombshell){
+		Position p = dest;
+
+		p.x = dest.x+1;
+		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
+				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
+			if (board_.unitAt(p).reduceHP(1) == 0){
+				board_.removeUnit(p);
+			}
+		}
+
+		p.x = dest.x-1;
+		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
+				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
+			if (board_.unitAt(p).reduceHP(1) == 0){
+				board_.removeUnit(p);
+			}
+		}
+
+		p.y = dest.y+1;
+		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
+				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
+			if (board_.unitAt(p).reduceHP(1) == 0){
+				board_.removeUnit(p);
+			}
+		}
+
+		p.y = dest.y-1;
+		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
+				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
+			if (board_.unitAt(p).reduceHP(1) == 0){
+				board_.removeUnit(p);
+			}
+		}
+		board_.unitAt(origin).reduceBombshell(1);
+		++accuracyCurrent;
+	}
+	if (board_.unitAt(dest).reduceHP(1) == 0){
+		board_.removeUnit(dest);
+	}
+	nbActions_--;
+	return true;
 }
 
 bool Invade::hasEffect(Effect e) const{
