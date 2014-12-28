@@ -202,7 +202,7 @@ bool Invade::moveCommander(const Position origin, const Position dest){
 		return false;
 	}
 
-	if( Board::distanceX(origin,commander_) <= Board::distanceX(dest,commander_) || Board::distanceY(origin,commander_) <= Board::distanceY(dest,commander_) ){
+	if( Board::distanceX(origin,commander_) < Board::distanceX(dest,commander_) || Board::distanceY(origin,commander_) < Board::distanceY(dest,commander_) ){
 		return false;
 	}
 
