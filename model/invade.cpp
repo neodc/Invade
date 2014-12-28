@@ -251,7 +251,12 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 	if (!board_.isPositionValid(dest) || board_.isCaseEmpty(dest) || board_.unitAt(dest).side() == current_){
 		return false;
 	}
+
 	if (bombshell && board_.unitAt(origin).bombshell() == 0){
+		return false;
+	}
+
+	if( Board::distanceX(origin, dest) > player(current_).dice(DiceType::ABS) || Board::distanceY(origin, dest) > player(current_).dice(DiceType::ORD) ){
 		return false;
 	}
 
