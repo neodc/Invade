@@ -32,6 +32,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 	EliteLabel * EliteA;
 	EliteLabel * EliteB;
 	EliteLabel * EliteC;
+	QLabel * Arrows;
 	QLabel * SoldierValue;
 	QLabel * EliteAValue;
 	QLabel * EliteBValue;

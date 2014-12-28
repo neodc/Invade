@@ -2,9 +2,9 @@
 
 TileLabel::TileLabel( const QString& text, QWidget * parent ) :
 	QLabel(parent){
+		this->setMinimumSize(QSize(32,32));
 		this->setScaledContents(true);
-		QString path = ":/new/images/boardTile.png";
-		this->setPixmap(path);
+		this->setPixmap(Images::tile());
 	//	this->setText(text);
 	}
 

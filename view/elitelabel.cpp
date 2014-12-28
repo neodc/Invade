@@ -1,6 +1,7 @@
 #include "elitelabel.h"
 
 EliteLabel::EliteLabel(Unit type, QPixmap pix, QWidget * parent ) : QLabel(parent){
+	this->setMaximumSize(QSize(54,54));
 	this->setScaledContents(true);
 	this->setPixmap(pix);
 	type_ = type;

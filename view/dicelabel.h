@@ -13,8 +13,6 @@ public:
 	explicit DiceLabel( DiceType type, const QString& text ="", QWidget * parent = 0 );
 	void setType(DiceType type);
 	DiceType type();
-	void setImage(unsigned value, bool selected = false);
-	void setImageSelected(QString path);
 	~DiceLabel();
 
 signals:

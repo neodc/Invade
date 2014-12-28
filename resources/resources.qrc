@@ -11,5 +11,12 @@
         <file>A.png</file>
         <file>B.png</file>
         <file>C.png</file>
+        <file>Bbomb.png</file>
+        <file>ea1.png</file>
+        <file>ea2.png</file>
+        <file>ea3.png</file>
+        <file>ea4.png</file>
+        <file>ea5.png</file>
+        <file>ea6.png</file>
     </qresource>
 </RCC>

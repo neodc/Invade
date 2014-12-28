@@ -1,7 +1,8 @@
-#ifndef CLICKABLELABEL_H
-#define CLICKABLELABEL_H
+#ifndef TILELABEL_H
+#define TILELABEL_H
 
 #include <QLabel>
+#include "view/images.h"
 
 class TileLabel : public QLabel
 {
@@ -20,4 +21,4 @@ protected:
 };
 
 
-#endif // CLICKABLELABEL_H
+#endif // TILELABEL_H

@@ -3,6 +3,10 @@
 QImage Images::tile_{":/new/images/boardTile.png"};
 
 QImage Images::pawn_{":/new/images/pawn.png"};
+QImage Images::A_{":/new/images/A.png"};
+QImage Images::B_{":/new/images/B.png"};
+QImage Images::Bbomb_{":/new/images/Bbomb.png"};
+QImage Images::C_{":/new/images/C.png"};
 
 std::map<unsigned, QImage> Images::dice_ = {
 	{1, QImage(":/new/images/1.png")},
@@ -33,43 +37,67 @@ QPixmap Images::tile(bool selected){
 	return pix;
 }
 
-QPixmap Images::pawn(UnitType type, bool selected, bool damaged, Side side){
+QPixmap Images::pawn(UnitType type, bool selected, Side side){
 	QPixmap pix;
 
+	QImage tmp;
+	if (type == UnitType::NORMAL){
+		tmp = pawn_;
+	} else if(type == UnitType::ELITE_A){
+		tmp = A_;
+	} else if(type == UnitType::ELITE_B){
+		tmp = B_;
+	} else if(type == UnitType::ELITE_C){
+		tmp = C_;
+	}
+
 	if(selected){
-		pix.convertFromImage(changeImage(pawn_, 0, 0, -50));
-	} else if(damaged){
-		pix.convertFromImage(changeImage(pawn_, -50, -255, -255));
+		pix.convertFromImage(changeImage(tmp, 0, 0, -50));
 	} else {
 		switch (side){
 		case Side::NORTH:
-			pix.convertFromImage(changeImage(pawn_, -200, -200, 0));
+			pix.convertFromImage(changeImage(tmp, -200, -200, 0));
 			break;
 		case Side::SOUTH:
-			pix.convertFromImage(changeImage(pawn_, -63, -255, -63));
+			pix.convertFromImage(changeImage(tmp, -63, -255, -63));
 		}
 	}
 
-	if (type != UnitType::NORMAL){
-		QPixmap result(pix.width(), pix.height());
-		QPixmap overlay;
+	return pix;
+}
 
-		if(type == UnitType::ELITE_A){
-			overlay.load(":new/images/A.png");
-		} else if (type == UnitType::ELITE_B){
-			overlay.load(":new/images/B.png");
-		} else if (type == UnitType::ELITE_C){
-			overlay.load(":new/images/C.png");
-		}
+QPixmap Images::pawn(Unit unit, bool selected){
+	QPixmap pix;
 
-		result.fill(Qt::transparent); // force alpha channel
-		{
-		QPainter painter(&result);
-		painter.drawPixmap(0, 0, pix);
-		painter.drawPixmap(100, 100, overlay);
-		}
-		return result;
+	QImage tmp;
+	if (unit.type() == UnitType::NORMAL){
+		tmp = pawn_;
+	} else if(unit.type() == UnitType::ELITE_A){
+		tmp = A_;
+	} else if(unit.type() == UnitType::ELITE_B && unit.bombshell() == 0){
+		tmp = B_;
+	} else if(unit.bombshell() >= 1){
+		tmp = Bbomb_;
+	} else if(unit.type() == UnitType::ELITE_C){
+		tmp = C_;
 	}
+
+	if (selected){
+		pix.convertFromImage(changeImage(tmp, 0, 0, -50));
+	} else if (!unit.enable()){
+		pix.convertFromImage(changeImage(tmp, -150, -150, -150));
+	} else if (unit.hp() < 2){
+		pix.convertFromImage(changeImage(tmp, -50, -200, -200));
+	} else {
+		switch (unit.side()){
+		case Side::NORTH:
+			pix.convertFromImage(changeImage(tmp, -200, -200, 0));
+			break;
+		case Side::SOUTH:
+			pix.convertFromImage(changeImage(tmp, -63, -255, -63));
+		}
+	}
+
 	return pix;
 }
 

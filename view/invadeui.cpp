@@ -14,17 +14,27 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	}
 
 	QLabel * labelCOM = new QLabel("COM");
-	QLabel * labelATT = new QLabel("ATT");
-	QLabel * labelEFF = new QLabel("EFF");
 	QLabel * labelABS = new QLabel("ABS");
 	QLabel * labelORD = new QLabel("ORD");
+	QLabel * labelEFF = new QLabel("EFF");
+	QLabel * labelATT = new QLabel("ATT");
 	QLabel * labelDEF = new QLabel("DEF");
+	labelCOM->setAlignment(Qt::AlignCenter);
+	labelABS->setAlignment(Qt::AlignCenter);
+	labelORD->setAlignment(Qt::AlignCenter);
+	labelEFF->setAlignment(Qt::AlignCenter);
+	labelATT->setAlignment(Qt::AlignCenter);
+	labelDEF->setAlignment(Qt::AlignCenter);
+
 	COM = new DiceLabel(DiceType::COM, "COM");
 	ATT = new DiceLabel(DiceType::ATT, "ATT");
 	EFF = new DiceLabel(DiceType::EFF, "EFF");
 	ABS = new DiceLabel(DiceType::ABS, "ABS");
 	ORD = new DiceLabel(DiceType::ORD, "ORD");
 	DEF = new DiceLabel(DiceType::ATT, "DEF");
+	Arrows = new QLabel(this);
+	Arrows->setScaledContents(true);
+	Arrows->setMaximumSize(QSize(64, 64));
 
 	Soldier = new EliteLabel(UnitType::NORMAL, Images::pawn());
 	EliteA = new EliteLabel(UnitType::ELITE_A, Images::pawn(UnitType::ELITE_A));
@@ -65,28 +75,30 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 	connect(improvedAttack, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
 	connect(changeSoldier, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
 
-	ui->statLayout->addWidget(labelCOM, 0, 0);
-	ui->statLayout->addWidget(labelATT, 1, 0);
-	ui->statLayout->addWidget(labelEFF, 2, 0);
-	ui->statLayout->addWidget(labelABS, 3, 0);
-	ui->statLayout->addWidget(labelORD, 4, 0);
-	ui->statLayout->addWidget(labelDEF, 5, 0);
+	ui->diceLayout->addWidget(labelCOM, 0, 1);
+	ui->diceLayout->addWidget(labelABS, 3, 0);
+	ui->diceLayout->addWidget(labelORD, 3, 2);
+	ui->diceLayout->addWidget(labelEFF, 5, 0);
+	ui->diceLayout->addWidget(labelATT, 5, 2);
 
-	ui->statLayout->addWidget(COM, 0, 1);
-	ui->statLayout->addWidget(ATT, 1, 1);
-	ui->statLayout->addWidget(EFF, 2, 1);
-	ui->statLayout->addWidget(ABS, 3, 1);
-	ui->statLayout->addWidget(ORD, 4, 1);
-	ui->statLayout->addWidget(DEF, 5, 1);
+	ui->diceLayout->addWidget(COM, 1, 1);
+	ui->diceLayout->addWidget(ABS, 2, 0);
+	ui->diceLayout->addWidget(ORD, 2, 2);
+	ui->diceLayout->addWidget(EFF, 4, 0);
+	ui->diceLayout->addWidget(ATT, 4, 2);
+	ui->diceLayout->addWidget(Arrows, 2, 1);
 
-	ui->statLayout->addWidget(Soldier, 0, 2);
-	ui->statLayout->addWidget(SoldierValue, 1, 2);
-	ui->statLayout->addWidget(EliteA, 0, 3);
-	ui->statLayout->addWidget(EliteAValue, 1, 3);
-	ui->statLayout->addWidget(EliteB, 2, 2);
-	ui->statLayout->addWidget(EliteBValue, 3, 2);
-	ui->statLayout->addWidget(EliteC, 2, 3);
-	ui->statLayout->addWidget(EliteCValue, 3, 3);
+	ui->pawnLayout->addWidget(Soldier, 1, 4);
+	ui->pawnLayout->addWidget(SoldierValue, 1, 5);
+	ui->pawnLayout->addWidget(EliteA, 2, 4);
+	ui->pawnLayout->addWidget(EliteAValue, 2, 5);
+	ui->pawnLayout->addWidget(EliteB, 3, 4);
+	ui->pawnLayout->addWidget(EliteBValue, 3, 5);
+	ui->pawnLayout->addWidget(EliteC, 4, 4);
+	ui->pawnLayout->addWidget(EliteCValue, 4, 5);
+
+	ui->enemyLayout->addWidget(labelDEF, 0, 0);
+	ui->enemyLayout->addWidget(DEF, 0, 1);
 
 	ui->effectLayout->addWidget(noEffect, 0, 0);
 	ui->effectLayout->addWidget(increasedMovement, 1, 0);
@@ -105,7 +117,6 @@ void InvadeUI::nextPhase(){
 	PosTmp = Position{100,100};
 	DiceTmp = NULL;
 	BombShell->setChecked(false);
-	//TODO debugger le dé de defence
 }
 
 void InvadeUI::quit(){
@@ -118,14 +129,14 @@ void InvadeUI::swapDice(){
 	if (!Widget){
 	   return;
 	}
-	int index = ui->statLayout->indexOf(Widget);
+	int index = ui->diceLayout->indexOf(Widget);
 	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
-	ui->statLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
+	ui->diceLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 
 	if (DiceTmp == NULL){
-		DiceTmp = dynamic_cast<DiceLabel*>(ui->statLayout->itemAt(index)->widget());
+		DiceTmp = dynamic_cast<DiceLabel*>(ui->diceLayout->itemAt(index)->widget());
 	}else{
-		DiceLabel *tmp = dynamic_cast<DiceLabel*>(ui->statLayout->itemAt(index)->widget());
+		DiceLabel *tmp = dynamic_cast<DiceLabel*>(ui->diceLayout->itemAt(index)->widget());
 		invade_->swapDice(DiceTmp->type(),tmp->type());
 		DiceTmp = NULL;
 	}
@@ -167,10 +178,10 @@ void InvadeUI::selectUnit(){
 	if (!Widget){
 	   return;
 	}
-	int index = ui->statLayout->indexOf(Widget);
+	int index = ui->pawnLayout->indexOf(Widget);
 	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
-	ui->statLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
-	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->statLayout->itemAt(index)->widget());
+	ui->pawnLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
+	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->pawnLayout->itemAt(index)->widget());
 	selectedUnitType = tmp->type().type();
 	rafraichir(invade_);
 }
@@ -233,47 +244,49 @@ void InvadeUI::attack(Position sender){
 
 void InvadeUI::rafraichir(SujetDObservation *){
 	Player p {invade_->constPlayer(invade_->current())};
-	TileLabel * label;
+	TileLabel * tile;
 
 	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
 		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
-			label = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+			tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
 			if (!invade_->board().isCaseEmpty(Position{i,j})){
-				UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
+				Unit tmp = invade_->board().unitAt(Position{i,j});
+			//	UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
 				bool selected = Position{i,j} == PosTmp;
-				bool damaged = invade_->board().unitAt(Position{i,j}).hp() < invade_->board().unitAt(Position{i,j}).type().hpMax();
-				if (tmp == UnitType::NORMAL){
-					label->setPixmap(Images::pawn(UnitType::NORMAL, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
+			//	bool damaged = invade_->board().unitAt(Position{i,j}).hp() < invade_->board().unitAt(Position{i,j}).type().hpMax();
+				tile->setPixmap(Images::pawn(tmp, selected).scaled(tile->width(), tile->height(), Qt::KeepAspectRatio));
+			/*	if (tmp == UnitType::NORMAL){
+					tile->setPixmap(Images::pawn(tmp, selected);
 				}else if (tmp == UnitType::ELITE_A){
-					label->setPixmap(Images::pawn(UnitType::ELITE_A, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
+					tile->setPixmap(Images::pawn(tmp, selected);
 				}else if (tmp == UnitType::ELITE_B){
-					label->setPixmap(Images::pawn(UnitType::ELITE_B, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
+					tile->setPixmap(Images::pawn(tmp, selected);
 				}else if (tmp == UnitType::ELITE_C){
-					label->setPixmap(Images::pawn(UnitType::ELITE_C, selected, damaged, invade_->board().unitAt(Position{i,j}).side()));
-				}
+					tile->setPixmap(Images::pawn(tmp, selected);
+				}*/
 			}else{
-				label->setPixmap(Images::tile());
+				tile->setPixmap(Images::tile());
 			}
 		}
 	}
 	switch (invade_->phase()) {
 		case Phase::NO_PLAYER:
-			ui->Phase_->setText("NO_PLAYER");
+			ui->Phase_->setText("NO PLAYER");
 			break;
 		case Phase::PLAYING_DICE:
-			ui->Phase_->setText("PLAYING_DICE");
+			ui->Phase_->setText("PLAYING DICE");
 			break;
 		case Phase::PLAYING_EFFECT:
 			ui->Phase_->setText("EFFECT");
 			break;
 		case Phase::PLAYING_MOVE:
-			ui->Phase_->setText("PLAYING_MOVE");
+			ui->Phase_->setText("PLAYING MOVE");
 			break;
 		case Phase::PLAYING_COMMANDER:
-			ui->Phase_->setText("PLAYING_COMMANDER");
+			ui->Phase_->setText("PLAYING COMMANDER");
 			break;
 		case Phase::PLAYING_ATTACK:
-			ui->Phase_->setText("PLAYING_ATTACK");
+			ui->Phase_->setText("PLAYING ATTACK");
 			break;
 		case Phase::END:
 			ui->Phase_->setText("END");
@@ -281,13 +294,22 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		default:
 			break;
 	}
-/*	ORD->setImage(p.dice(DiceType::ORD), DiceTmp == ORD);
-	ABS->setImage(p.dice(DiceType::ABS), DiceTmp == ABS);
-	ATT->setImage(p.dice(DiceType::ATT), DiceTmp == ATT);
-	COM->setImage(p.dice(DiceType::COM), DiceTmp == COM);
-	EFF->setImage(p.dice(DiceType::EFF), DiceTmp == EFF);
-	DEF->setImage(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT));
-*/
+
+	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD).scaled(ORD->width(), ORD->height(), Qt::KeepAspectRatio));
+	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS).scaled(ABS->width(), ABS->height(), Qt::KeepAspectRatio));
+	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT).scaled(ATT->width(), ATT->height(), Qt::KeepAspectRatio));
+	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM).scaled(COM->width(), COM->height(), Qt::KeepAspectRatio));
+	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF).scaled(EFF->width(), EFF->height(), Qt::KeepAspectRatio));
+	Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
+
+	DEF->setPixmap(Images::dice(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)).scaled(DEF->width(), DEF->height(), Qt::KeepAspectRatio));
+
+	Soldier->setPixmap(Images::pawn(UnitType::NORMAL, selectedUnitType == UnitType::NORMAL).scaled(Soldier->width(), Soldier->height(), Qt::KeepAspectRatio));
+	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A).scaled(EliteA->width(), EliteA->height(), Qt::KeepAspectRatio));
+	EliteB->setPixmap(Images::pawn(UnitType::ELITE_B, selectedUnitType == UnitType::ELITE_B).scaled(EliteB->width(), EliteB->height(), Qt::KeepAspectRatio));
+	EliteC->setPixmap(Images::pawn(UnitType::ELITE_C, selectedUnitType == UnitType::ELITE_C).scaled(EliteC->width(), EliteC->height(), Qt::KeepAspectRatio));
+
+/*
 	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD));
 	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS));
 	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT));
@@ -299,7 +321,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A));
 	EliteB->setPixmap(Images::pawn(UnitType::ELITE_B, selectedUnitType == UnitType::ELITE_B));
 	EliteC->setPixmap(Images::pawn(UnitType::ELITE_C, selectedUnitType == UnitType::ELITE_C));
-
+*/
 	SoldierValue->setText(QString::number(p.unit(UnitType::NORMAL)));
 	EliteAValue->setText(QString::number(p.unit(UnitType::ELITE_A)));
 	EliteBValue->setText(QString::number(p.unit(UnitType::ELITE_B)));
@@ -313,7 +335,13 @@ InvadeUI::~InvadeUI() noexcept{
 	while ((child = ui->Board_->takeAt(0)) != 0){
 		delete child->widget();
 	}
-	while ((child = ui->statLayout->takeAt(0)) != 0){
+	while ((child = ui->diceLayout->takeAt(0)) != 0){
+		delete child->widget();
+	}
+	while ((child = ui->pawnLayout->takeAt(0)) != 0){
+		delete child->widget();
+	}
+	while ((child = ui->enemyLayout->takeAt(0)) != 0){
 		delete child->widget();
 	}
 	while ((child = ui->effectLayout->takeAt(0)) != 0){
