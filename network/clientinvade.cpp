@@ -18,6 +18,68 @@ ClientInvade::ClientInvade(QObject *parent) :
 bool ClientInvade::stable() const{ return stable_; }
 const Invade & ClientInvade::model() const{ return model_; }
 
+void ClientInvade::name(const QString &name){
+	QJsonObject p;
+	p["name"] = name;
+
+	sendMessage("name", p);
+}
+
+void ClientInvade::endPhase(){
+	QJsonObject p;
+
+	sendMessage("endPhase", p);
+}
+
+void ClientInvade::swapDice(const DiceType d1, const DiceType d2){
+	QJsonObject p;
+	p["d1"] = static_cast<int>(d1);
+	p["d2"] = static_cast<int>(d2);
+
+	sendMessage("swapDice", p);
+}
+
+void ClientInvade::chooseEffect(Effect effect, UnitType elite){
+	QJsonObject p;
+	p["effect"] = static_cast<int>(effect);
+	p["elite"] = static_cast<int>(elite.id());
+
+	sendMessage("chooseEffect", p);
+}
+
+void ClientInvade::move(const Position origin, const Position dest){
+	QJsonObject p;
+	p["origin"] = pos2str(origin);
+	p["dest"] = pos2str(dest);
+
+	sendMessage("move", p);
+}
+
+void ClientInvade::addUnit(const Position position, const UnitType type){
+	QJsonObject p;
+	p["position"] = pos2str(position);
+	p["type"] = static_cast<int>(type.id());
+
+	sendMessage("addUnit", p);
+}
+
+void ClientInvade::moveCommander(const Position origin, const Position dest){
+	QJsonObject p;
+	p["origin"] = pos2str(origin);
+	p["dest"] = pos2str(dest);
+
+	sendMessage("moveCommander", p);
+}
+
+void ClientInvade::attack(const Position origin, const Position dest, bool bombshell){
+	QJsonObject p;
+	p["origin"] = pos2str(origin);
+	p["dest"] = pos2str(dest);
+	p["bombshell"] = bombshell;
+
+	sendMessage("attack", p);
+}
+
 void ClientInvade::connectToHost(const QString & hostName, quint16 port){
 	if( !stable_ ){
 		connection_.connectToHost(hostName, port);
@@ -70,6 +132,24 @@ void ClientInvade::lostConnection(){
 
 void ClientInvade::newConnection(){
 
+}
+
+void ClientInvade::sendMessage(QString method, QJsonObject parameters){
+	QJsonObject o;
+	o["method"] = method;
+	o["parameters"] = parameters;
+	QJsonDocument d{o};
+
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_4_0);
+
+	out << (quint16)0;
+	out << d.toJson( QJsonDocument::JsonFormat::Compact );
+	out.device()->seek(0);
+	out << (quint16)(block.size() - sizeof(quint16));
+
+	connection_.write(block);
 }
 
 bool ClientInvade::isOrderValid(QJsonObject json){

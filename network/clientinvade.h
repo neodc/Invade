@@ -17,6 +17,16 @@ class ClientInvade : public QObject, public SujetDObservation{
 
 		bool stable() const;
 		const Invade & model() const;
+
+		void name(const QString & name);
+		void endPhase();
+		void swapDice(const DiceType d1, const DiceType d2);
+		void chooseEffect(Effect effect, UnitType elite = UnitType::NORMAL);
+		void move(const Position origin, const Position dest);
+		void addUnit(const Position position, const UnitType type);
+		void moveCommander(const Position origin, const Position dest);
+		void attack(const Position origin, const Position dest, bool bombshell = false);
+
 	private:
 		Invade model_;
 		Side side_;
@@ -33,6 +43,7 @@ class ClientInvade : public QObject, public SujetDObservation{
 		void newConnection();
 
 	private:
+		void sendMessage(QString method, QJsonObject parameters);
 		bool isOrderValid(QJsonObject json);
 		void receiveOrder(QJsonObject json);
 		void receiveRefresh(QJsonObject json);
