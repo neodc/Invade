@@ -1,31 +1,34 @@
 #include "images.h"
 
-QImage Images::tile_{":/new/images/boardTile.png"};
+QImage Images::tile_;
 
-QImage Images::pawn_{":/new/images/pawn.png"};
-QImage Images::A_{":/new/images/A.png"};
-QImage Images::B_{":/new/images/B.png"};
-QImage Images::Bbomb_{":/new/images/Bbomb.png"};
-QImage Images::C_{":/new/images/C.png"};
+QImage Images::pawn_;
+QImage Images::A_;
+QImage Images::B_;
+QImage Images::Bbomb_;
+QImage Images::C_;
 
-std::map<unsigned, QImage> Images::dice_ = {
-	{1, QImage(":/new/images/1.png")},
-	{2, QImage(":/new/images/2.png")},
-	{3, QImage(":/new/images/3.png")},
-	{4, QImage(":/new/images/4.png")},
-	{5, QImage(":/new/images/5.png")},
-	{6, QImage(":/new/images/6.png")},
-};
+std::map<unsigned, QImage> Images::dice_;
 
-std::map<unsigned, QImage> Images::effArrows_ = {
-	{1, QImage(":/new/images/ea1.png")},
-	{2, QImage(":/new/images/ea2.png")},
-	{3, QImage(":/new/images/ea3.png")},
-	{4, QImage(":/new/images/ea4.png")},
-	{5, QImage(":/new/images/ea5.png")},
-	{6, QImage(":/new/images/ea6.png")},
-};
+std::map<unsigned, QImage> Images::effArrows_;
 
+void Images::reload(){
+	tile_.load(":/new/images/boardTile.png");
+
+	pawn_.load(":/new/images/pawn.png");
+	A_.load(":/new/images/A.png");
+	B_.load(":/new/images/B.png");
+	Bbomb_.load(":/new/images/Bbomb.png");
+	C_.load(":/new/images/C.png");
+
+	for( int i = 1; i <= 6; ++i ){
+		dice_[i].load( QString(":/new/images/%1.png").arg(i) );
+	}
+
+	for( int i = 1; i <= 6; ++i ){
+		effArrows_[i].load( QString(":/new/images/ea%1.png").arg(i) );
+	}
+}
 
 QPixmap Images::tile(bool selected){
 	QPixmap pix;

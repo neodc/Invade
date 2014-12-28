@@ -294,7 +294,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		default:
 			break;
 	}
-
+/*
 	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD).scaled(ORD->width(), ORD->height(), Qt::KeepAspectRatio));
 	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS).scaled(ABS->width(), ABS->height(), Qt::KeepAspectRatio));
 	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT).scaled(ATT->width(), ATT->height(), Qt::KeepAspectRatio));
@@ -309,19 +309,20 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EliteB->setPixmap(Images::pawn(UnitType::ELITE_B, selectedUnitType == UnitType::ELITE_B).scaled(EliteB->width(), EliteB->height(), Qt::KeepAspectRatio));
 	EliteC->setPixmap(Images::pawn(UnitType::ELITE_C, selectedUnitType == UnitType::ELITE_C).scaled(EliteC->width(), EliteC->height(), Qt::KeepAspectRatio));
 
-/*
+*/
 	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD));
 	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS));
 	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT));
 	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM));
 	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF));
+	Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
 	DEF->setPixmap(Images::dice(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
 
 	Soldier->setPixmap(Images::pawn(UnitType::NORMAL, selectedUnitType == UnitType::NORMAL));
 	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A));
 	EliteB->setPixmap(Images::pawn(UnitType::ELITE_B, selectedUnitType == UnitType::ELITE_B));
 	EliteC->setPixmap(Images::pawn(UnitType::ELITE_C, selectedUnitType == UnitType::ELITE_C));
-*/
+
 	SoldierValue->setText(QString::number(p.unit(UnitType::NORMAL)));
 	EliteAValue->setText(QString::number(p.unit(UnitType::ELITE_A)));
 	EliteBValue->setText(QString::number(p.unit(UnitType::ELITE_B)));

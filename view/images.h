@@ -20,6 +20,7 @@ class Images
 	static std::map<unsigned, QImage> effArrows_;
 
 public:
+	static void reload();
 	static QPixmap tile(bool selected = false);
 	static QPixmap pawn(UnitType type = UnitType::NORMAL, bool selected = false, Side side = Side::NORTH);
 	static QPixmap pawn(Unit unit, bool selected = false);

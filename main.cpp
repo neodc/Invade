@@ -14,20 +14,7 @@
 int main(int argc, char *argv[]){
 	srand (time(NULL));
 
-	Board b;
-
-	Unit u{UnitType::NORMAL, Side::NORTH};
-
-	b.addUnit({0,0}, u);
-	b.addUnit({1,0}, u);
-	b.addUnit({0,1}, u);
-	b.addUnit({1,1}, u);
-
-	b.unitAt({0,0}).disable();
-
-	b.reset();
-
-	std::cout << b << std::endl;
+	Images::reload();
 
 	Invade * invade;
 	invade = new Invade;
@@ -39,7 +26,7 @@ int main(int argc, char *argv[]){
 //	ClientInvade c;
 //	c.connectToHost("127.0.0.1", 5423);
 	InvadeUI w{invade};
-	//ServerInvade w;
+//	ServerInvade w;
 	w.show();
 	return a.exec();
 
