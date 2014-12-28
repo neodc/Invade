@@ -1,7 +1,7 @@
 #include "unit.h"
 
 Unit::Unit(UnitType type, Side side):
-	type_{type}, side_{side}{
+	type_{type}, side_{side}, bombshell_{type.bombshell()}{
 
 	reset();
 }
@@ -21,6 +21,17 @@ unsigned Unit::reduceHP(unsigned u){
 	return hp_;
 }
 
+unsigned Unit::reduceBombshell(unsigned u){
+	if( u > bombshell_ ){
+		bombshell_ = 0;
+	}else{
+		bombshell_ -= u;
+	}
+
+	return bombshell_;
+
+}
+
 void Unit::disable(){
 	enable_ = false;
 }
@@ -28,6 +39,7 @@ void Unit::disable(){
 const UnitType& Unit::type() const{ return type_; }
 const Side& Unit::side() const{ return side_; }
 unsigned Unit::hp() const{ return hp_; }
+unsigned Unit::bombshell() const{return bombshell_;}
 bool Unit::enable() const{ return enable_; }
 
 void Unit::read(const QJsonObject &json){

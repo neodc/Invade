@@ -251,6 +251,9 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 	if (!board_.isPositionValid(dest) || board_.isCaseEmpty(dest) || board_.unitAt(dest).side() == current_){
 		return false;
 	}
+	if (bombshell && board_.unitAt(origin).bombshell() == 0){
+		return false;
+	}
 
 	bool ok = false;
 	unsigned accuracyCurrent = player(current_).dice(DiceType::ATT) + board_.unitAt(origin).type().accuracy();
@@ -302,13 +305,13 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 						board_.removeUnit(p);
 					}
 				}
-
+				board_.unitAt(origin).reduceBombshell(1);
 				++accuracyCurrent;
 			}
-			nbActions_--;
 			if (board_.unitAt(dest).reduceHP(1) == 0){
 				board_.removeUnit(dest);
 			}
+			nbActions_--;
 			ok = true;
 	}
 	return ok;

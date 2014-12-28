@@ -12,14 +12,17 @@ class Unit{
 		Side side_;
 		unsigned hp_;
 		bool enable_;
+		unsigned bombshell_;
 	public:
 		Unit(UnitType type = UnitType::NORMAL, Side side = Side::NORTH);
 		void reset();
 		unsigned reduceHP(unsigned u);
+		unsigned reduceBombshell(unsigned u);
 
 		const UnitType& type() const;
 		const Side& side() const;
 		unsigned hp() const;
+		unsigned bombshell() const;
 		bool enable() const;
 		void disable();
 		void read(const QJsonObject &json);
