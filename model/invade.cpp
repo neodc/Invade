@@ -1,6 +1,7 @@
 #include "invade.h"
 #include <algorithm>
 #include <QJsonArray>
+#include <array>
 
 Invade::Invade(): current_{Side::NORTH}, winner_{Side::NORTH}, phase_{Phase::NO_PLAYER}{}
 
@@ -333,7 +334,7 @@ bool Invade::canAttack(const Position origin, const Position dest, bool bombshel
 }
 
 bool Invade::attack(const Position origin, const Position dest, bool bombshell){
-	if ( canAttack(origin, dest, bombshell) ){
+	if ( !canAttack(origin, dest, bombshell) ){
 		return false;
 	}
 
@@ -350,39 +351,22 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 
 
 	if (bombshell){
-		Position p = dest;
+		std::array<Position, 4> tmp = {
+			Position{dest.x+1, dest.y},
+			Position{dest.x-1, dest.y},
+			Position{dest.x, dest.y+1},
+			Position{dest.x, dest.y-1}
+		};
 
-		p.x = dest.x+1;
-		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-			if (board_.unitAt(p).reduceHP(1) == 0){
-				board_.removeUnit(p);
+		for( const Position & p : tmp ){
+			if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
+					&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
+				if (board_.unitAt(p).reduceHP(1) == 0){
+					board_.removeUnit(p);
+				}
 			}
 		}
 
-		p.x = dest.x-1;
-		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-			if (board_.unitAt(p).reduceHP(1) == 0){
-				board_.removeUnit(p);
-			}
-		}
-
-		p.y = dest.y+1;
-		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-			if (board_.unitAt(p).reduceHP(1) == 0){
-				board_.removeUnit(p);
-			}
-		}
-
-		p.y = dest.y-1;
-		if(board_.isPositionValid(p) && !board_.isCaseEmpty(p)
-				&& accuracyCurrent > defenseOpponentBase + board_.unitAt(p).type().accuracy() ){
-			if (board_.unitAt(p).reduceHP(1) == 0){
-				board_.removeUnit(p);
-			}
-		}
 		board_.unitAt(origin).reduceBombshell(1);
 		++accuracyCurrent;
 	}
