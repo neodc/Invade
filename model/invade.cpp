@@ -44,7 +44,7 @@ bool Invade::endPhase(){
 		case Phase::PLAYING_COMMANDER:
 			break;
 		case Phase::PLAYING_ATTACK:
-			player(current_).reduceAttack(player(current_).dice(DiceType::ATT) - nbActions_);
+			player(current_).reduceAttack(player(current_).dice(DiceType::COM) - nbActions_);
 			current_ = !current_;
 			player(current_).rollDice();
 			board_.reset();
