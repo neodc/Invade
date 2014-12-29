@@ -26,6 +26,7 @@ void Invade::begin(const std::string p1, const std::string p2){
 	current_ = Side::NORTH;
 	phase_ = Phase::PLAYING_DICE;
 	player(current_).rollDice();
+	notifierChangement();
 }
 
 bool Invade::canEndPhase() const{

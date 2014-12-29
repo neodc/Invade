@@ -166,7 +166,7 @@ void InvadeUI::begin(){
 	if (retour == QDialog::Rejected) return;
 
 //	invade_.model().begin(game.p1(), game.p2()); // TODO rework for network
-
+	invade_.name(QString::fromStdString(game.p1()));
 	selectedUnitType = UnitType::NORMAL;
 	PosTmp = Position{100,100};
 	DiceTmp = NULL;

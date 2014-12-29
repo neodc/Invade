@@ -158,7 +158,6 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 
 	QString method = json["method"].toString();
 	QJsonObject parameters = json["parameters"].toObject();
-
 	if( method == "name" ){
 		if( !parameters["name"].isString() || model_.phase() != Phase::NO_PLAYER ){
 			return;
@@ -171,10 +170,9 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 	}else if( method == "endPhase" ){
 		model_.endPhase();
 	}else if( method == "swapDice" ){
-		if( !parameters["d1"].isString() || !parameters["d2"].isString() ){
+		if( !parameters["d1"].isDouble() || !parameters["d2"].isDouble() ){
 			return;
 		}
-
 		model_.swapDice( static_cast<DiceType>(parameters["d1"].toInt()), static_cast<DiceType>(parameters["d2"].toInt()) );
 	}else if( method == "chooseEffect" ){
 		if( !parameters["effect"].isDouble() ){
