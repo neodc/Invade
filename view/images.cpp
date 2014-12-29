@@ -21,12 +21,14 @@ void Images::reload(){
 	Bbomb_.load(":/new/images/Bbomb.png");
 	C_.load(":/new/images/C.png");
 
-	for( int i = 1; i <= 6; ++i ){
+	for( unsigned i = 1; i <= 6; ++i ){
 		dice_[i].load( QString(":/new/images/%1.png").arg(i) );
+	//	dice_.at(i)
 	}
 
-	for( int i = 1; i <= 6; ++i ){
+	for( unsigned i = 1; i <= 6; ++i ){
 		effArrows_[i].load( QString(":/new/images/ea%1.png").arg(i) );
+	//	effArrows_.at(i)
 	}
 }
 
@@ -37,6 +39,26 @@ QPixmap Images::tile(bool selected){
 	}else{
 		pix.convertFromImage(tile_);
 	}
+	return pix;
+}
+
+QPixmap Images::tile(Unit unit, bool tileSelected, bool unitSelected){
+	QPixmap pixTile(tile(tileSelected));
+	QPixmap pixPawn(pawn(unit, unitSelected));
+	QPixmap pix = QPixmap(pixTile.size());
+	QPainter painter(&pix);
+
+	painter.setCompositionMode(QPainter::CompositionMode_Source);
+	painter.fillRect(pix.rect(), Qt::transparent);
+
+	painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+	painter.drawPixmap(0, 0, pixTile);
+
+	painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+	painter.drawPixmap(10, 10, pixPawn);
+
+	painter.end();
+
 	return pix;
 }
 

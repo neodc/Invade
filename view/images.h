@@ -22,6 +22,7 @@ class Images
 public:
 	static void reload();
 	static QPixmap tile(bool selected = false);
+	static QPixmap tile(Unit unit, bool tileSelected = false, bool unitSelected = false);
 	static QPixmap pawn(UnitType type = UnitType::NORMAL, bool selected = false, Side side = Side::NORTH);
 	static QPixmap pawn(Unit unit, bool selected = false);
 	static QPixmap dice(unsigned value, bool selected = false);
