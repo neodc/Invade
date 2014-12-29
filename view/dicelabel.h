@@ -2,6 +2,7 @@
 #define DICELABEL_H
 
 #include <QLabel>
+#include <QMouseEvent>
 #include "../model/dicetype.h"
 
 class DiceLabel : public QLabel{
@@ -16,10 +17,11 @@ public:
 	~DiceLabel();
 
 signals:
-	void clicked();
+	void leftClicked();
+	void rightClicked();
 
 protected:
-	void mousePressEvent ( QMouseEvent * ) ;
+	void mousePressEvent ( QMouseEvent * event) ;
 };
 
 

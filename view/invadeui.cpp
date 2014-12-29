@@ -61,11 +61,11 @@ InvadeUI::InvadeUI(QString host, int port, QWidget *parent) : QMainWindow(parent
 	connect(ui->actionQuit, &QAction::triggered, this, &InvadeUI::quit);
 	connect(ui->actionNew_Game, &QAction::triggered, this, &InvadeUI::begin);
 
-	connect(COM, &DiceLabel::clicked, this, &InvadeUI::swapDice);
-	connect(ATT, &DiceLabel::clicked, this, &InvadeUI::swapDice);
-	connect(EFF, &DiceLabel::clicked, this, &InvadeUI::swapDice);
-	connect(ABS, &DiceLabel::clicked, this, &InvadeUI::swapDice);
-	connect(ORD, &DiceLabel::clicked, this, &InvadeUI::swapDice);
+	connect(COM, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
+	connect(ATT, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
+	connect(EFF, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
+	connect(ABS, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
+	connect(ORD, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
 
 	connect(Soldier, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
 	connect(EliteA, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
@@ -258,7 +258,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			//	UnitType tmp = invade_.model().board().unitAt(Position{i,j}).type();
 				bool selected = Position{i,j} == PosTmp;
 			//	bool damaged = invade_.model().board().unitAt(Position{i,j}).hp() < invade_.model().board().unitAt(Position{i,j}).type().hpMax();
-				tile->setPixmap(Images::pawn(tmp, selected).scaled(tile->width(), tile->height(), Qt::KeepAspectRatio));
+				tile->setPixmap(Images::tile(tmp, false, selected).scaled(tile->width(), tile->height(), Qt::KeepAspectRatio));
 			/*	if (tmp == UnitType::NORMAL){
 					tile->setPixmap(Images::pawn(tmp, selected);
 				}else if (tmp == UnitType::ELITE_A){

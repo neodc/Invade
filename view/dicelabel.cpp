@@ -19,6 +19,10 @@ DiceType DiceLabel::type(){
 	return type_;
 }
 
-void DiceLabel::mousePressEvent ( QMouseEvent * ){
-	emit clicked();
+void DiceLabel::mousePressEvent (QMouseEvent * event){
+
+	if (event->button() == Qt::RightButton){
+		emit rightClicked();
+	}
+	emit leftClicked();
 }
