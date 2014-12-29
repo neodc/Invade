@@ -375,6 +375,7 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell){
 		board_.removeUnit(dest);
 	}
 	nbActions_--;
+	notifierChangement();
 	return true;
 }
 

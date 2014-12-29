@@ -158,6 +158,9 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 
 	QString method = json["method"].toString();
 	QJsonObject parameters = json["parameters"].toObject();
+
+	qDebug() << method << parameters;
+
 	if( method == "name" ){
 		if( !parameters["name"].isString() || model_.phase() != Phase::NO_PLAYER ){
 			return;
@@ -180,7 +183,7 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 		}
 
 		if( parameters["elite"].isDouble() ){
-			model_.chooseEffect(static_cast<Effect>(parameters["effect"].toInt()), UnitType::fromId(parameters["effect"].toInt()));
+			model_.chooseEffect(static_cast<Effect>(parameters["effect"].toInt()), UnitType::fromId(parameters["elite"].toInt()));
 		}else{
 			model_.chooseEffect(static_cast<Effect>(parameters["effect"].toInt()));
 		}

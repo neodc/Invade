@@ -140,6 +140,8 @@ void ClientInvade::sendMessage(QString method, QJsonObject parameters){
 	o["parameters"] = parameters;
 	QJsonDocument d{o};
 
+	qDebug() << method << parameters;
+
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
 	out.setVersion(QDataStream::Qt_4_0);
