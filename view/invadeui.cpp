@@ -1,12 +1,15 @@
 #include "invadeui.h"
 #include "ui_invadeui.h"
 
-InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invade_{invade}, ui(new Ui::InvadeUI){
+InvadeUI::InvadeUI(QString host, int port, QWidget *parent) : QMainWindow(parent), ui(new Ui::InvadeUI){
 	ui->setupUi(this);
 
+	invade_.connectToHost(host, port);
+
 	TileLabel * label;
-	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
-		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
+
+	for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
+		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
 			label = new TileLabel("");
 			ui->Board_->addWidget(label,j,i);
 			connect(label, &TileLabel::clicked, this, &InvadeUI::UnitAction);
@@ -108,19 +111,18 @@ InvadeUI::InvadeUI(Invade *invade, QWidget *parent) : QMainWindow(parent), invad
 
 	ui->effectLayout->addWidget(BombShell, 0, 1);
 
-	invade_->attacher(this);
-	rafraichir(invade_);
+	invade_.attacher(this);
+	rafraichir(nullptr);
 }
 
 void InvadeUI::nextPhase(){
-	invade_->endPhase();
+	invade_.endPhase();
 	PosTmp = Position{100,100};
 	DiceTmp = NULL;
 	BombShell->setChecked(false);
 }
 
 void InvadeUI::quit(){
-	delete invade_;
 	exit(0);
 }
 
@@ -137,10 +139,10 @@ void InvadeUI::swapDice(){
 		DiceTmp = dynamic_cast<DiceLabel*>(ui->diceLayout->itemAt(index)->widget());
 	}else{
 		DiceLabel *tmp = dynamic_cast<DiceLabel*>(ui->diceLayout->itemAt(index)->widget());
-		invade_->swapDice(DiceTmp->type(),tmp->type());
+		invade_.swapDice(DiceTmp->type(),tmp->type());
 		DiceTmp = NULL;
 	}
-	rafraichir(invade_);
+	rafraichir(nullptr);
 }
 
 void InvadeUI::chooseEffect(){
@@ -153,7 +155,7 @@ void InvadeUI::chooseEffect(){
 	ui->effectLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	EffectLabel * tmp = dynamic_cast<EffectLabel*>(ui->effectLayout->itemAt(index)->widget());
 	if (!(tmp->type() == Effect::CHANGE_SOLDIER && selectedUnitType == UnitType::NORMAL)){
-		invade_->chooseEffect(tmp->type(), selectedUnitType);
+		invade_.chooseEffect(tmp->type(), selectedUnitType);
 	}
 }
 
@@ -163,12 +165,12 @@ void InvadeUI::begin(){
 
 	if (retour == QDialog::Rejected) return;
 
-	invade_->begin(game.p1(), game.p2());
+//	invade_.model().begin(game.p1(), game.p2()); // TODO rework for network
 
 	selectedUnitType = UnitType::NORMAL;
 	PosTmp = Position{100,100};
 	DiceTmp = NULL;
-	rafraichir(invade_);
+	rafraichir(nullptr);
 }
 
 
@@ -182,7 +184,7 @@ void InvadeUI::selectUnit(){
 	ui->pawnLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->pawnLayout->itemAt(index)->widget());
 	selectedUnitType = tmp->type().type();
-	rafraichir(invade_);
+	rafraichir(nullptr);
 }
 
 void InvadeUI::UnitAction(){
@@ -195,27 +197,27 @@ void InvadeUI::UnitAction(){
 	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	unsigned x = columnOfButton;
 	unsigned y = rowOfButton;
-	if (invade_->phase() == Phase::PLAYING_MOVE){
+	if (invade_.model().phase() == Phase::PLAYING_MOVE){
 		move(Position{x,y});
-	}else if (invade_->phase() == Phase::PLAYING_COMMANDER){
+	}else if (invade_.model().phase() == Phase::PLAYING_COMMANDER){
 		moveCommander(Position{x,y});
-	}else if (invade_->phase() == Phase::PLAYING_ATTACK){
+	}else if (invade_.model().phase() == Phase::PLAYING_ATTACK){
 		attack(Position{x,y});
 	}
-	rafraichir(invade_);
+	rafraichir(nullptr);
 }
 
 void InvadeUI::move(Position sender){
-	if (invade_->board().isCaseEmpty(sender) && (PosTmp.x == 100)){
-		if ((sender.y == 15 && (invade_->current() == Side::SOUTH))
-				|| (sender.y == 0 && (invade_->current() == Side::NORTH))){
-			invade_->addUnit(sender, selectedUnitType);
+	if (invade_.model().board().isCaseEmpty(sender) && (PosTmp.x == 100)){
+		if ((sender.y == 15 && (invade_.model().current() == Side::SOUTH))
+				|| (sender.y == 0 && (invade_.model().current() == Side::NORTH))){
+			invade_.addUnit(sender, selectedUnitType);
 		}
 	}else{
 		if (PosTmp.x == 100){
 			PosTmp = sender;
 		}else{
-			invade_->move(PosTmp, sender);
+			invade_.move(PosTmp, sender);
 			PosTmp = Position{100,100};
 		}
 	}
@@ -225,7 +227,7 @@ void InvadeUI::moveCommander(Position sender){
 	if (PosTmp.x == 100){
 		PosTmp = sender;
 	}else{
-		invade_->moveCommander(PosTmp, sender);
+		invade_.moveCommander(PosTmp, sender);
 		PosTmp = Position{100,100};
 	}
 	//TODO Faire en sorte que ca marche
@@ -235,24 +237,27 @@ void InvadeUI::attack(Position sender){
 	if (PosTmp.x == 100){
 		PosTmp = sender;
 	}else{
-		invade_->attack(PosTmp, sender, BombShell->isChecked());
+		invade_.attack(PosTmp, sender, BombShell->isChecked());
 		PosTmp = Position{100,100};
 	}
 	//TODO tester BombShell
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
-	Player p {invade_->constPlayer(invade_->current())};
+	if( invade_.model().phase() == Phase::NO_PLAYER ){
+		return; // TODO: manage this case
+	}
+	Player p {invade_.model().constPlayer(invade_.model().current())};
 	TileLabel * tile;
 
-	for(unsigned i = 0; i < invade_->board().dimensions().x; i++){
-		for(unsigned j = 0; j < invade_->board().dimensions().y; j++){
+	for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
+		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
 			tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
-			if (!invade_->board().isCaseEmpty(Position{i,j})){
-				Unit tmp = invade_->board().unitAt(Position{i,j});
-			//	UnitType tmp = invade_->board().unitAt(Position{i,j}).type();
+			if (!invade_.model().board().isCaseEmpty(Position{i,j})){
+				Unit tmp = invade_.model().board().unitAt(Position{i,j});
+			//	UnitType tmp = invade_.model().board().unitAt(Position{i,j}).type();
 				bool selected = Position{i,j} == PosTmp;
-			//	bool damaged = invade_->board().unitAt(Position{i,j}).hp() < invade_->board().unitAt(Position{i,j}).type().hpMax();
+			//	bool damaged = invade_.model().board().unitAt(Position{i,j}).hp() < invade_.model().board().unitAt(Position{i,j}).type().hpMax();
 				tile->setPixmap(Images::pawn(tmp, selected).scaled(tile->width(), tile->height(), Qt::KeepAspectRatio));
 			/*	if (tmp == UnitType::NORMAL){
 					tile->setPixmap(Images::pawn(tmp, selected);
@@ -268,7 +273,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			}
 		}
 	}
-	switch (invade_->phase()) {
+	switch (invade_.model().phase()) {
 		case Phase::NO_PLAYER:
 			ui->Phase_->setText("NO PLAYER");
 			break;
@@ -301,7 +306,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF).scaled(EFF->width(), EFF->height(), Qt::KeepAspectRatio));
 	Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
 
-	DEF->setPixmap(Images::dice(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)).scaled(DEF->width(), DEF->height(), Qt::KeepAspectRatio));
+	DEF->setPixmap(Images::dice(invade_.model().constPlayer(!invade_.model().current()).dice(DiceType::ATT)).scaled(DEF->width(), DEF->height(), Qt::KeepAspectRatio));
 
 	Soldier->setPixmap(Images::pawn(UnitType::NORMAL, selectedUnitType == UnitType::NORMAL).scaled(Soldier->width(), Soldier->height(), Qt::KeepAspectRatio));
 	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A).scaled(EliteA->width(), EliteA->height(), Qt::KeepAspectRatio));
@@ -315,7 +320,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM));
 	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF));
 	Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
-	DEF->setPixmap(Images::dice(invade_->constPlayer(!invade_->current()).dice(DiceType::ATT)));
+	DEF->setPixmap(Images::dice(invade_.model().constPlayer(!invade_.model().current()).dice(DiceType::ATT)));
 
 	Soldier->setPixmap(Images::pawn(UnitType::NORMAL, selectedUnitType == UnitType::NORMAL));
 	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A));

@@ -18,11 +18,6 @@ int main(int argc, char *argv[]){
 
 	Images::reload();
 
-	Invade * invade;
-	invade = new Invade;
-	invade->begin("YOLO","SWAG");
-
-
 	QApplication a(argc, argv);
 
 	InvadeConnection c;
@@ -33,7 +28,7 @@ int main(int argc, char *argv[]){
 	if( c.server() ){
 		w = new ServerInvade{ c.port() };
 	}else{
-		w = new InvadeUI{invade};
+		w = new InvadeUI{ c.host(), c.port() };
 	}
 	w->show();
 

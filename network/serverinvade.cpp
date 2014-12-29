@@ -22,6 +22,8 @@ ServerInvade::ServerInvade(int port, QWidget *parent) :
 	ui->label->setText( tr("The server is running on port %1").arg(tcpServer_->serverPort()) );
 
 	connect(tcpServer_, &QTcpServer::newConnection, this, &ServerInvade::newConnection);
+
+	model_.attacher(this);
 }
 
 ServerInvade::~ServerInvade(){
