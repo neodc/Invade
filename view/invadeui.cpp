@@ -159,7 +159,6 @@ void InvadeUI::chooseEffect(){
 
 void InvadeUI::begin(){
 	newGame game{this};
-	game.setWindowTitle("New Game");
 	int retour = game.exec();
 
 	if (retour == QDialog::Rejected) return;

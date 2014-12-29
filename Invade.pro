@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     view/effectlabel.cpp \
 	network/clientinvade.cpp \
     view/tilelabel.cpp \
-    view/images.cpp
+    view/images.cpp \
+	view/invadeconnection.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -59,12 +60,14 @@ HEADERS  += \
 	view/effectlabel.h \
 	network/clientinvade.h \
     view/tilelabel.h \
-    view/images.h
+    view/images.h \
+	view/invadeconnection.h
 
 
 FORMS	+= invadeui.ui \
     newgame.ui \
-    network/serverinvade.ui
+    network/serverinvade.ui \
+	view/invadeconnection.ui
 
 RESOURCES += \
 	resources/resources.qrc

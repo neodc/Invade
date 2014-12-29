@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include "view/invadeui.h"
+#include "view/invadeconnection.h"
+
 #include "model/unittype.h"
 #include "model/position.h"
 #include "model/unit.h"
@@ -23,11 +25,24 @@ int main(int argc, char *argv[]){
 
 	QApplication a(argc, argv);
 
+	InvadeConnection c;
+	if( c.exec() == QDialog::Rejected ) return 0;
+
+	QWidget * w;
+
+	if( c.server() ){
+		w = new ServerInvade;
+	}else{
+		w = new InvadeUI{invade};
+	}
+	w->show();
+
 //	ClientInvade c;
 //	c.connectToHost("127.0.0.1", 5423);
-	InvadeUI w{invade};
+
 //	ServerInvade w;
-	w.show();
+//	w.show();
+
 	return a.exec();
 
 }
