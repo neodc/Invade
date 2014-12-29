@@ -19,7 +19,7 @@ class ServerInvade : public QDialog, public Observateur{
 		Q_OBJECT
 
 	public:
-		explicit ServerInvade(QWidget *parent = 0);
+		explicit ServerInvade(int port, QWidget *parent = 0);
 		~ServerInvade();
 		void rafraichir(SujetDObservation *);
 

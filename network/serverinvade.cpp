@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 
-ServerInvade::ServerInvade(QWidget *parent) :
+ServerInvade::ServerInvade(int port, QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::ServerInvade),
 	blockSize_{0}{
@@ -14,10 +14,8 @@ ServerInvade::ServerInvade(QWidget *parent) :
 	ui->setupUi(this);
 
 	tcpServer_ = new QTcpServer(this);
-	if (!tcpServer_->listen(QHostAddress::Any, 5423)) {
-		QMessageBox::critical(this, tr("Fortune Server"),
-							  tr("Unable to start the server: %1.").arg(tcpServer_->errorString()));
-		close();
+	if (!tcpServer_->listen(QHostAddress::Any, port)) {
+		ui->label->setText( tr("Unable to start the server: %1.").arg(tcpServer_->errorString()) );
 		return;
 	}
 

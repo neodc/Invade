@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
 	QWidget * w;
 
 	if( c.server() ){
-		w = new ServerInvade;
+		w = new ServerInvade{ c.port() };
 	}else{
 		w = new InvadeUI{invade};
 	}
@@ -39,9 +39,6 @@ int main(int argc, char *argv[]){
 
 //	ClientInvade c;
 //	c.connectToHost("127.0.0.1", 5423);
-
-//	ServerInvade w;
-//	w.show();
 
 	return a.exec();
 
