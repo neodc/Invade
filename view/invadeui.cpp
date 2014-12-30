@@ -227,7 +227,7 @@ void InvadeUI::rightUnitAction(){
 	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	unsigned x = columnOfButton;
 	unsigned y = rowOfButton;
-	if (invade_.model().phase() == Phase::PLAYING_ATTACK){
+	if (invade_.model().phase() == Phase::PLAYING_ATTACK && !invade_.model().board().isCaseEmpty(Position{x,y})){
 		rightAttack(Position{x,y});
 	}
 	rafraichir(nullptr);
@@ -268,9 +268,7 @@ void InvadeUI::attack(Position sender, bool bombshell){
 }
 
 void InvadeUI::rightAttack(Position sender){
-	if (invade_.model().board().unitAt(sender).bombshell() > 0){
 		attack(sender, true);
-	}
 }
 
 void InvadeUI::refreshDice(Player p){
