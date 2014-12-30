@@ -99,6 +99,18 @@ void ClientInvade::readyRead(){
 
 	QTcpSocket *clientConnection = qobject_cast<QTcpSocket *>(sender());
 
+	readOrder(clientConnection);
+}
+
+void ClientInvade::lostConnection(){
+	stable_ = false;
+}
+
+void ClientInvade::newConnection(){
+
+}
+
+void ClientInvade::readOrder(QTcpSocket *clientConnection){
 	QDataStream in(clientConnection);
 	in.setVersion(QDataStream::Qt_4_0);
 
@@ -133,14 +145,7 @@ void ClientInvade::readyRead(){
 
 	receiveOrder( d.object() );
 
-}
-
-void ClientInvade::lostConnection(){
-	stable_ = false;
-}
-
-void ClientInvade::newConnection(){
-
+	readOrder(clientConnection);
 }
 
 void ClientInvade::sendMessage(QString method, QJsonObject parameters){

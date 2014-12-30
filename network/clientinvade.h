@@ -46,6 +46,7 @@ class ClientInvade : public QObject, public SujetDObservation{
 		void newConnection();
 
 	private:
+		void readOrder(QTcpSocket *clientConnection);
 		void sendMessage(QString method, QJsonObject parameters);
 		bool isOrderValid(QJsonObject json);
 		void receiveOrder(QJsonObject json);
