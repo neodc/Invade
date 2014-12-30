@@ -67,10 +67,10 @@ class InvadeUI : public QMainWindow, public Observateur{
 		EliteLabel * EliteAEnemy;
 		EliteLabel * EliteBEnemy;
 		EliteLabel * EliteCEnemy;
-		QLabel SoldierValueEnemy;
-		QLabel EliteAValueEnemy;
-		QLabel EliteBValueEnemy;
-		QLabel EliteCValueEnemy;
+		QLabel * SoldierValueEnemy;
+		QLabel * EliteAValueEnemy;
+		QLabel * EliteBValueEnemy;
+		QLabel * EliteCValueEnemy;
 
 		EffectLabel * noEffect;
 		EffectLabel * increasedMovement;
@@ -89,7 +89,7 @@ private:
 		void moveCommander(Position sender);
 		void attack(Position sender, bool bombshell = false);
 		void rightAttack(Position sender);
-		void refreshDice(Player p);
+		void refreshStat();
 private slots:
 		void nextPhase();
 		void swapDice();
