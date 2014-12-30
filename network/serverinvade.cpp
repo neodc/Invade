@@ -109,10 +109,11 @@ void ServerInvade::readyRead(){
 	for( const std::pair<const Side, QTcpSocket*>& c : clients_ ){
 		if( c.second == clientConnection ){
 			receiveOrder(d.object(), c.first);
-			return;
+			break;
 		}
 	}
 
+	clientConnection->flush();
 }
 
 void ServerInvade::sendMessage(QString method, QJsonObject parameters, QTcpSocket * client){
