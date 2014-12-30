@@ -10,6 +10,11 @@ TileLabel::TileLabel( const QString& text, QWidget * parent ) :
 
 	TileLabel::~TileLabel(){}
 
-	void TileLabel::mousePressEvent ( QMouseEvent * ){
-		emit clicked();
+	void TileLabel::mousePressEvent (QMouseEvent * event){
+
+		if (event->button() == Qt::RightButton){
+			emit rightClicked();
+		} else {
+			emit leftClicked();
+		}
 	}

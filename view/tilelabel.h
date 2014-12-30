@@ -2,6 +2,7 @@
 #define TILELABEL_H
 
 #include <QLabel>
+#include <QMouseEvent>
 #include "view/images.h"
 
 class TileLabel : public QLabel
@@ -14,10 +15,11 @@ public:
 	~TileLabel();
 
 signals:
-	void clicked();
+	void leftClicked();
+	void rightClicked();
 
 protected:
-	void mousePressEvent ( QMouseEvent * ) ;
+	void mousePressEvent ( QMouseEvent * event) ;
 };
 
 

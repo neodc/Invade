@@ -18,6 +18,7 @@ class ClientInvade : public QObject, public SujetDObservation{
 		bool stable() const;
 		const Invade & model() const;
 		bool requestedNewGame() const;
+		Side side() const;
 
 		void name(const QString & name);
 		void endPhase();

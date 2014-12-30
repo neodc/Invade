@@ -23,6 +23,7 @@ void DiceLabel::mousePressEvent (QMouseEvent * event){
 
 	if (event->button() == Qt::RightButton){
 		emit rightClicked();
+	} else {
+		emit leftClicked();
 	}
-	emit leftClicked();
 }

@@ -53,6 +53,7 @@ class Invade : public SujetDObservation{
 		Side current() const;
 		Side winner() const;
 		Phase phase() const;
+		unsigned nbActions() const;
 		void read(const QJsonObject &json);
 		void write(QJsonObject &json) const;
 

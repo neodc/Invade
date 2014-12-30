@@ -23,6 +23,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 
 		UnitType selectedUnitType = UnitType::NORMAL;
 		Position PosTmp{100,100};
+		QLabel nbActions_;
 		DiceLabel * DiceTmp = NULL;
 		DiceLabel * COM;
 		DiceLabel * ATT;
@@ -52,16 +53,18 @@ class InvadeUI : public QMainWindow, public Observateur{
 		void rafraichir(SujetDObservation *);
 		~InvadeUI() noexcept;
 
-	private:
+private:
 		Ui::InvadeUI *ui;
 		void move(Position sender);
 		void moveCommander(Position sender);
-		void attack(Position sender);
-	private slots:
+		void attack(Position sender, bool bombshell = false);
+		void rightAttack(Position sender);
+private slots:
 		void nextPhase();
 		void swapDice();
 		void chooseEffect();
-		void UnitAction();
+		void unitAction();
+		void rightUnitAction();
 		void begin();
 		void selectUnit();
 		void quit();

@@ -20,6 +20,8 @@ bool ClientInvade::stable() const{ return stable_; }
 const Invade & ClientInvade::model() const{ return model_; }
 bool ClientInvade::requestedNewGame() const{ return requestedNewGame_; }
 
+Side ClientInvade::side() const { return side_; }
+
 void ClientInvade::name(const QString &name){
 	QJsonObject p;
 	p["name"] = name;

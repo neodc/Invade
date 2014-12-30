@@ -11,6 +11,7 @@ Player & Invade::player(const Side side){ return players_.at(side); }
 Side Invade::current() const{ return current_; }
 Side Invade::winner() const{ return winner_; }
 Phase Invade::phase() const{ return phase_; }
+unsigned Invade::nbActions() const { return nbActions_; }
 
 void Invade::reset(){
 	effects_.clear();
