@@ -46,6 +46,7 @@ void Unit::read(const QJsonObject &json){
 	type_ = UnitType::fromId(json["type"].toInt());
 	side_ = static_cast<Side>(json["side"].toInt());
 	hp_ = json["hp"].toInt();
+	bombshell_ = json["bombshell"].toInt();
 	enable_ = json["enable"].toBool();
 }
 
@@ -53,6 +54,7 @@ void Unit::write(QJsonObject &json) const{
 	json["type"] = static_cast<int>(type_.id());
 	json["side"] = static_cast<int>(side_);
 	json["hp"] = static_cast<int>(hp_);
+	json["bombshell"] = static_cast<int>(bombshell_);
 	json["enable"] = enable_;
 }
 

@@ -248,7 +248,7 @@ void InvadeUI::attack(Position sender, bool bombshell){
 	if (PosTmp.x == 100){
 		PosTmp = sender;
 	}else{
-		invade_.attack(PosTmp, sender, BombShell->isChecked());
+		invade_.attack(PosTmp, sender, bombshell);
 		PosTmp = Position{100,100};
 	}
 }
@@ -284,8 +284,8 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
 			if(PosTmp != Position{100, 100}){
 				check = (	(invade_.model().phase() == Phase::PLAYING_MOVE && invade_.model().canMove(PosTmp, Position{i,j}))
-						||	(invade_.model().phase() == Phase::PLAYING_COMMANDER) && invade_.model().canMoveCommander(PosTmp, Position{i,j})
-						||	(invade_.model().phase() == Phase::PLAYING_ATTACK) && invade_.model().canAttack(PosTmp, Position{i,j}, BombShell->isChecked())
+						||	(invade_.model().phase() == Phase::PLAYING_COMMANDER && invade_.model().canMoveCommander(PosTmp, Position{i,j}))
+						||	(invade_.model().phase() == Phase::PLAYING_ATTACK && invade_.model().canAttack(PosTmp, Position{i,j}, BombShell->isChecked()))
 						);
 			}
 			tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
