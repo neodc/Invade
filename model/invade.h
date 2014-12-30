@@ -33,7 +33,7 @@ class Invade : public SujetDObservation{
 
 		void swapDice(const DiceType d1, const DiceType d2);
 
-		bool canChooseEffect(Effect effect, UnitType = UnitType::NORMAL) const;
+		bool canChooseEffect(Effect effect, UnitType elite = UnitType::NORMAL) const;
 		bool chooseEffect(Effect effect, UnitType elite = UnitType::NORMAL);
 
 		bool canMove(const Position origin, const Position dest) const;

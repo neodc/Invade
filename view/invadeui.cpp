@@ -176,9 +176,7 @@ void InvadeUI::chooseEffect(){
 	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
 	ui->effectLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	EffectLabel * tmp = dynamic_cast<EffectLabel*>(ui->effectLayout->itemAt(index)->widget());
-	if (!(tmp->type() == Effect::CHANGE_SOLDIER && selectedUnitType == UnitType::NORMAL)){
-		invade_.chooseEffect(tmp->type(), selectedUnitType);
-	}
+	invade_.chooseEffect(tmp->type(), selectedUnitType);
 }
 
 void InvadeUI::begin(){
@@ -403,15 +401,15 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EliteCValue->setText(QString::number(p.unit(UnitType::ELITE_C)));
 
 	QFont font("Bavaria");
-	font.setBold(invade_.model().canChooseEffect(Effect::NO_EFFECT) || invade_.model().hasEffect(Effect::NO_EFFECT));
+	font.setBold(invade_.model().canChooseEffect(Effect::NO_EFFECT, selectedUnitType) || invade_.model().hasEffect(Effect::NO_EFFECT));
 	noEffect->setFont(font);
-	font.setBold(invade_.model().canChooseEffect(Effect::INCREASED_MOVEMENT) || invade_.model().hasEffect(Effect::INCREASED_MOVEMENT));
+	font.setBold(invade_.model().canChooseEffect(Effect::INCREASED_MOVEMENT, selectedUnitType) || invade_.model().hasEffect(Effect::INCREASED_MOVEMENT));
 	increasedMovement->setFont(font);
-	font.setBold(invade_.model().canChooseEffect(Effect::INCREMENT_SOLDIER) || invade_.model().hasEffect(Effect::INCREMENT_SOLDIER));
+	font.setBold(invade_.model().canChooseEffect(Effect::INCREMENT_SOLDIER, selectedUnitType) || invade_.model().hasEffect(Effect::INCREMENT_SOLDIER));
 	incrementSoldier->setFont(font);
-	font.setBold(invade_.model().canChooseEffect(Effect::IMPROVED_ATTACK) || invade_.model().hasEffect(Effect::IMPROVED_ATTACK));
+	font.setBold(invade_.model().canChooseEffect(Effect::IMPROVED_ATTACK, selectedUnitType) || invade_.model().hasEffect(Effect::IMPROVED_ATTACK));
 	improvedAttack->setFont(font);
-	font.setBold(invade_.model().canChooseEffect(Effect::CHANGE_SOLDIER) || invade_.model().hasEffect(Effect::CHANGE_SOLDIER));
+	font.setBold(invade_.model().canChooseEffect(Effect::CHANGE_SOLDIER, selectedUnitType) || invade_.model().hasEffect(Effect::CHANGE_SOLDIER));
 	changeSoldier->setFont(font);
 
 	QPalette greenPalette;

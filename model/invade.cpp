@@ -93,8 +93,16 @@ void Invade::swapDice(const DiceType d1, const DiceType d2){
 	notifierChangement();
 }
 
-bool Invade::canChooseEffect(Effect effect, UnitType) const{
+bool Invade::canChooseEffect(Effect effect, UnitType elite) const{
 	if (phase_ != Phase::PLAYING_EFFECT){
+		return false;
+	}
+
+	if (effect == Effect::CHANGE_SOLDIER && elite == UnitType::NORMAL){
+		return false;
+	}
+
+	if (effect == Effect::INCREMENT_SOLDIER && constPlayer(current_).nbUnit() >= 20){
 		return false;
 	}
 
