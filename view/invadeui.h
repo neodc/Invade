@@ -25,28 +25,58 @@ class InvadeUI : public QMainWindow, public Observateur{
 		Position PosTmp{100,100};
 		QLabel nbActions_;
 		DiceLabel * DiceTmp = NULL;
+
 		DiceLabel * COM;
 		DiceLabel * ATT;
 		DiceLabel * EFF;
 		DiceLabel * ABS;
 		DiceLabel * ORD;
 		DiceLabel * DEF;
+		QLabel * Arrows;
+		QLabel * labelCOM;
+		QLabel * labelABS;
+		QLabel * labelORD;
+		QLabel * labelEFF;
+		QLabel * labelATT;
+		QLabel * labelDEF;
+
 		EliteLabel * Soldier;
 		EliteLabel * EliteA;
 		EliteLabel * EliteB;
 		EliteLabel * EliteC;
-		QLabel * Arrows;
 		QLabel * SoldierValue;
 		QLabel * EliteAValue;
 		QLabel * EliteBValue;
 		QLabel * EliteCValue;
+
+		DiceLabel * COMenemy;
+		DiceLabel * ATTenemy;
+		DiceLabel * EFFenemy;
+		DiceLabel * ABSenemy;
+		DiceLabel * ORDenemy;
+		DiceLabel * DEFenemy;
+		QLabel * ArrowsEnemy;
+		QLabel * labelCOMenemy;
+		QLabel * labelABSenemy;
+		QLabel * labelORDenemy;
+		QLabel * labelEFFenemy;
+		QLabel * labelATTenemy;
+		QLabel * labelDEFenemy;
+
+		EliteLabel * SoldierEnemy;
+		EliteLabel * EliteAEnemy;
+		EliteLabel * EliteBEnemy;
+		EliteLabel * EliteCEnemy;
+		QLabel SoldierValueEnemy;
+		QLabel EliteAValueEnemy;
+		QLabel EliteBValueEnemy;
+		QLabel EliteCValueEnemy;
 
 		EffectLabel * noEffect;
 		EffectLabel * increasedMovement;
 		EffectLabel * incrementSoldier;
 		EffectLabel * improvedAttack;
 		EffectLabel * changeSoldier;
-		QCheckBox * BombShell;
 
 	public:
 		explicit InvadeUI(QString name, QString host, int port, QWidget *parent = 0);
@@ -59,6 +89,7 @@ private:
 		void moveCommander(Position sender);
 		void attack(Position sender, bool bombshell = false);
 		void rightAttack(Position sender);
+		void refreshDice(Player p);
 private slots:
 		void nextPhase();
 		void swapDice();
