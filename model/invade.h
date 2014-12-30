@@ -49,6 +49,7 @@ class Invade : public SujetDObservation{
 
 		const Board & board() const;
 		const Player & constPlayer(const Side side) const;
+		bool hasEffect(Effect e) const;
 		Side current() const;
 		Side winner() const;
 		Phase phase() const;
@@ -58,7 +59,6 @@ class Invade : public SujetDObservation{
 	private:
 		void applyEffect(Effect effect, UnitType elite = UnitType::NORMAL);
 		Player & player(const Side side);
-		bool hasEffect(Effect e) const;
 		bool isVictory();
 };
 

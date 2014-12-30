@@ -50,11 +50,12 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	EliteAValue = new QLabel(this);
 	EliteBValue = new QLabel(this);
 	EliteCValue = new QLabel(this);
-	EffectLabel * noEffect = new EffectLabel(Effect::NO_EFFECT, "No effect");
-	EffectLabel * increasedMovement = new EffectLabel(Effect::INCREASED_MOVEMENT, "Increased movement");
-	EffectLabel * incrementSoldier = new EffectLabel(Effect::INCREMENT_SOLDIER, "Increment soldier");
-	EffectLabel * improvedAttack = new EffectLabel(Effect::IMPROVED_ATTACK, "Improved attack");
-	EffectLabel * changeSoldier = new EffectLabel(Effect::CHANGE_SOLDIER, "Change soldier");
+
+	noEffect = new EffectLabel(Effect::NO_EFFECT, "No effect");
+	increasedMovement = new EffectLabel(Effect::INCREASED_MOVEMENT, "Increased movement");
+	incrementSoldier = new EffectLabel(Effect::INCREMENT_SOLDIER, "Increment soldier");
+	improvedAttack = new EffectLabel(Effect::IMPROVED_ATTACK, "Improved attack");
+	changeSoldier = new EffectLabel(Effect::CHANGE_SOLDIER, "Change soldier");
 
 	BombShell = new QCheckBox(this);
 	BombShell->setText("BombShell");
@@ -237,7 +238,6 @@ void InvadeUI::moveCommander(Position sender){
 		invade_.moveCommander(PosTmp, sender);
 		PosTmp = Position{100,100};
 	}
-	//TODO Faire en sorte que ca marche
 }
 
 void InvadeUI::attack(Position sender){
@@ -247,7 +247,6 @@ void InvadeUI::attack(Position sender){
 		invade_.attack(PosTmp, sender, BombShell->isChecked());
 		PosTmp = Position{100,100};
 	}
-	//TODO tester BombShell
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
@@ -352,7 +351,28 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	EliteBValue->setText(QString::number(p.unit(UnitType::ELITE_B)));
 	EliteCValue->setText(QString::number(p.unit(UnitType::ELITE_C)));
 
-	//TODO afficher pv unit?
+	QFont font("Bavaria");
+	font.setBold(invade_.model().canChooseEffect(Effect::NO_EFFECT) || invade_.model().hasEffect(Effect::NO_EFFECT));
+	noEffect->setFont(font);
+	font.setBold(invade_.model().canChooseEffect(Effect::INCREASED_MOVEMENT) || invade_.model().hasEffect(Effect::INCREASED_MOVEMENT));
+	increasedMovement->setFont(font);
+	font.setBold(invade_.model().canChooseEffect(Effect::INCREMENT_SOLDIER) || invade_.model().hasEffect(Effect::INCREMENT_SOLDIER));
+	incrementSoldier->setFont(font);
+	font.setBold(invade_.model().canChooseEffect(Effect::IMPROVED_ATTACK) || invade_.model().hasEffect(Effect::IMPROVED_ATTACK));
+	improvedAttack->setFont(font);
+	font.setBold(invade_.model().canChooseEffect(Effect::CHANGE_SOLDIER) || invade_.model().hasEffect(Effect::CHANGE_SOLDIER));
+	changeSoldier->setFont(font);
+
+	QPalette greenPalette;
+	QPalette blackPalette;
+	greenPalette.setColor(QPalette::WindowText,Qt::green);
+	blackPalette.setColor(QPalette::WindowText,Qt::black);
+
+	invade_.model().hasEffect(Effect::NO_EFFECT)? noEffect->setPalette(greenPalette): noEffect->setPalette(blackPalette);
+	invade_.model().hasEffect(Effect::INCREASED_MOVEMENT)? increasedMovement->setPalette(greenPalette): increasedMovement->setPalette(blackPalette);
+	invade_.model().hasEffect(Effect::INCREMENT_SOLDIER)? incrementSoldier->setPalette(greenPalette): incrementSoldier->setPalette(blackPalette);
+	invade_.model().hasEffect(Effect::IMPROVED_ATTACK)? improvedAttack->setPalette(greenPalette): improvedAttack->setPalette(blackPalette);
+	invade_.model().hasEffect(Effect::CHANGE_SOLDIER)? changeSoldier->setPalette(greenPalette): changeSoldier->setPalette(blackPalette);
 }
 
 InvadeUI::~InvadeUI() noexcept{

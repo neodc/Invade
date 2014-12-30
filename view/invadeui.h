@@ -39,6 +39,12 @@ class InvadeUI : public QMainWindow, public Observateur{
 		QLabel * EliteAValue;
 		QLabel * EliteBValue;
 		QLabel * EliteCValue;
+
+		EffectLabel * noEffect;
+		EffectLabel * increasedMovement;
+		EffectLabel * incrementSoldier;
+		EffectLabel * improvedAttack;
+		EffectLabel * changeSoldier;
 		QCheckBox * BombShell;
 
 	public:
