@@ -1,5 +1,7 @@
 #include <QApplication>
 #include <iostream>
+#include <sstream>
+#include <QDebug>
 
 #include "view/invadeui.h"
 #include "view/invadeconnection.h"
@@ -10,30 +12,41 @@
 #include "model/player.h"
 #include "model/board.h"
 
-#include "network/serverinvade.h"
+#include "network/serverinvadeUI.h"
+#include "network/serverinvadecli.h"
 #include "network/clientinvade.h"
 
 int main(int argc, char *argv[]){
-	srand (time(NULL));
+	srand(time(NULL));
 
 	Images::reload();
 
 	QApplication a(argc, argv);
 
-	InvadeConnection c;
-	if( c.exec() == QDialog::Rejected ) return 0;
-
+	ServerInvadeCLI * cli;
 	QWidget * w;
 
-	if( c.server() ){
-		w = new ServerInvade{ c.port() };
-	}else{
-		w = new InvadeUI{ c.name(), c.host(), c.port() };
-	}
-	w->show();
+	if( argc >= 2 ){
+		std::istringstream ss(argv[1]);
+		int port;
+		if (!(ss >> port)){
+			qDebug() << "Invalide invalid";
+			return 1;
+		}
 
-//	ClientInvade c;
-//	c.connectToHost("127.0.0.1", 5423);
+		cli = new ServerInvadeCLI(port);
+
+	}else{
+		InvadeConnection c;
+		if( c.exec() == QDialog::Rejected ) return 0;
+
+		if( c.server() ){
+			w = new ServerInvadeUI{ c.port() };
+		}else{
+			w = new InvadeUI{ c.name(), c.host(), c.port() };
+		}
+		w->show();
+	}
 
 	return a.exec();
 

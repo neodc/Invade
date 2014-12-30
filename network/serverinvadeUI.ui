@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ServerInvade</class>
- <widget class="QDialog" name="ServerInvade">
+ <class>ServerInvadeUI</class>
+ <widget class="QDialog" name="ServerInvadeUI">
   <property name="geometry">
    <rect>
     <x>0</x>

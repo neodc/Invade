@@ -1,33 +1,25 @@
 #include "serverinvade.h"
-#include "ui_serverinvade.h"
 
-#include <QMessageBox>
-#include <QTcpSocket>
-#include <QDebug>
+#include "view/sujetDObservation.h"
 #include <QJsonDocument>
+#include <QJsonObject>
 
-ServerInvade::ServerInvade(int port, QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::ServerInvade),
+ServerInvade::ServerInvade(int port, QObject *parent) :
+	QObject(parent),
 	blockSize_{0}{
 
-	ui->setupUi(this);
-
 	tcpServer_ = new QTcpServer(this);
+
 	if (!tcpServer_->listen(QHostAddress::Any, port)) {
-		ui->label->setText( tr("Unable to start the server: %1.").arg(tcpServer_->errorString()) );
+//		ui->label->setText( tr("Unable to start the server: %1.").arg(tcpServer_->errorString()) );
 		return;
 	}
 
-	ui->label->setText( tr("The server is running on port %1").arg(tcpServer_->serverPort()) );
+//	ui->label->setText( tr("The server is running on port %1").arg(tcpServer_->serverPort()) );
 
 	connect(tcpServer_, &QTcpServer::newConnection, this, &ServerInvade::newConnection);
 
 	model_.attacher(this);
-}
-
-ServerInvade::~ServerInvade(){
-	delete ui;
 }
 
 void ServerInvade::rafraichir(SujetDObservation *){
@@ -43,6 +35,10 @@ void ServerInvade::rafraichir(SujetDObservation *){
 		sendMessage("refresh", param, c.second);
 	}
 }
+
+bool ServerInvade::isListening() const{ return tcpServer_->isListening(); }
+QString ServerInvade::errorString() const{ return tcpServer_->errorString(); }
+int ServerInvade::serverPort() const{ return tcpServer_->serverPort(); }
 
 void ServerInvade::newConnection(){
 	QTcpSocket *clientConnection = tcpServer_->nextPendingConnection();

@@ -1,30 +1,25 @@
 #ifndef SERVERINVADE_H
 #define SERVERINVADE_H
 
-#include <QDialog>
+#include <QObject>
 #include <QTcpServer>
-#include <map>
+#include <QTcpSocket>
 #include <QString>
-#include <QJsonObject>
 
 #include "view/observateur.h"
 #include "model/invade.h"
-#include "model/side.h"
 
-namespace Ui {
-	class ServerInvade;
-}
-
-class ServerInvade : public QDialog, public Observateur{
+class ServerInvade : public QObject, public Observateur{
 		Q_OBJECT
-
 	public:
-		explicit ServerInvade(int port, QWidget *parent = 0);
-		~ServerInvade();
+		explicit ServerInvade(int port, QObject *parent);
+
 		void rafraichir(SujetDObservation *);
+		bool isListening() const;
+		QString errorString() const;
+		int serverPort() const;
 
 	private:
-		Ui::ServerInvade *ui;
 		Invade model_;
 		QTcpServer *tcpServer_;
 
@@ -32,6 +27,8 @@ class ServerInvade : public QDialog, public Observateur{
 		std::map<Side, std::string> names_;
 		std::map<Side, bool> requestNewGame_;
 		quint16 blockSize_;
+
+	signals:
 
 	private slots:
 		void newConnection();

@@ -28,14 +28,16 @@ SOURCES += main.cpp\
     model/effect.cpp \
     view/sujetDObservation.cpp \
     view/dicelabel.cpp \
-    network/serverinvade.cpp \
     view/invadeui.cpp \
     view/elitelabel.cpp \
     view/effectlabel.cpp \
 	network/clientinvade.cpp \
     view/tilelabel.cpp \
     view/images.cpp \
-	view/invadeconnection.cpp
+	view/invadeconnection.cpp \
+    network/serverinvadeUI.cpp \
+    network/serverinvade.cpp \
+    network/serverinvadecli.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -52,19 +54,21 @@ HEADERS  += \
     view/sujetDObservation.h \
     view/observateur.h \
     view/dicelabel.h \
-    network/serverinvade.h \
     view/invadeui.h \
     view/elitelabel.h \
 	view/effectlabel.h \
 	network/clientinvade.h \
     view/tilelabel.h \
     view/images.h \
-	view/invadeconnection.h
+	view/invadeconnection.h \
+    network/serverinvadeUI.h \
+    network/serverinvade.h \
+    network/serverinvadecli.h
 
 
 FORMS	+= invadeui.ui \
-    network/serverinvade.ui \
-	view/invadeconnection.ui
+	view/invadeconnection.ui \
+    network/serverinvadeUI.ui
 
 RESOURCES += \
 	resources/resources.qrc
