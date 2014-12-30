@@ -42,6 +42,7 @@ class ServerInvade : public QDialog, public Observateur{
 		void sendMessage(QString method, QJsonObject parameters, QTcpSocket *client);
 		void sendError(QString reason, QTcpSocket *client);
 		void sendRequestNewGame(QTcpSocket *client);
+		void readOrder(QTcpSocket *clientConnection);
 		bool isOrderValid(QJsonObject json);
 		void receiveOrder(QJsonObject json, Side side);
 };

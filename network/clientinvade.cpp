@@ -98,10 +98,7 @@ void ClientInvade::connectToHost(const QString & hostName, quint16 port){
 }
 
 void ClientInvade::readyRead(){
-
-	QTcpSocket *clientConnection = qobject_cast<QTcpSocket *>(sender());
-
-	readOrder(clientConnection);
+	readOrder(qobject_cast<QTcpSocket *>(sender()));
 }
 
 void ClientInvade::lostConnection(){

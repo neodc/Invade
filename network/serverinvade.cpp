@@ -71,9 +71,43 @@ void ServerInvade::lostConnection(){
 }
 
 void ServerInvade::readyRead(){
+	readOrder( qobject_cast<QTcpSocket *>(sender()) );
+}
 
-	QTcpSocket *clientConnection = qobject_cast<QTcpSocket *>(sender());
+void ServerInvade::sendMessage(QString method, QJsonObject parameters, QTcpSocket * client){
+	QJsonObject o;
+	o["method"] = method;
+	o["parameters"] = parameters;
+	QJsonDocument d{o};
 
+	QByteArray block;
+	QDataStream out(&block, QIODevice::WriteOnly);
+	out.setVersion(QDataStream::Qt_4_0);
+
+	out << (quint16)0;
+	out << d.toJson( QJsonDocument::JsonFormat::Compact );
+	out.device()->seek(0);
+	out << (quint16)(block.size() - sizeof(quint16));
+
+	client->write(block);
+}
+
+void ServerInvade::sendError(QString reason, QTcpSocket *client){
+
+	QJsonObject o;
+	o["reason"] = reason;
+
+	sendMessage("error", o, client);
+	client->disconnectFromHost();
+}
+
+void ServerInvade::sendRequestNewGame(QTcpSocket *client){
+	QJsonObject o;
+
+	sendMessage("requestNewGame", o, client);
+}
+
+void ServerInvade::readOrder(QTcpSocket *clientConnection){
 	QDataStream in(clientConnection);
 	in.setVersion(QDataStream::Qt_4_0);
 
@@ -112,41 +146,7 @@ void ServerInvade::readyRead(){
 			break;
 		}
 	}
-
-	clientConnection->flush();
-}
-
-void ServerInvade::sendMessage(QString method, QJsonObject parameters, QTcpSocket * client){
-	QJsonObject o;
-	o["method"] = method;
-	o["parameters"] = parameters;
-	QJsonDocument d{o};
-
-	QByteArray block;
-	QDataStream out(&block, QIODevice::WriteOnly);
-	out.setVersion(QDataStream::Qt_4_0);
-
-	out << (quint16)0;
-	out << d.toJson( QJsonDocument::JsonFormat::Compact );
-	out.device()->seek(0);
-	out << (quint16)(block.size() - sizeof(quint16));
-
-	client->write(block);
-}
-
-void ServerInvade::sendError(QString reason, QTcpSocket *client){
-
-	QJsonObject o;
-	o["reason"] = reason;
-
-	sendMessage("error", o, client);
-	client->disconnectFromHost();
-}
-
-void ServerInvade::sendRequestNewGame(QTcpSocket *client){
-	QJsonObject o;
-
-	sendMessage("requestNewGame", o, client);
+	readOrder(clientConnection);
 }
 
 bool ServerInvade::isOrderValid(QJsonObject json){
