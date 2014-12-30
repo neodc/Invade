@@ -4,6 +4,7 @@ S => C
 	refresh
 		- invade
 		- side
+	requestNewGame
 
 C => S
 	name
@@ -28,3 +29,5 @@ C => S
 		- origin
 		- dest
 		? bombshell
+	newGame
+		? ok

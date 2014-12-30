@@ -6,6 +6,7 @@
 
 ClientInvade::ClientInvade(QObject *parent) :
 	QObject(parent),
+	requestedNewGame_{false},
 	connection_{this},
 	stable_{false},
 	blockSize_{0}{
@@ -17,6 +18,7 @@ ClientInvade::ClientInvade(QObject *parent) :
 
 bool ClientInvade::stable() const{ return stable_; }
 const Invade & ClientInvade::model() const{ return model_; }
+bool ClientInvade::requestedNewGame() const{ return requestedNewGame_; }
 
 void ClientInvade::name(const QString &name){
 	QJsonObject p;
@@ -78,6 +80,13 @@ void ClientInvade::attack(const Position origin, const Position dest, bool bombs
 	p["bombshell"] = bombshell;
 
 	sendMessage("attack", p);
+}
+
+void ClientInvade::newGame(bool ok){
+	QJsonObject p;
+	p["ok"] = ok;
+
+	sendMessage("newGame", p);
 }
 
 void ClientInvade::connectToHost(const QString & hostName, quint16 port){
@@ -169,6 +178,8 @@ void ClientInvade::receiveOrder(QJsonObject json){
 		receiveRefresh(json["parameters"].toObject());
 	}else if( method == "error" ){
 		receiveError(json["parameters"].toObject());
+	}else if( method == "requestNewGame" ){
+		receiveRequestNewGame(json["parameters"].toObject());
 	}
 }
 
@@ -191,4 +202,10 @@ void ClientInvade::receiveError(QJsonObject json){
 	}
 
 	qDebug() << "ERROR: " << json["reason"].toString();
+}
+
+void ClientInvade::receiveRequestNewGame(QJsonObject){
+	requestedNewGame_ = true;
+	notifierChangement();
+	requestedNewGame_ = false;
 }

@@ -143,6 +143,12 @@ void ServerInvade::sendError(QString reason, QTcpSocket *client){
 	client->disconnectFromHost();
 }
 
+void ServerInvade::sendRequestNewGame(QTcpSocket *client){
+	QJsonObject o;
+
+	sendMessage("requestNewGame", o, client);
+}
+
 bool ServerInvade::isOrderValid(QJsonObject json){
 	return json["method"].isString() && json["parameters"].isObject();
 }
@@ -153,12 +159,12 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 		return;
 	}
 
-	if( model_.phase() != Phase::NO_PLAYER && model_.phase() != Phase::END && side != model_.current() ){
-		return;
-	}
-
 	QString method = json["method"].toString();
 	QJsonObject parameters = json["parameters"].toObject();
+
+	if( method != "newGame" && model_.phase() != Phase::NO_PLAYER && model_.phase() != Phase::END && side != model_.current() ){
+		return;
+	}
 
 	qDebug() << method << parameters;
 
@@ -216,6 +222,27 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side){
 			model_.attack( str2pos(parameters["origin"].toString()), str2pos(parameters["dest"].toString()), parameters["bombshell"].toBool() );
 		}else{
 			model_.attack( str2pos(parameters["origin"].toString()), str2pos(parameters["dest"].toString()) );
+		}
+	}else if( method == "newGame" ){
+		if( names_.size() < 2 ){
+			return;
+		}
+
+		bool ok = true;
+		if( parameters["ok"].isBool() ){
+			ok = parameters["ok"].toBool();
+		}
+
+		if( ok ){
+			requestNewGame_[side] = true;
+			if( requestNewGame_.size() == 2 ){
+				model_.begin(names_[Side::NORTH], names_[Side::SOUTH]);
+				requestNewGame_.clear();
+			}else{
+				sendRequestNewGame(clients_[!side]);
+			}
+		}else{
+			requestNewGame_.clear();
 		}
 	}
 

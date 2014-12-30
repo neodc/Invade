@@ -1,6 +1,8 @@
 #include "invadeui.h"
 #include "ui_invadeui.h"
 
+#include <QMessageBox>
+
 InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMainWindow(parent), ui(new Ui::InvadeUI){
 	ui->setupUi(this);
 
@@ -161,6 +163,9 @@ void InvadeUI::chooseEffect(){
 }
 
 void InvadeUI::begin(){
+
+	invade_.newGame(); // TODO ajouter un message ?
+/*
 	newGame game{this};
 	int retour = game.exec();
 
@@ -172,6 +177,7 @@ void InvadeUI::begin(){
 	PosTmp = Position{100,100};
 	DiceTmp = NULL;
 	rafraichir(nullptr);
+*/
 }
 
 
@@ -245,6 +251,19 @@ void InvadeUI::attack(Position sender){
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
+
+	if( invade_.requestedNewGame() ){
+		int r = QMessageBox::question(
+					this,
+					"New game",
+					"Do you wanna start a new game?",
+					QMessageBox::Yes | QMessageBox::No,
+					QMessageBox::No
+					);
+
+		invade_.newGame( r == QMessageBox::Yes );
+	}
+
 	if( invade_.model().phase() == Phase::NO_PLAYER ){
 		return; // TODO: manage this case
 	}

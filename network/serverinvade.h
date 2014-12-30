@@ -30,6 +30,7 @@ class ServerInvade : public QDialog, public Observateur{
 
 		std::map<Side, QTcpSocket*> clients_;
 		std::map<Side, std::string> names_;
+		std::map<Side, bool> requestNewGame_;
 		quint16 blockSize_;
 
 	private slots:
@@ -40,6 +41,7 @@ class ServerInvade : public QDialog, public Observateur{
 	private:
 		void sendMessage(QString method, QJsonObject parameters, QTcpSocket *client);
 		void sendError(QString reason, QTcpSocket *client);
+		void sendRequestNewGame(QTcpSocket *client);
 		bool isOrderValid(QJsonObject json);
 		void receiveOrder(QJsonObject json, Side side);
 };

@@ -17,6 +17,7 @@ class ClientInvade : public QObject, public SujetDObservation{
 
 		bool stable() const;
 		const Invade & model() const;
+		bool requestedNewGame() const;
 
 		void name(const QString & name);
 		void endPhase();
@@ -26,10 +27,12 @@ class ClientInvade : public QObject, public SujetDObservation{
 		void addUnit(const Position position, const UnitType type);
 		void moveCommander(const Position origin, const Position dest);
 		void attack(const Position origin, const Position dest, bool bombshell = false);
+		void newGame(bool ok = true);
 
 	private:
 		Invade model_;
 		Side side_;
+		bool requestedNewGame_;
 
 		QTcpSocket connection_;
 		bool stable_;
@@ -48,6 +51,7 @@ class ClientInvade : public QObject, public SujetDObservation{
 		void receiveOrder(QJsonObject json);
 		void receiveRefresh(QJsonObject json);
 		void receiveError(QJsonObject json);
+		void receiveRequestNewGame(QJsonObject json);
 };
 
 #endif // CLIENTINVADE_H
