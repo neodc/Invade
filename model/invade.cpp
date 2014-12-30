@@ -462,4 +462,6 @@ void Invade::write(QJsonObject &json) const{
 	for( const Effect& e : effects_ ){
 		effects.append( static_cast<int>(e) );
 	}
+
+	json["effects"] = effects;
 }

@@ -11,7 +11,6 @@
 #include "view/images.h"
 //#include "model/invade.h"
 #include "network/clientinvade.h"
-#include "newgame.h"
 
 namespace Ui {
 	class InvadeUI;
