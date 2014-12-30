@@ -16,6 +16,7 @@ class InvadeConnection : public QDialog{
 
 		bool server();
 		QString host();
+		QString name();
 		int port();
 
 	private:

@@ -1,7 +1,7 @@
 #include "invadeui.h"
 #include "ui_invadeui.h"
 
-InvadeUI::InvadeUI(QString host, int port, QWidget *parent) : QMainWindow(parent), ui(new Ui::InvadeUI){
+InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMainWindow(parent), ui(new Ui::InvadeUI){
 	ui->setupUi(this);
 
 	invade_.connectToHost(host, port);
@@ -112,6 +112,7 @@ InvadeUI::InvadeUI(QString host, int port, QWidget *parent) : QMainWindow(parent
 	ui->effectLayout->addWidget(BombShell, 0, 1);
 
 	invade_.attacher(this);
+	invade_.name(name);
 	rafraichir(nullptr);
 }
 

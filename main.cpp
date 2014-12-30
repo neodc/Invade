@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
 	if( c.server() ){
 		w = new ServerInvade{ c.port() };
 	}else{
-		w = new InvadeUI{ c.host(), c.port() };
+		w = new InvadeUI{ c.name(), c.host(), c.port() };
 	}
 	w->show();
 

@@ -43,7 +43,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 		QCheckBox * BombShell;
 
 	public:
-		explicit InvadeUI(QString host, int port, QWidget *parent = 0);
+		explicit InvadeUI(QString name, QString host, int port, QWidget *parent = 0);
 		void rafraichir(SujetDObservation *);
 		~InvadeUI() noexcept;
 
