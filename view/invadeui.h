@@ -24,6 +24,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 		UnitType selectedUnitType = UnitType::NORMAL;
 		Position PosTmp{100,100};
 		QLabel nbActions_;
+		QLabel warning_;
 		DiceLabel * DiceTmp = NULL;
 
 		DiceLabel * COM;

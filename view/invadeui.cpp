@@ -19,6 +19,7 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 		}
 	}
 	ui->statusBar->addWidget(&nbActions_);
+	ui->statusBar->addWidget(&warning_);
 
 	COM = new DiceLabel(DiceType::COM, "COM");
 	ABS = new DiceLabel(DiceType::ABS, "ABS");
@@ -191,34 +192,28 @@ void InvadeUI::quit(){
 }
 
 void InvadeUI::swapDice(){
-	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	QWidget * Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
 	   return;
 	}
-	int index = ui->diceLayout->indexOf(Widget);
-	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
-	ui->diceLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 
 	if (DiceTmp == NULL){
-		DiceTmp = dynamic_cast<DiceLabel*>(ui->diceLayout->itemAt(index)->widget());
+		DiceTmp = dynamic_cast<DiceLabel*>(Widget);
 	}else{
-		DiceLabel *tmp = dynamic_cast<DiceLabel*>(ui->diceLayout->itemAt(index)->widget());
-		invade_.swapDice(DiceTmp->type(),tmp->type());
+		DiceLabel * sender = dynamic_cast<DiceLabel*>(Widget);
+		invade_.swapDice(DiceTmp->type(),sender->type());
 		DiceTmp = NULL;
 	}
 	rafraichir(nullptr);
 }
 
 void InvadeUI::chooseEffect(){
-	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	QWidget * Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
 	   return;
 	}
-	int index = ui->effectLayout->indexOf(Widget);
-	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
-	ui->effectLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
-	EffectLabel * tmp = dynamic_cast<EffectLabel*>(ui->effectLayout->itemAt(index)->widget());
-	invade_.chooseEffect(tmp->type(), selectedUnitType);
+	EffectLabel * sender = dynamic_cast<EffectLabel*>(Widget);
+	invade_.chooseEffect(sender->type(), selectedUnitType);
 }
 
 void InvadeUI::begin(){
@@ -227,20 +222,17 @@ void InvadeUI::begin(){
 
 
 void InvadeUI::selectUnit(){
-	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	QWidget * Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
 	   return;
 	}
-	int index = ui->pawnLayout->indexOf(Widget);
-	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
-	ui->pawnLayout->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
-	EliteLabel * tmp = dynamic_cast<EliteLabel*>(ui->pawnLayout->itemAt(index)->widget());
-	selectedUnitType = tmp->type().type();
+	EliteLabel * sender = dynamic_cast<EliteLabel*>(Widget);
+	selectedUnitType = sender->type().type();
 	rafraichir(nullptr);
 }
 
 void InvadeUI::unitAction(){
-	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	QWidget * Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
 	   return;
 	}
@@ -260,7 +252,7 @@ void InvadeUI::unitAction(){
 }
 
 void InvadeUI::rightUnitAction(){
-	QWidget *Widget = qobject_cast<QWidget*>(sender());
+	QWidget * Widget = qobject_cast<QWidget*>(sender());
 	if (!Widget){
 	   return;
 	}
@@ -401,7 +393,6 @@ void InvadeUI::refreshStat(){
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
-
 	if( invade_.requestedNewGame() ){
 		int r = QMessageBox::question(
 					this,
@@ -415,7 +406,12 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	}
 
 	if( invade_.model().phase() == Phase::NO_PLAYER ){
-		return; // TODO: manage this case
+		ui->centralWidget->setVisible(false);
+		warning_.setText("Waiting for opponent");
+		return;
+	}else{
+		ui->centralWidget->setVisible(true);
+		warning_.setText("");
 	}
 	ui->Next_->setEnabled(invade_.model().current() == invade_.side());
 	ui->Base_->setTitle(QString::fromStdString(invade_.model().constPlayer(invade_.side()).name()));
