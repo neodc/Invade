@@ -9,7 +9,6 @@
 #include "view/elitelabel.h"
 #include "view/effectlabel.h"
 #include "view/images.h"
-//#include "model/invade.h"
 #include "network/clientinvade.h"
 
 namespace Ui {
@@ -18,7 +17,6 @@ namespace Ui {
 
 class InvadeUI : public QMainWindow, public Observateur{
 		Q_OBJECT
-//		Invade *invade_;
 		ClientInvade invade_;
 
 		UnitType selectedUnitType = UnitType::NORMAL;
@@ -27,20 +25,20 @@ class InvadeUI : public QMainWindow, public Observateur{
 		QLabel warning_;
 		DiceLabel * DiceTmp = NULL;
 		QLabel results;
+		bool showEndPhase = false;
 
 		DiceLabel * COM;
 		DiceLabel * ATT;
 		DiceLabel * EFF;
 		DiceLabel * ABS;
 		DiceLabel * ORD;
-//		DiceLabel * DEF;
+
 		QLabel * Arrows;
 		QLabel * labelCOM;
 		QLabel * labelABS;
 		QLabel * labelORD;
 		QLabel * labelEFF;
 		QLabel * labelATT;
-//		QLabel * labelDEF;
 
 		EliteLabel * Soldier;
 		EliteLabel * EliteA;
@@ -56,14 +54,13 @@ class InvadeUI : public QMainWindow, public Observateur{
 		DiceLabel * EFFenemy;
 		DiceLabel * ABSenemy;
 		DiceLabel * ORDenemy;
-//		DiceLabel * DEFenemy;
+
 		QLabel * ArrowsEnemy;
 		QLabel * labelCOMenemy;
 		QLabel * labelABSenemy;
 		QLabel * labelORDenemy;
 		QLabel * labelEFFenemy;
 		QLabel * labelATTenemy;
-//		QLabel * labelDEFenemy;
 
 		EliteLabel * SoldierEnemy;
 		EliteLabel * EliteAEnemy;

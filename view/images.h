@@ -10,7 +10,6 @@
 class Images
 {
 	static QImage tile_;
-//	static std::map<UnitType, QImage> pawns_;
 	static QImage pawn_;
 	static QImage A_;
 	static QImage B_;

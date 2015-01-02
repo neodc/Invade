@@ -23,12 +23,10 @@ void Images::reload(){
 
 	for( unsigned i = 1; i <= 6; ++i ){
 		dice_[i].load( QString(":/new/images/%1.png").arg(i) );
-	//	dice_.at(i)
 	}
 
 	for( unsigned i = 1; i <= 6; ++i ){
 		effArrows_[i].load( QString(":/new/images/ea%1.png").arg(i) );
-	//	effArrows_.at(i)
 	}
 }
 

@@ -34,13 +34,13 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ORD = new DiceLabel(DiceType::ORD, 48);
 	EFF = new DiceLabel(DiceType::EFF, 48);
 	ATT = new DiceLabel(DiceType::ATT, 48);
-//	DEF = new DiceLabel(DiceType::ATT, 48);
+
 	labelCOM = new QLabel("COM");
 	labelABS = new QLabel("ABS");
 	labelORD = new QLabel("ORD");
 	labelEFF = new QLabel("EFF");
 	labelATT = new QLabel("ATT");
-//	labelDEF = new QLabel("DEF");
+
 	Arrows = new QLabel(this);
 	Arrows->setScaledContents(true);
 	Arrows->setMaximumSize(QSize(48, 48));
@@ -60,13 +60,13 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ORDenemy = new DiceLabel(DiceType::ORD, 32);
 	EFFenemy = new DiceLabel(DiceType::EFF, 32);
 	ATTenemy = new DiceLabel(DiceType::ATT, 32);
-//	DEFenemy = new DiceLabel(DiceType::ATT, 32);
+
 	labelCOMenemy = new QLabel("COM");
 	labelABSenemy = new QLabel("ABS");
 	labelORDenemy = new QLabel("ORD");
 	labelEFFenemy = new QLabel("EFF");
 	labelATTenemy = new QLabel("ATT");
-//	labelDEFenemy = new QLabel("DEF");
+
 	ArrowsEnemy = new QLabel(this);
 	ArrowsEnemy->setScaledContents(true);
 	ArrowsEnemy->setMaximumSize(QSize(32, 32));
@@ -114,7 +114,6 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ui->diceLayout->addWidget(ORD, 2, 2);
 	ui->diceLayout->addWidget(EFF, 3, 0);
 	ui->diceLayout->addWidget(ATT, 3, 2);
-//	ui->diceLayout->addWidget(DEF, 0, 1, 4, 1);
 	ui->diceLayout->addWidget(Arrows, 2, 1);
 
 	ui->diceLayout->addWidget(labelCOM, 0, 1);
@@ -122,14 +121,12 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ui->diceLayout->addWidget(labelORD, 1, 2);
 	ui->diceLayout->addWidget(labelEFF, 4, 0);
 	ui->diceLayout->addWidget(labelATT, 4, 2);
-//	ui->diceLayout->addWidget(labelDEF, 0, 0, 4, 1);
+
 	labelCOM->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
 	labelABS->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
 	labelORD->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
 	labelEFF->setAlignment(Qt::AlignCenter| Qt::AlignTop);
 	labelATT->setAlignment(Qt::AlignCenter| Qt::AlignTop);
-//	labelDEF->setAlignment(Qt::AlignCenter| Qt::AlignHCenter);
-//	DEF->setAlignment(Qt::AlignCenter| Qt::AlignHCenter);
 
 	ui->pawnLayout->addWidget(Soldier, 0, 0);
 	ui->pawnLayout->addWidget(SoldierValue, 0, 1);
@@ -139,21 +136,12 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ui->pawnLayout->addWidget(EliteBValue, 2, 1);
 	ui->pawnLayout->addWidget(EliteC, 3, 0);
 	ui->pawnLayout->addWidget(EliteCValue, 3, 1);
-/*	Soldier->setAlignment(Qt::AlignCenter);
-	SoldierValue->setAlignment(Qt::AlignCenter);
-	EliteA->setAlignment(Qt::AlignCenter);
-	EliteAValue->setAlignment(Qt::AlignCenter);
-	EliteB->setAlignment(Qt::AlignCenter);
-	EliteBValue->setAlignment(Qt::AlignCenter);
-	EliteC->setAlignment(Qt::AlignCenter);
-	EliteCValue->setAlignment(Qt::AlignCenter);*/
 
 	ui->diceEnemyLayout->addWidget(COMenemy, 1, 1);
 	ui->diceEnemyLayout->addWidget(ABSenemy, 2, 0);
 	ui->diceEnemyLayout->addWidget(ORDenemy, 2, 2);
 	ui->diceEnemyLayout->addWidget(EFFenemy, 3, 0);
 	ui->diceEnemyLayout->addWidget(ATTenemy, 3, 2);
-//	ui->diceEnemyLayout->addWidget(DEFenemy, 0, 1);
 	ui->diceEnemyLayout->addWidget(ArrowsEnemy, 2, 1);
 
 	ui->diceEnemyLayout->addWidget(labelCOMenemy, 0, 1);
@@ -161,13 +149,12 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ui->diceEnemyLayout->addWidget(labelORDenemy, 1, 2);
 	ui->diceEnemyLayout->addWidget(labelEFFenemy, 4, 0);
 	ui->diceEnemyLayout->addWidget(labelATTenemy, 4, 2);
-//	ui->diceEnemyLayout->addWidget(labelDEFenemy, 0, 0);
+
 	labelCOMenemy->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
 	labelABSenemy->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
 	labelORDenemy->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
 	labelEFFenemy->setAlignment(Qt::AlignCenter| Qt::AlignTop);
 	labelATTenemy->setAlignment(Qt::AlignCenter| Qt::AlignTop);
-//	labelDEFenemy->setAlignment(Qt::AlignCenter| Qt::AlignHCenter);
 
 	ui->pawnEnemyLayout->addWidget(SoldierEnemy, 0, 0);
 	ui->pawnEnemyLayout->addWidget(SoldierValueEnemy, 0, 1);
@@ -228,7 +215,7 @@ void InvadeUI::chooseEffect(){
 }
 
 void InvadeUI::begin(){
-	invade_.newGame(); // TODO ajouter un message ?
+	invade_.newGame();
 }
 
 
@@ -285,7 +272,7 @@ void InvadeUI::move(Position sender){
 			invade_.addUnit(sender, selectedUnitType);
 		}
 	}else{
-		if (PosTmp.x == 100/* && invade_.model().board().unitAt(sender).enable()*/){
+		if (PosTmp.x == 100){
 			PosTmp = sender;
 		}else{
 			invade_.move(PosTmp, sender);
@@ -320,38 +307,28 @@ void InvadeUI::refreshStat(){
 	bool clientTurn = invade_.model().current() == invade_.side();
 	Player p = invade_.model().constPlayer(invade_.side());
 	Player o = invade_.model().constPlayer(!invade_.side());
-//	QSize sp(clientTurn? 54 : 27, clientTurn? 54 : 27);
-//	QSize so(clientTurn? 27 : 54, clientTurn? 27 : 54);
 
 	COM->setEnabled(clientTurn);
 	ABS->setEnabled(clientTurn);
 	ORD->setEnabled(clientTurn);
 	EFF->setEnabled(clientTurn);
-//	ATT->setEnabled(clientTurn);
-//	DEF->setEnabled(!clientTurn);
 
 	labelCOM->setEnabled(clientTurn);
 	labelABS->setEnabled(clientTurn);
 	labelORD->setEnabled(clientTurn);
 	labelEFF->setEnabled(clientTurn);
-//	labelATT->setEnabled(clientTurn);
 	labelATT->setText(clientTurn? "ATT" : "DEF");
-//	labelDEF->setEnabled(!clientTurn);
 
 	COMenemy->setEnabled(!clientTurn);
 	ABSenemy->setEnabled(!clientTurn);
 	ORDenemy->setEnabled(!clientTurn);
 	EFFenemy->setEnabled(!clientTurn);
-//	ATTenemy->setEnabled(!clientTurn);
-//	DEFenemy->setEnabled(clientTurn);
 
 	labelCOMenemy->setEnabled(!clientTurn);
 	labelABSenemy->setEnabled(!clientTurn);
 	labelORDenemy->setEnabled(!clientTurn);
 	labelEFFenemy->setEnabled(!clientTurn);
-//	labelATTenemy->setEnabled(!clientTurn);
 	labelATTenemy->setText(clientTurn? "DEF" : "ATT");
-//	labelDEFenemy->setEnabled(clientTurn);
 
 	Arrows->setVisible(clientTurn);
 	ArrowsEnemy->setVisible(!clientTurn);
@@ -376,35 +353,20 @@ void InvadeUI::refreshStat(){
 	EliteBValueEnemy->setText(QString::number(o.unit(UnitType::ELITE_B)));
 	EliteCValueEnemy->setText(QString::number(o.unit(UnitType::ELITE_C)));
 
-/*	Soldier->setMaximumSize(sp);
-	EliteA->setMaximumSize(sp);
-	EliteB->setMaximumSize(sp);
-	EliteC->setMaximumSize(sp);
+	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM));
+	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS));
+	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD));
+	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF));
+	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT));
 
-	SoldierEnemy->setMaximumSize(so);
-	EliteAEnemy->setMaximumSize(so);
-	EliteBEnemy->setMaximumSize(so);
-	EliteCEnemy->setMaximumSize(so);*/
+	Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
 
-//	if(clientTurn){
-	//	connect(ATT, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
-		COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM));
-		ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS));
-		ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD));
-		EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF));
-		ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT));
-//		ATTenemy->setPixmap(Images::dice(o.dice(DiceType::ATT)));
-		Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
-//	} else {
-	//	disconnect(ATT, 0, 0, 0);
-		COMenemy->setPixmap(Images::dice(o.dice(DiceType::COM)));
-		ABSenemy->setPixmap(Images::dice(o.dice(DiceType::ABS)));
-		ORDenemy->setPixmap(Images::dice(o.dice(DiceType::ORD)));
-		EFFenemy->setPixmap(Images::dice(o.dice(DiceType::EFF)));
-		ATTenemy->setPixmap(Images::dice(o.dice(DiceType::ATT)));
-//		ATT->setPixmap(Images::dice(p.dice(DiceType::ATT)));
-		ArrowsEnemy->setPixmap(Images::effArrows(o.dice(DiceType::EFF)));
-//	}
+	COMenemy->setPixmap(Images::dice(o.dice(DiceType::COM)));
+	ABSenemy->setPixmap(Images::dice(o.dice(DiceType::ABS)));
+	ORDenemy->setPixmap(Images::dice(o.dice(DiceType::ORD)));
+	EFFenemy->setPixmap(Images::dice(o.dice(DiceType::EFF)));
+	ATTenemy->setPixmap(Images::dice(o.dice(DiceType::ATT)));
+	ArrowsEnemy->setPixmap(Images::effArrows(o.dice(DiceType::EFF)));
 }
 
 void InvadeUI::rafraichir(SujetDObservation *){
@@ -431,7 +393,6 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	ui->Next_->setEnabled(invade_.model().current() == invade_.side());
 	ui->Base_->setTitle(QString::fromStdString(invade_.model().constPlayer(invade_.side()).name()));
 	ui->Enemy_->setTitle(QString::fromStdString(invade_.model().constPlayer(!invade_.side()).name()));
-	Player p {invade_.model().constPlayer(invade_.model().current())};
 	TileLabel * tile;
 	bool check = false;
 
@@ -446,19 +407,9 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
 			if (!invade_.model().board().isCaseEmpty(Position{i,j})){
 				Unit tmp = invade_.model().board().unitAt(Position{i,j});
-			//	UnitType tmp = invade_.model().board().unitAt(Position{i,j}).type();
 				bool selected = Position{i,j} == PosTmp;
-			//	bool damaged = invade_.model().board().unitAt(Position{i,j}).hp() < invade_.model().board().unitAt(Position{i,j}).type().hpMax();
 				tile->setPixmap(Images::tile(tmp, check, selected));
-			/*	if (tmp == UnitType::NORMAL){
-					tile->setPixmap(Images::pawn(tmp, selected);
-				}else if (tmp == UnitType::ELITE_A){
-					tile->setPixmap(Images::pawn(tmp, selected);
-				}else if (tmp == UnitType::ELITE_B){
-					tile->setPixmap(Images::pawn(tmp, selected);
-				}else if (tmp == UnitType::ELITE_C){
-					tile->setPixmap(Images::pawn(tmp, selected);
-				}*/
+
 			}else{
 				tile->setPixmap(Images::tile(check));
 			}
@@ -470,6 +421,23 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	ui->PhaseMove_->setEnabled(false);
 	ui->PhaseAttack_->setEnabled(false);
 	ui->PhaseEnd_->setEnabled(false);
+
+	if (showEndPhase && invade_.model().phase() != Phase::END){
+		ui->Next_->setEnabled(invade_.model().current() == invade_.side());
+		ui->Base_->setEnabled(true);
+		ui->Enemy_->setEnabled(true);
+		ui->Effect_->setEnabled(true);
+		for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
+			for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
+				tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+				tile->setEnabled(true);
+			}
+		}
+		results.setText("");
+		results.setParent(0);
+		ui->boardLayout->removeWidget(&results);
+		showEndPhase = false;
+	}
 
 	switch (invade_.model().phase()) {
 		case Phase::NO_PLAYER:
@@ -502,9 +470,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			ui->Next_->setEnabled(false);
 			ui->Base_->setEnabled(false);
 			ui->Enemy_->setEnabled(false);
-	//		ui->Results_->setVisible(true);
 			ui->Effect_->setEnabled(false);
-	//		ui->resultLabel_->setText(QString("%1 has invaded the enemy base!\nCongratulations!").arg(QString::fromStdString(invade_.model().constPlayer(invade_.model().winner()).name())));
 			nbActions_.setText("");
 			for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
 				for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
@@ -514,27 +480,12 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			}
 			results.setText(QString("%1 has invaded the enemy base!").arg(QString::fromStdString(invade_.model().constPlayer(invade_.model().winner()).name())));
 			ui->boardLayout->addWidget(&results, 0, 0);
+			showEndPhase = true;
 			break;
 		default:
 			break;
 	}
-//	ui->statusBar->addWidget(nbActions_);
-/*
-	ORD->setPixmap(Images::dice(p.dice(DiceType::ORD), DiceTmp == ORD).scaled(ORD->width(), ORD->height(), Qt::KeepAspectRatio));
-	ABS->setPixmap(Images::dice(p.dice(DiceType::ABS), DiceTmp == ABS).scaled(ABS->width(), ABS->height(), Qt::KeepAspectRatio));
-	ATT->setPixmap(Images::dice(p.dice(DiceType::ATT), DiceTmp == ATT).scaled(ATT->width(), ATT->height(), Qt::KeepAspectRatio));
-	COM->setPixmap(Images::dice(p.dice(DiceType::COM), DiceTmp == COM).scaled(COM->width(), COM->height(), Qt::KeepAspectRatio));
-	EFF->setPixmap(Images::dice(p.dice(DiceType::EFF), DiceTmp == EFF).scaled(EFF->width(), EFF->height(), Qt::KeepAspectRatio));
-	Arrows->setPixmap(Images::effArrows(p.dice(DiceType::EFF)));
 
-	DEF->setPixmap(Images::dice(invade_.model().constPlayer(!invade_.model().current()).dice(DiceType::ATT)).scaled(DEF->width(), DEF->height(), Qt::KeepAspectRatio));
-
-	Soldier->setPixmap(Images::pawn(UnitType::NORMAL, selectedUnitType == UnitType::NORMAL).scaled(Soldier->width(), Soldier->height(), Qt::KeepAspectRatio));
-	EliteA->setPixmap(Images::pawn(UnitType::ELITE_A, selectedUnitType == UnitType::ELITE_A).scaled(EliteA->width(), EliteA->height(), Qt::KeepAspectRatio));
-	EliteB->setPixmap(Images::pawn(UnitType::ELITE_B, selectedUnitType == UnitType::ELITE_B).scaled(EliteB->width(), EliteB->height(), Qt::KeepAspectRatio));
-	EliteC->setPixmap(Images::pawn(UnitType::ELITE_C, selectedUnitType == UnitType::ELITE_C).scaled(EliteC->width(), EliteC->height(), Qt::KeepAspectRatio));
-
-*/
 	refreshStat();
 
 	QFont font("Bavaria");
