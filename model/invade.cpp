@@ -178,8 +178,8 @@ bool Invade::canMove(const Position origin, const Position dest) const{
 	}
 
 	bool ok = false;
-	int diffX = constPlayer(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest);
-	int diffY = constPlayer(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest);
+	int diffX = constPlayer(current_).dice(DiceType::ABS) - Board::distanceX(origin,dest) + board().unitAt(origin).type().speed();
+	int diffY = constPlayer(current_).dice(DiceType::ORD) - Board::distanceY(origin,dest) + board().unitAt(origin).type().speed();
 
 	if( diffX >= 0 && diffY >= 0 ){
 		ok = true;
