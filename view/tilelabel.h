@@ -11,7 +11,7 @@ class TileLabel : public QLabel
 Q_OBJECT
 
 public:
-	explicit TileLabel( const QString& text ="", QWidget * parent = 0 );
+	explicit TileLabel(QWidget * parent = 0 );
 	~TileLabel();
 
 signals:

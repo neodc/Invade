@@ -32,14 +32,14 @@ class InvadeUI : public QMainWindow, public Observateur{
 		DiceLabel * EFF;
 		DiceLabel * ABS;
 		DiceLabel * ORD;
-		DiceLabel * DEF;
+//		DiceLabel * DEF;
 		QLabel * Arrows;
 		QLabel * labelCOM;
 		QLabel * labelABS;
 		QLabel * labelORD;
 		QLabel * labelEFF;
 		QLabel * labelATT;
-		QLabel * labelDEF;
+//		QLabel * labelDEF;
 
 		EliteLabel * Soldier;
 		EliteLabel * EliteA;
@@ -55,14 +55,14 @@ class InvadeUI : public QMainWindow, public Observateur{
 		DiceLabel * EFFenemy;
 		DiceLabel * ABSenemy;
 		DiceLabel * ORDenemy;
-		DiceLabel * DEFenemy;
+//		DiceLabel * DEFenemy;
 		QLabel * ArrowsEnemy;
 		QLabel * labelCOMenemy;
 		QLabel * labelABSenemy;
 		QLabel * labelORDenemy;
 		QLabel * labelEFFenemy;
 		QLabel * labelATTenemy;
-		QLabel * labelDEFenemy;
+//		QLabel * labelDEFenemy;
 
 		EliteLabel * SoldierEnemy;
 		EliteLabel * EliteAEnemy;

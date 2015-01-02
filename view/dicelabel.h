@@ -11,7 +11,7 @@ Q_OBJECT
 DiceType type_;
 
 public:
-	explicit DiceLabel( DiceType type, const QString& text ="", QWidget * parent = 0 );
+	explicit DiceLabel( DiceType type, int size = 64, QWidget * parent = 0 );
 	void setType(DiceType type);
 	DiceType type();
 	~DiceLabel();
