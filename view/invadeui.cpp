@@ -528,15 +528,14 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	changeSoldier->setFont(font);
 
 	QPalette greenPalette;
-	QPalette blackPalette;
+	QPalette defaultPalette;
 	greenPalette.setColor(QPalette::WindowText,Qt::green);
-	//blackPalette.setColor(QPalette::WindowText,Qt::DefaultContextMenu);
 
-	invade_.model().hasEffect(Effect::NO_EFFECT)? noEffect->setPalette(greenPalette): noEffect->setPalette(blackPalette);
-	invade_.model().hasEffect(Effect::INCREASED_MOVEMENT)? increasedMovement->setPalette(greenPalette): increasedMovement->setPalette(blackPalette);
-	invade_.model().hasEffect(Effect::INCREMENT_SOLDIER)? incrementSoldier->setPalette(greenPalette): incrementSoldier->setPalette(blackPalette);
-	invade_.model().hasEffect(Effect::IMPROVED_ATTACK)? improvedAttack->setPalette(greenPalette): improvedAttack->setPalette(blackPalette);
-	invade_.model().hasEffect(Effect::CHANGE_SOLDIER)? changeSoldier->setPalette(greenPalette): changeSoldier->setPalette(blackPalette);
+	invade_.model().hasEffect(Effect::NO_EFFECT)? noEffect->setPalette(greenPalette): noEffect->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::INCREASED_MOVEMENT)? increasedMovement->setPalette(greenPalette): increasedMovement->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::INCREMENT_SOLDIER)? incrementSoldier->setPalette(greenPalette): incrementSoldier->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::IMPROVED_ATTACK)? improvedAttack->setPalette(greenPalette): improvedAttack->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::CHANGE_SOLDIER)? changeSoldier->setPalette(greenPalette): changeSoldier->setPalette(defaultPalette);
 }
 
 InvadeUI::~InvadeUI() noexcept{
