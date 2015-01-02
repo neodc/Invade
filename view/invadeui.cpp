@@ -454,33 +454,38 @@ void InvadeUI::rafraichir(SujetDObservation *){
 		}
 	}
 
+	ui->PhaseDice_->setEnabled(false);
+	ui->PhaseEffect_->setEnabled(false);
+	ui->PhaseMove_->setEnabled(false);
+	ui->PhaseAttack_->setEnabled(false);
+	ui->PhaseEnd_->setEnabled(false);
+
 	switch (invade_.model().phase()) {
 		case Phase::NO_PLAYER:
-			ui->Phase_->setText("NO PLAYER");
 			nbActions_.setText("");
 			break;
 		case Phase::PLAYING_DICE:
-			ui->Phase_->setText("PLAYING DICE");
+			ui->PhaseDice_->setEnabled(true);
 			nbActions_.setText("");
 			break;
 		case Phase::PLAYING_EFFECT:
-			ui->Phase_->setText("EFFECT");
+			ui->PhaseEffect_->setEnabled(true);
 			nbActions_.setText("");
 			break;
 		case Phase::PLAYING_MOVE:
-			ui->Phase_->setText("PLAYING MOVE");
+			ui->PhaseMove_->setEnabled(true);
 			nbActions_.setText(QString("Remaining actions : %1").arg(invade_.model().nbActions()));
 			break;
 		case Phase::PLAYING_COMMANDER:
-			ui->Phase_->setText("PLAYING COMMANDER");
+			ui->PhaseMove_->setEnabled(true);
 			nbActions_.setText(QString("Remaining actions : %1").arg(invade_.model().nbActions()));
 			break;
 		case Phase::PLAYING_ATTACK:
-			ui->Phase_->setText("PLAYING ATTACK");
+			ui->PhaseAttack_->setEnabled(true);
 			nbActions_.setText(QString("Remaining actions : %1").arg(invade_.model().nbActions()));
 			break;
 		case Phase::END:
-			ui->Phase_->setText("END");
+			ui->PhaseEnd_->setEnabled(true);
 			nbActions_.setText("");
 			break;
 		default:
