@@ -561,21 +561,5 @@ void InvadeUI::rafraichir(SujetDObservation *){
 }
 
 InvadeUI::~InvadeUI() noexcept{
-	QLayoutItem *child;
-	while ((child = ui->Board_->takeAt(0)) != 0){
-		delete child->widget();
-	}
-	while ((child = ui->diceLayout->takeAt(0)) != 0){
-		delete child->widget();
-	}
-	while ((child = ui->pawnLayout->takeAt(0)) != 0){
-		delete child->widget();
-	}
-	while ((child = ui->enemyLayout->takeAt(0)) != 0){
-		delete child->widget();
-	}
-	while ((child = ui->effectLayout->takeAt(0)) != 0){
-		delete child->widget();
-	}
 	delete ui;
 }
