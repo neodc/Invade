@@ -84,6 +84,8 @@ void ServerInvade::readyRead() {
 }
 
 void ServerInvade::sendMessage(QString method, QJsonObject parameters, QTcpSocket * client) {
+	qDebug() << ">" << method << parameters;
+
 	QJsonObject o;
 	o["method"] = method;
 	o["parameters"] = parameters;
@@ -177,7 +179,7 @@ void ServerInvade::receiveOrder(QJsonObject json, Side side) {
 		return;
 	}
 
-	qDebug() << method << parameters;
+	qDebug() << "<" << method << parameters;
 
 	if( method == "name" ) {
 		if( !parameters["name"].isString() || model_.phase() != Phase::NO_PLAYER ) {

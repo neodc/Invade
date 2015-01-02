@@ -163,7 +163,7 @@ void ClientInvade::sendMessage(QString method, QJsonObject parameters) {
 	o["parameters"] = parameters;
 	QJsonDocument d{o};
 
-	qDebug() << method << parameters;
+	qDebug() << ">" << method << parameters;
 
 	QByteArray block;
 	QDataStream out(&block, QIODevice::WriteOnly);
@@ -187,6 +187,9 @@ void ClientInvade::receiveOrder(QJsonObject json) {
 	}
 
 	QString method = json["method"].toString();
+	QJsonObject parameters = json["parameters"].toObject();
+
+	qDebug() << "<" << method << parameters;
 
 	if( method == "refresh" ) {
 		receiveRefresh(json["parameters"].toObject());
