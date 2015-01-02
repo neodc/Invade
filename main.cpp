@@ -21,22 +21,23 @@ int main(int argc, char *argv[]){
 
 	Images::reload();
 
-	QApplication a(argc, argv);
-
-	ServerInvadeCLI * cli;
-	QWidget * w;
-
 	if( argc >= 2 ){
+		QCoreApplication a(argc, argv);
+
 		std::istringstream ss(argv[1]);
 		int port;
 		if (!(ss >> port)){
-			qDebug() << "Invalide invalid";
+			qDebug() << "Invalide port";
 			return 1;
 		}
 
-		cli = new ServerInvadeCLI(port);
+		ServerInvadeCLI cli{port};
 
+		return a.exec();
 	}else{
+		QApplication a(argc, argv);
+		QWidget * w;
+
 		InvadeConnection c;
 		if( c.exec() == QDialog::Rejected ) return 0;
 
@@ -46,8 +47,7 @@ int main(int argc, char *argv[]){
 			w = new InvadeUI{ c.name(), c.host(), c.port() };
 		}
 		w->show();
+
+		return a.exec();
 	}
-
-	return a.exec();
-
 }
