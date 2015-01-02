@@ -18,6 +18,7 @@ void Invade::reset(){
 	board_.clear();
 	players_.clear();
 	phase_ = Phase::NO_PLAYER;
+	notifierChangement();
 }
 
 void Invade::begin(const std::string p1, const std::string p2){
