@@ -26,6 +26,7 @@ class InvadeUI : public QMainWindow, public Observateur{
 		QLabel nbActions_;
 		QLabel warning_;
 		DiceLabel * DiceTmp = NULL;
+		QLabel results;
 
 		DiceLabel * COM;
 		DiceLabel * ATT;

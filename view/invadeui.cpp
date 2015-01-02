@@ -18,6 +18,14 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 			connect(label, &TileLabel::rightClicked, this, &InvadeUI::rightUnitAction);
 		}
 	}
+
+	results.setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	QFont font = results.font();
+	font.setPointSize(24);
+	font.setCapitalization(QFont::SmallCaps);
+	font.setItalic(true);
+	results.setFont(font);
+
 	ui->statusBar->addWidget(&nbActions_);
 	ui->statusBar->addWidget(&warning_);
 
@@ -491,7 +499,21 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			break;
 		case Phase::END:
 			ui->PhaseEnd_->setEnabled(true);
+			ui->Next_->setEnabled(false);
+			ui->Base_->setEnabled(false);
+			ui->Enemy_->setEnabled(false);
+	//		ui->Results_->setVisible(true);
+			ui->Effect_->setEnabled(false);
+	//		ui->resultLabel_->setText(QString("%1 has invaded the enemy base!\nCongratulations!").arg(QString::fromStdString(invade_.model().constPlayer(invade_.model().winner()).name())));
 			nbActions_.setText("");
+			for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
+				for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
+					tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+					tile->setEnabled(false);
+				}
+			}
+			results.setText(QString("%1 has invaded the enemy base!").arg(QString::fromStdString(invade_.model().constPlayer(invade_.model().winner()).name())));
+			ui->boardLayout->addWidget(&results, 0, 0);
 			break;
 		default:
 			break;

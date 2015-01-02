@@ -11,14 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>InvadeUI</string>
+   <string>Invade</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="globalLayout" stretch="0,0">
       <item>
-       <layout class="QVBoxLayout" name="boardLayout" stretch="0,0">
+       <layout class="QVBoxLayout" name="gameLayout" stretch="0,0">
         <item>
          <layout class="QHBoxLayout" name="phaseLayout" stretch="0,0,0,0,0,0,0">
           <item>
@@ -100,8 +100,11 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="boardLayout_2">
-          <item>
+         <layout class="QGridLayout" name="boardLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
            <layout class="QGridLayout" name="Board_">
             <property name="spacing">
              <number>0</number>
@@ -143,24 +146,6 @@
           </layout>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QGroupBox" name="Effect_">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>Effect</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_4">
-           <item row="0" column="0">
-            <layout class="QGridLayout" name="effectLayout"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QGroupBox" name="Base_">
           <property name="sizePolicy">
@@ -186,6 +171,24 @@
               </layout>
              </item>
             </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="Effect_">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Effect</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="effectLayout"/>
            </item>
           </layout>
          </widget>
