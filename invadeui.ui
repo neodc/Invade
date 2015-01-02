@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>398</height>
+    <width>486</width>
+    <height>230</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <item>
        <layout class="QVBoxLayout" name="boardLayout" stretch="0,0">
         <item>
-         <layout class="QHBoxLayout" name="phaseLayout" stretch="1,1,1,1,1,0">
+         <layout class="QHBoxLayout" name="phaseLayout" stretch="0,0,0,0,0,0,0">
           <item>
            <widget class="QLabel" name="PhaseDice_">
             <property name="text">
@@ -70,6 +70,19 @@
              <set>Qt::AlignCenter</set>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <widget class="QPushButton" name="Next_">
@@ -201,7 +214,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>599</width>
+     <width>486</width>
      <height>21</height>
     </rect>
    </property>
@@ -213,14 +226,6 @@
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_Game">
