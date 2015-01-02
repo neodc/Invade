@@ -11,11 +11,8 @@ ServerInvade::ServerInvade(int port, QObject *parent) :
 	tcpServer_ = new QTcpServer(this);
 
 	if (!tcpServer_->listen(QHostAddress::Any, port)) {
-//		ui->label->setText( tr("Unable to start the server: %1.").arg(tcpServer_->errorString()) );
 		return;
 	}
-
-//	ui->label->setText( tr("The server is running on port %1").arg(tcpServer_->serverPort()) );
 
 	connect(tcpServer_, &QTcpServer::newConnection, this, &ServerInvade::newConnection);
 
@@ -43,9 +40,9 @@ int ServerInvade::serverPort() const{ return tcpServer_->serverPort(); }
 void ServerInvade::newConnection(){
 	QTcpSocket *clientConnection = tcpServer_->nextPendingConnection();
 
-	if( clients_.empty() ){
+	if( clients_.count(Side::NORTH) == 0 ){
 		clients_[Side::NORTH] = clientConnection;
-	}else if( clients_.size() == 1 ){
+	}else if( clients_.count(Side::SOUTH) == 0 ){
 		clients_[Side::SOUTH] = clientConnection;
 	}else{
 		sendError("No place left.", clientConnection);
@@ -58,11 +55,21 @@ void ServerInvade::newConnection(){
 }
 
 void ServerInvade::lostConnection(){
+	QTcpSocket * clientConnection = qobject_cast<QTcpSocket *>(sender());
+	Side s;
+
 	for( const std::pair<const Side, QTcpSocket*>& c : clients_ ){
-		sendError("Client disconnected", c.second);
+		if( c.second == clientConnection ){
+			s = c.first;
+			break;
+		}
 	}
 
-	clients_.clear();
+	clients_.erase(s);
+	names_.erase(s);
+
+	requestNewGame_.clear();
+
 	model_.reset();
 }
 
