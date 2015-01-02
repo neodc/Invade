@@ -2,7 +2,7 @@
 #define PHASE_H
 #include <iostream>
 
-enum class Phase : char{
+enum class Phase : char {
 	NO_PLAYER,
 	PLAYING_DICE,
 	PLAYING_EFFECT,
@@ -12,7 +12,7 @@ enum class Phase : char{
 	END
 };
 
-std::ostream & operator<< (std::ostream & out, const Phase& in);
+std::ostream & operator<< (std::ostream & out, const Phase & in);
 
 Phase next(Phase phase);
 

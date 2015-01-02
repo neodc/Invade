@@ -3,17 +3,17 @@
 
 #include <QMessageBox>
 
-InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMainWindow(parent), ui(new Ui::InvadeUI){
+InvadeUI::InvadeUI(QString name, QString host, int port, QWidget * parent) : QMainWindow(parent), ui(new Ui::InvadeUI) {
 	ui->setupUi(this);
 
 	invade_.connectToHost(host, port);
 
 	TileLabel * label;
 
-	for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
-		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
+	for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++) {
+		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++) {
 			label = new TileLabel();
-			ui->Board_->addWidget(label,j,i);
+			ui->Board_->addWidget(label, j, i);
 			connect(label, &TileLabel::leftClicked, this, &InvadeUI::unitAction);
 			connect(label, &TileLabel::rightClicked, this, &InvadeUI::rightUnitAction);
 		}
@@ -123,10 +123,10 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ui->diceLayout->addWidget(labelATT, 4, 2);
 
 	labelCOM->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
-	labelABS->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
-	labelORD->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
-	labelEFF->setAlignment(Qt::AlignCenter| Qt::AlignTop);
-	labelATT->setAlignment(Qt::AlignCenter| Qt::AlignTop);
+	labelABS->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
+	labelORD->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
+	labelEFF->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+	labelATT->setAlignment(Qt::AlignCenter | Qt::AlignTop);
 
 	ui->pawnLayout->addWidget(Soldier, 0, 0);
 	ui->pawnLayout->addWidget(SoldierValue, 0, 1);
@@ -151,10 +151,10 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	ui->diceEnemyLayout->addWidget(labelATTenemy, 4, 2);
 
 	labelCOMenemy->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
-	labelABSenemy->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
-	labelORDenemy->setAlignment(Qt::AlignCenter| Qt::AlignBottom);
-	labelEFFenemy->setAlignment(Qt::AlignCenter| Qt::AlignTop);
-	labelATTenemy->setAlignment(Qt::AlignCenter| Qt::AlignTop);
+	labelABSenemy->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
+	labelORDenemy->setAlignment(Qt::AlignCenter | Qt::AlignBottom);
+	labelEFFenemy->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+	labelATTenemy->setAlignment(Qt::AlignCenter | Qt::AlignTop);
 
 	ui->pawnEnemyLayout->addWidget(SoldierEnemy, 0, 0);
 	ui->pawnEnemyLayout->addWidget(SoldierValueEnemy, 0, 1);
@@ -176,134 +176,134 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 	rafraichir(nullptr);
 }
 
-void InvadeUI::nextPhase(){
-	if (invade_.model().phase() == Phase::PLAYING_EFFECT && invade_.model().effects().empty()){
+void InvadeUI::nextPhase() {
+	if (invade_.model().phase() == Phase::PLAYING_EFFECT && invade_.model().effects().empty()) {
 		invade_.chooseEffect(Effect::NO_EFFECT);
 	}
 	invade_.endPhase();
-	PosTmp = Position{100,100};
+	PosTmp = Position{100, 100};
 	DiceTmp = NULL;
 }
 
-void InvadeUI::quit(){
+void InvadeUI::quit() {
 	exit(0);
 }
 
-void InvadeUI::swapDice(){
-	QWidget * Widget = qobject_cast<QWidget*>(sender());
-	if (!Widget || invade_.model().current() != invade_.side()){
-	   return;
+void InvadeUI::swapDice() {
+	QWidget * Widget = qobject_cast<QWidget *>(sender());
+	if (!Widget || invade_.model().current() != invade_.side()) {
+		return;
 	}
 
-	if (DiceTmp == NULL){
-		DiceTmp = dynamic_cast<DiceLabel*>(Widget);
-	}else{
-		DiceLabel * sender = dynamic_cast<DiceLabel*>(Widget);
-		invade_.swapDice(DiceTmp->type(),sender->type());
+	if (DiceTmp == NULL) {
+		DiceTmp = dynamic_cast<DiceLabel *>(Widget);
+	} else {
+		DiceLabel * sender = dynamic_cast<DiceLabel *>(Widget);
+		invade_.swapDice(DiceTmp->type(), sender->type());
 		DiceTmp = NULL;
 	}
 	rafraichir(nullptr);
 }
 
-void InvadeUI::chooseEffect(){
-	QWidget * Widget = qobject_cast<QWidget*>(sender());
-	if (!Widget){
-	   return;
+void InvadeUI::chooseEffect() {
+	QWidget * Widget = qobject_cast<QWidget *>(sender());
+	if (!Widget) {
+		return;
 	}
-	EffectLabel * sender = dynamic_cast<EffectLabel*>(Widget);
+	EffectLabel * sender = dynamic_cast<EffectLabel *>(Widget);
 	invade_.chooseEffect(sender->type(), selectedUnitType);
 }
 
-void InvadeUI::begin(){
+void InvadeUI::begin() {
 	invade_.newGame();
 }
 
 
-void InvadeUI::selectUnit(){
-	QWidget * Widget = qobject_cast<QWidget*>(sender());
-	if (!Widget){
-	   return;
+void InvadeUI::selectUnit() {
+	QWidget * Widget = qobject_cast<QWidget *>(sender());
+	if (!Widget) {
+		return;
 	}
-	EliteLabel * sender = dynamic_cast<EliteLabel*>(Widget);
+	EliteLabel * sender = dynamic_cast<EliteLabel *>(Widget);
 	selectedUnitType = sender->type().type();
 	rafraichir(nullptr);
 }
 
-void InvadeUI::unitAction(){
-	QWidget * Widget = qobject_cast<QWidget*>(sender());
-	if (!Widget){
-	   return;
+void InvadeUI::unitAction() {
+	QWidget * Widget = qobject_cast<QWidget *>(sender());
+	if (!Widget) {
+		return;
 	}
 	int index = ui->Board_->indexOf(Widget);
 	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
 	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	unsigned x = columnOfButton;
 	unsigned y = rowOfButton;
-	if (invade_.model().phase() == Phase::PLAYING_MOVE){
-		move(Position{x,y});
-	}else if (invade_.model().phase() == Phase::PLAYING_COMMANDER){
-		moveCommander(Position{x,y});
-	}else if (invade_.model().phase() == Phase::PLAYING_ATTACK){
-		attack(Position{x,y});
+	if (invade_.model().phase() == Phase::PLAYING_MOVE) {
+		move(Position{x, y});
+	} else if (invade_.model().phase() == Phase::PLAYING_COMMANDER) {
+		moveCommander(Position{x, y});
+	} else if (invade_.model().phase() == Phase::PLAYING_ATTACK) {
+		attack(Position{x, y});
 	}
 	rafraichir(nullptr);
 }
 
-void InvadeUI::rightUnitAction(){
-	QWidget * Widget = qobject_cast<QWidget*>(sender());
-	if (!Widget){
-	   return;
+void InvadeUI::rightUnitAction() {
+	QWidget * Widget = qobject_cast<QWidget *>(sender());
+	if (!Widget) {
+		return;
 	}
 	int index = ui->Board_->indexOf(Widget);
 	int rowOfButton, columnOfButton, rowSpanOfButton, columnSpanOfButton;
 	ui->Board_->getItemPosition(index, &rowOfButton, &columnOfButton, &rowSpanOfButton, &columnSpanOfButton);
 	unsigned x = columnOfButton;
 	unsigned y = rowOfButton;
-	if (invade_.model().phase() == Phase::PLAYING_ATTACK && !invade_.model().board().isCaseEmpty(Position{x,y})){
-		rightAttack(Position{x,y});
+	if (invade_.model().phase() == Phase::PLAYING_ATTACK && !invade_.model().board().isCaseEmpty(Position{x, y})) {
+		rightAttack(Position{x, y});
 	}
 	rafraichir(nullptr);
 }
 
-void InvadeUI::move(Position sender){
-	if (invade_.model().board().isCaseEmpty(sender) && (PosTmp.x == 100)){
+void InvadeUI::move(Position sender) {
+	if (invade_.model().board().isCaseEmpty(sender) && (PosTmp.x == 100)) {
 		if ((sender.y == 15 && (invade_.model().current() == Side::SOUTH))
-				|| (sender.y == 0 && (invade_.model().current() == Side::NORTH))){
+				|| (sender.y == 0 && (invade_.model().current() == Side::NORTH))) {
 			invade_.addUnit(sender, selectedUnitType);
 		}
-	}else{
-		if (PosTmp.x == 100){
+	} else {
+		if (PosTmp.x == 100) {
 			PosTmp = sender;
-		}else{
+		} else {
 			invade_.move(PosTmp, sender);
-			PosTmp = Position{100,100};
+			PosTmp = Position{100, 100};
 		}
 	}
 }
 
-void InvadeUI::moveCommander(Position sender){
-	if (PosTmp.x == 100){
+void InvadeUI::moveCommander(Position sender) {
+	if (PosTmp.x == 100) {
 		PosTmp = sender;
-	}else{
+	} else {
 		invade_.moveCommander(PosTmp, sender);
-		PosTmp = Position{100,100};
+		PosTmp = Position{100, 100};
 	}
 }
 
-void InvadeUI::attack(Position sender, bool bombshell){
-	if (PosTmp.x == 100){
+void InvadeUI::attack(Position sender, bool bombshell) {
+	if (PosTmp.x == 100) {
 		PosTmp = sender;
-	}else{
+	} else {
 		invade_.attack(PosTmp, sender, bombshell);
-		PosTmp = Position{100,100};
+		PosTmp = Position{100, 100};
 	}
 }
 
-void InvadeUI::rightAttack(Position sender){
-		attack(sender, true);
+void InvadeUI::rightAttack(Position sender) {
+	attack(sender, true);
 }
 
-void InvadeUI::refreshStat(){
+void InvadeUI::refreshStat() {
 	bool clientTurn = invade_.model().current() == invade_.side();
 	Player p = invade_.model().constPlayer(invade_.side());
 	Player o = invade_.model().constPlayer(!invade_.side());
@@ -317,7 +317,7 @@ void InvadeUI::refreshStat(){
 	labelABS->setEnabled(clientTurn);
 	labelORD->setEnabled(clientTurn);
 	labelEFF->setEnabled(clientTurn);
-	labelATT->setText(clientTurn? "ATT" : "DEF");
+	labelATT->setText(clientTurn ? "ATT" : "DEF");
 
 	COMenemy->setEnabled(!clientTurn);
 	ABSenemy->setEnabled(!clientTurn);
@@ -328,7 +328,7 @@ void InvadeUI::refreshStat(){
 	labelABSenemy->setEnabled(!clientTurn);
 	labelORDenemy->setEnabled(!clientTurn);
 	labelEFFenemy->setEnabled(!clientTurn);
-	labelATTenemy->setText(clientTurn? "DEF" : "ATT");
+	labelATTenemy->setText(clientTurn ? "DEF" : "ATT");
 
 	Arrows->setVisible(clientTurn);
 	ArrowsEnemy->setVisible(!clientTurn);
@@ -369,24 +369,24 @@ void InvadeUI::refreshStat(){
 	ArrowsEnemy->setPixmap(Images::effArrows(o.dice(DiceType::EFF)));
 }
 
-void InvadeUI::rafraichir(SujetDObservation *){
-	if( invade_.requestedNewGame() ){
+void InvadeUI::rafraichir(SujetDObservation *) {
+	if( invade_.requestedNewGame() ) {
 		int r = QMessageBox::question(
 					this,
 					"New game",
 					"Do you wanna start a new game?",
 					QMessageBox::Yes | QMessageBox::No,
 					QMessageBox::No
-					);
+				);
 
 		invade_.newGame( r == QMessageBox::Yes );
 	}
 
-	if( invade_.model().phase() == Phase::NO_PLAYER ){
+	if( invade_.model().phase() == Phase::NO_PLAYER ) {
 		ui->centralWidget->setVisible(false);
 		warning_.setText("Waiting for opponent");
 		return;
-	}else{
+	} else {
 		ui->centralWidget->setVisible(true);
 		warning_.setText("");
 	}
@@ -396,21 +396,22 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	TileLabel * tile;
 	bool check = false;
 
-	for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
-		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
-			if(PosTmp != Position{100, 100}){
-				check = (	(invade_.model().phase() == Phase::PLAYING_MOVE && invade_.model().canMove(PosTmp, Position{i,j}))
-						||	(invade_.model().phase() == Phase::PLAYING_COMMANDER && invade_.model().canMoveCommander(PosTmp, Position{i,j}))
-						||	(invade_.model().phase() == Phase::PLAYING_ATTACK && invade_.model().canAttack(PosTmp, Position{i,j}))
+	for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++) {
+		for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++) {
+			if(PosTmp != Position{100, 100}) {
+				check = (	(invade_.model().phase() == Phase::PLAYING_MOVE && invade_.model().canMove(PosTmp, Position{i, j}))
+							||	(invade_.model().phase() == Phase::PLAYING_COMMANDER && invade_.model().canMoveCommander(PosTmp, Position{i, j}))
+							||	(invade_.model().phase() == Phase::PLAYING_ATTACK && invade_.model().canAttack(PosTmp, Position{i, j}))
 						);
 			}
-			tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
-			if (!invade_.model().board().isCaseEmpty(Position{i,j})){
-				Unit tmp = invade_.model().board().unitAt(Position{i,j});
-				bool selected = Position{i,j} == PosTmp;
+			tile = dynamic_cast<TileLabel *>(ui->Board_->itemAtPosition(j, i)->widget());
+			if (!invade_.model().board().isCaseEmpty(Position{i, j})) {
+				Unit tmp = invade_.model().board().unitAt(Position{i, j});
+				bool selected = Position{i, j} == PosTmp;
 				tile->setPixmap(Images::tile(tmp, check, selected));
 
-			}else{
+			}
+			else {
 				tile->setPixmap(Images::tile(check));
 			}
 		}
@@ -422,14 +423,14 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	ui->PhaseAttack_->setEnabled(false);
 	ui->PhaseEnd_->setEnabled(false);
 
-	if (showEndPhase && invade_.model().phase() != Phase::END){
+	if (showEndPhase && invade_.model().phase() != Phase::END) {
 		ui->Next_->setEnabled(invade_.model().current() == invade_.side());
 		ui->Base_->setEnabled(true);
 		ui->Enemy_->setEnabled(true);
 		ui->Effect_->setEnabled(true);
-		for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
-			for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
-				tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+		for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++) {
+			for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++) {
+				tile = dynamic_cast<TileLabel *>(ui->Board_->itemAtPosition(j, i)->widget());
 				tile->setEnabled(true);
 			}
 		}
@@ -472,9 +473,9 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			ui->Enemy_->setEnabled(false);
 			ui->Effect_->setEnabled(false);
 			nbActions_.setText("");
-			for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++){
-				for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++){
-					tile = dynamic_cast<TileLabel*>(ui->Board_->itemAtPosition(j,i)->widget());
+			for(unsigned i = 0; i < invade_.model().board().dimensions().x; i++) {
+				for(unsigned j = 0; j < invade_.model().board().dimensions().y; j++) {
+					tile = dynamic_cast<TileLabel *>(ui->Board_->itemAtPosition(j, i)->widget());
 					tile->setEnabled(false);
 				}
 			}
@@ -502,15 +503,15 @@ void InvadeUI::rafraichir(SujetDObservation *){
 
 	QPalette greenPalette;
 	QPalette defaultPalette;
-	greenPalette.setColor(QPalette::WindowText,Qt::green);
+	greenPalette.setColor(QPalette::WindowText, Qt::green);
 
-	invade_.model().hasEffect(Effect::NO_EFFECT)? noEffect->setPalette(greenPalette): noEffect->setPalette(defaultPalette);
-	invade_.model().hasEffect(Effect::INCREASED_MOVEMENT)? increasedMovement->setPalette(greenPalette): increasedMovement->setPalette(defaultPalette);
-	invade_.model().hasEffect(Effect::INCREMENT_SOLDIER)? incrementSoldier->setPalette(greenPalette): incrementSoldier->setPalette(defaultPalette);
-	invade_.model().hasEffect(Effect::IMPROVED_ATTACK)? improvedAttack->setPalette(greenPalette): improvedAttack->setPalette(defaultPalette);
-	invade_.model().hasEffect(Effect::CHANGE_SOLDIER)? changeSoldier->setPalette(greenPalette): changeSoldier->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::NO_EFFECT) ? noEffect->setPalette(greenPalette) : noEffect->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::INCREASED_MOVEMENT) ? increasedMovement->setPalette(greenPalette) : increasedMovement->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::INCREMENT_SOLDIER) ? incrementSoldier->setPalette(greenPalette) : incrementSoldier->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::IMPROVED_ATTACK) ? improvedAttack->setPalette(greenPalette) : improvedAttack->setPalette(defaultPalette);
+	invade_.model().hasEffect(Effect::CHANGE_SOLDIER) ? changeSoldier->setPalette(greenPalette) : changeSoldier->setPalette(defaultPalette);
 }
 
-InvadeUI::~InvadeUI() noexcept{
+InvadeUI::~InvadeUI() noexcept {
 	delete ui;
 }

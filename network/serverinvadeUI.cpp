@@ -6,10 +6,10 @@
 #include <QDebug>
 #include <QJsonDocument>
 
-ServerInvadeUI::ServerInvadeUI(int port, QWidget *parent) :
+ServerInvadeUI::ServerInvadeUI(int port, QWidget * parent) :
 	QDialog(parent),
 	ui(new Ui::ServerInvade),
-	server_{port, this}{
+	server_{port, this} {
 
 	ui->setupUi(this);
 
@@ -21,6 +21,6 @@ ServerInvadeUI::ServerInvadeUI(int port, QWidget *parent) :
 	ui->label->setText( tr("The server is running on port %1").arg(server_.serverPort()) );
 }
 
-ServerInvadeUI::~ServerInvadeUI(){
+ServerInvadeUI::~ServerInvadeUI() {
 	delete ui;
 }

@@ -9,10 +9,10 @@
 #include "view/observateur.h"
 #include "model/invade.h"
 
-class ServerInvade : public QObject, public Observateur{
+class ServerInvade : public QObject, public Observateur {
 		Q_OBJECT
 	public:
-		explicit ServerInvade(int port, QObject *parent);
+		explicit ServerInvade(int port, QObject * parent);
 
 		void rafraichir(SujetDObservation *);
 		bool isListening() const;
@@ -21,9 +21,9 @@ class ServerInvade : public QObject, public Observateur{
 
 	private:
 		Invade model_;
-		QTcpServer *tcpServer_;
+		QTcpServer * tcpServer_;
 
-		std::map<Side, QTcpSocket*> clients_;
+		std::map<Side, QTcpSocket *> clients_;
 		std::map<Side, std::string> names_;
 		std::map<Side, bool> requestNewGame_;
 		quint16 blockSize_;
@@ -36,10 +36,10 @@ class ServerInvade : public QObject, public Observateur{
 		void readyRead();
 
 	private:
-		void sendMessage(QString method, QJsonObject parameters, QTcpSocket *client);
-		void sendError(QString reason, QTcpSocket *client);
-		void sendRequestNewGame(QTcpSocket *client);
-		void readOrder(QTcpSocket *clientConnection);
+		void sendMessage(QString method, QJsonObject parameters, QTcpSocket * client);
+		void sendError(QString reason, QTcpSocket * client);
+		void sendRequestNewGame(QTcpSocket * client);
+		void readOrder(QTcpSocket * clientConnection);
 		bool isOrderValid(QJsonObject json);
 		void receiveOrder(QJsonObject json, Side side);
 };

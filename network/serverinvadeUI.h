@@ -16,15 +16,15 @@ namespace Ui {
 	class ServerInvade;
 }
 
-class ServerInvadeUI : public QDialog{
+class ServerInvadeUI : public QDialog {
 		Q_OBJECT
 
 	public:
-		explicit ServerInvadeUI(int port, QWidget *parent = 0);
+		explicit ServerInvadeUI(int port, QWidget * parent = 0);
 		~ServerInvadeUI();
 
 	private:
-		Ui::ServerInvade *ui;
+		Ui::ServerInvade * ui;
 		ServerInvade server_;
 };
 

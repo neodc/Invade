@@ -18,24 +18,23 @@ class SujetDObservation;
  * \sa SujetDObservation.
  */
 
-class Observateur
-{
-public:
+class Observateur {
+	public:
 
-    /*!
-     * \brief Méthode virtuelle pure que chaque observateur concret doit
-     * implémenter : c'est cette méthode qu'appelle le sujet observé lors
-     * d'une notification.
-     *
-     * \param sdo le sujet d'observation qui notifie un changement.
-     * \see SujetDObservation::notifierChangement().
-     */
-    virtual void rafraichir(SujetDObservation * sdo) = 0;
+		/*!
+		 * \brief Méthode virtuelle pure que chaque observateur concret doit
+		 * implémenter : c'est cette méthode qu'appelle le sujet observé lors
+		 * d'une notification.
+		 *
+		 * \param sdo le sujet d'observation qui notifie un changement.
+		 * \see SujetDObservation::notifierChangement().
+		 */
+		virtual void rafraichir(SujetDObservation * sdo) = 0;
 
-    /*!
-     * \brief Destructeur par défaut.
-     */
-    virtual ~Observateur() = default;
+		/*!
+		 * \brief Destructeur par défaut.
+		 */
+		virtual ~Observateur() = default;
 };
 
 #endif

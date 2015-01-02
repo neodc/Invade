@@ -2,7 +2,7 @@
 #define DICETYPE_H
 #include <iostream>
 
-enum class DiceType : char{
+enum class DiceType : char {
 	ABS,
 	ORD,
 	COM,
@@ -10,6 +10,6 @@ enum class DiceType : char{
 	ATT
 };
 
-std::ostream & operator<< (std::ostream & out, const DiceType& in);
+std::ostream & operator<< (std::ostream & out, const DiceType & in);
 
 #endif // DICETYPE_H

@@ -15,12 +15,12 @@ namespace Ui {
 	class InvadeUI;
 }
 
-class InvadeUI : public QMainWindow, public Observateur{
+class InvadeUI : public QMainWindow, public Observateur {
 		Q_OBJECT
 		ClientInvade invade_;
 
 		UnitType selectedUnitType = UnitType::NORMAL;
-		Position PosTmp{100,100};
+		Position PosTmp{100, 100};
 		QLabel nbActions_;
 		QLabel warning_;
 		DiceLabel * DiceTmp = NULL;
@@ -78,18 +78,18 @@ class InvadeUI : public QMainWindow, public Observateur{
 		EffectLabel * changeSoldier;
 
 	public:
-		explicit InvadeUI(QString name, QString host, int port, QWidget *parent = 0);
+		explicit InvadeUI(QString name, QString host, int port, QWidget * parent = 0);
 		void rafraichir(SujetDObservation *);
 		~InvadeUI() noexcept;
 
-private:
-		Ui::InvadeUI *ui;
+	private:
+		Ui::InvadeUI * ui;
 		void move(Position sender);
 		void moveCommander(Position sender);
 		void attack(Position sender, bool bombshell = false);
 		void rightAttack(Position sender);
 		void refreshStat();
-private slots:
+	private slots:
 		void nextPhase();
 		void swapDice();
 		void chooseEffect();

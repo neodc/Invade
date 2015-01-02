@@ -4,10 +4,10 @@
 #include <QObject>
 #include "network/serverinvade.h"
 
-class ServerInvadeCLI : public QObject{
+class ServerInvadeCLI : public QObject {
 		Q_OBJECT
 	public:
-		explicit ServerInvadeCLI(int port, QObject *parent = 0);
+		explicit ServerInvadeCLI(int port, QObject * parent = 0);
 
 	private:
 		ServerInvade server_;

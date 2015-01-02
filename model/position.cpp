@@ -2,16 +2,16 @@
 
 #include <QStringList>
 
-std::ostream & operator<< ( std::ostream & out, const Position& in){
+std::ostream & operator<< ( std::ostream & out, const Position & in) {
 	out << '{' << in.x << ',' << in.y << '}';
 	return out;
 }
 
-QString pos2str(const Position& pos){
+QString pos2str(const Position & pos) {
 	return QString("%1:%2").arg(pos.x).arg(pos.y);
 }
 
-Position str2pos(const QString& s){
+Position str2pos(const QString & s) {
 	Position ret;
 
 	QStringList list{s.split(':')};
@@ -22,14 +22,14 @@ Position str2pos(const QString& s){
 	return ret;
 }
 
-bool operator<(const Position & first, const Position & second){
+bool operator<(const Position & first, const Position & second) {
 	return (first.y < second.y) || (first.y == second.y && first.x < second.x);
 }
 
-bool operator==(const Position & first, const Position & second){
+bool operator==(const Position & first, const Position & second) {
 	return (first.y == second.y) && (first.x == second.x);
 }
 
-bool operator!=(const Position & first, const Position & second){
+bool operator!=(const Position & first, const Position & second) {
 	return !(first == second);
 }

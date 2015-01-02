@@ -4,22 +4,22 @@
 #include <QLabel>
 #include "../model/unit.h"
 
-class EliteLabel : public QLabel{
+class EliteLabel : public QLabel {
 
-Q_OBJECT
-Unit type_;
+		Q_OBJECT
+		Unit type_;
 
-public:
-	explicit EliteLabel(Unit type, int size = 54, QWidget * parent = 0 );
-	void setType(Unit type);
-	Unit type();
-	~EliteLabel();
+	public:
+		explicit EliteLabel(Unit type, int size = 54, QWidget * parent = 0 );
+		void setType(Unit type);
+		Unit type();
+		~EliteLabel();
 
-signals:
-	void clicked();
+	signals:
+		void clicked();
 
-protected:
-	void mousePressEvent ( QMouseEvent * ) ;
+	protected:
+		void mousePressEvent ( QMouseEvent * ) ;
 };
 
 

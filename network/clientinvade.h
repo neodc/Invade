@@ -9,10 +9,10 @@
 #include "view/sujetDObservation.h"
 #include "model/invade.h"
 
-class ClientInvade : public QObject, public SujetDObservation{
+class ClientInvade : public QObject, public SujetDObservation {
 		Q_OBJECT
 	public:
-		explicit ClientInvade(QObject *parent = 0);
+		explicit ClientInvade(QObject * parent = 0);
 		void connectToHost(const QString & hostName, quint16 port);
 
 		bool stable() const;
@@ -47,7 +47,7 @@ class ClientInvade : public QObject, public SujetDObservation{
 		void newConnection();
 
 	private:
-		void readOrder(QTcpSocket *clientConnection);
+		void readOrder(QTcpSocket * clientConnection);
 		void sendMessage(QString method, QJsonObject parameters);
 		bool isOrderValid(QJsonObject json);
 		void receiveOrder(QJsonObject json);

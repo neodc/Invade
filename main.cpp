@@ -16,17 +16,17 @@
 #include "network/serverinvadecli.h"
 #include "network/clientinvade.h"
 
-int main(int argc, char *argv[]){
+int main(int argc, char * argv[]) {
 	srand(time(NULL));
 
 	Images::reload();
 
-	if( argc >= 2 ){
+	if( argc >= 2 ) {
 		QCoreApplication a(argc, argv);
 
 		std::istringstream ss(argv[1]);
 		int port;
-		if (!(ss >> port)){
+		if (!(ss >> port)) {
 			qDebug() << "Invalide port";
 			return 1;
 		}
@@ -34,16 +34,18 @@ int main(int argc, char *argv[]){
 		ServerInvadeCLI cli{port};
 
 		return a.exec();
-	}else{
+	} else {
 		QApplication a(argc, argv);
 		QWidget * w;
 
 		InvadeConnection c;
-		if( c.exec() == QDialog::Rejected ) return 0;
+		if( c.exec() == QDialog::Rejected ) {
+			return 0;
+		}
 
-		if( c.server() ){
+		if( c.server() ) {
 			w = new ServerInvadeUI{ c.port() };
-		}else{
+		} else {
 			w = new InvadeUI{ c.name(), c.host(), c.port() };
 		}
 		w->show();

@@ -1,8 +1,8 @@
 #include "phase.h"
 
-std::ostream & operator<< ( std::ostream & out, const Phase& in){
+std::ostream & operator<< ( std::ostream & out, const Phase & in) {
 
-	switch (in){
+	switch (in) {
 		case Phase::NO_PLAYER:
 			out << "no player";
 			break;
@@ -28,8 +28,8 @@ std::ostream & operator<< ( std::ostream & out, const Phase& in){
 	return out;
 }
 
-Phase next(Phase phase){
-	switch (phase){
+Phase next(Phase phase) {
+	switch (phase) {
 		case Phase::PLAYING_DICE:
 			return Phase::PLAYING_EFFECT;
 			break;

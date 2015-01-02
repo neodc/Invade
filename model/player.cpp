@@ -3,7 +3,7 @@
 #include <QString>
 #include <QJsonArray>
 
-Player::Player(std::string name) : name_{name}{
+Player::Player(std::string name) : name_{name} {
 
 	dice_[DiceType::ABS];
 	dice_[DiceType::ATT];
@@ -17,44 +17,44 @@ Player::Player(std::string name) : name_{name}{
 	units_[UnitType::ELITE_C] = 1;
 }
 
-unsigned Player::dice( const DiceType& type ) const{
+unsigned Player::dice( const DiceType & type ) const {
 	return dice_.at(type).value();
 }
 
-void Player::swapDice(const DiceType& t1, const DiceType& t2){
+void Player::swapDice(const DiceType & t1, const DiceType & t2) {
 	Dice s = dice_[t1];
 	dice_[t1] = dice_[t2];
 	dice_[t2] = s;
 }
 
-void Player::swapDice(const DiceType& t1, const DiceType& t2, const DiceType& t3){
+void Player::swapDice(const DiceType & t1, const DiceType & t2, const DiceType & t3) {
 	swapDice(t1, t2);
 	swapDice(t1, t3);
 }
 
-void Player::rollDice(){
-	for( std::pair<const DiceType, Dice>& d : dice_ ){
+void Player::rollDice() {
+	for( std::pair<const DiceType, Dice> & d : dice_ ) {
 		d.second.roll();
 	}
 }
 
-void Player::reduceAttack(unsigned u){
+void Player::reduceAttack(unsigned u) {
 	dice_[DiceType::ATT].reduce(u);
 }
 
-unsigned Player::unit(const UnitType& type) const{
+unsigned Player::unit(const UnitType & type) const {
 	return units_.at(type);
 }
 
-bool Player::addUnit(const UnitType& type){
-	if( type.elite() ){
-		if( units_[UnitType::NORMAL] > 0 && units_[type] < 3 ){
+bool Player::addUnit(const UnitType & type) {
+	if( type.elite() ) {
+		if( units_[UnitType::NORMAL] > 0 && units_[type] < 3 ) {
 			--units_[UnitType::NORMAL];
 			++units_[type];
 			return true;
 		}
-	}else{
-		if( nbUnit() < 20 ){
+	} else {
+		if( nbUnit() < 20 ) {
 			++units_[UnitType::NORMAL];
 			return true;
 		}
@@ -62,15 +62,15 @@ bool Player::addUnit(const UnitType& type){
 	return false;
 }
 
-bool Player::removeUnit(const UnitType& type){
-	if(units_[type] > 0 ){
+bool Player::removeUnit(const UnitType & type) {
+	if(units_[type] > 0 ) {
 		--units_[type];
 		return true;
 	}
 	return false;
 }
 
-void Player::disruption(){
+void Player::disruption() {
 	switch (dice(DiceType::EFF)) {
 		case 1:
 			swapDice(DiceType::ABS, DiceType::COM);
@@ -90,21 +90,21 @@ void Player::disruption(){
 	}
 }
 
-const std::string& Player::name() const{
+const std::string & Player::name() const {
 	return name_;
 }
 
-unsigned Player::nbUnit() const{
+unsigned Player::nbUnit() const {
 	unsigned ret = 0;
 
-	for( const std::pair<const UnitType, unsigned>& u : units_ ){
+	for( const std::pair<const UnitType, unsigned> & u : units_ ) {
 		ret += u.second;
 	}
 
 	return ret;
 }
 
-void Player::read(const QJsonObject &json){
+void Player::read(const QJsonObject & json) {
 	name_ = json["name"].toString().toStdString();
 
 	QJsonArray dice = json["dice"].toArray();
@@ -122,12 +122,12 @@ void Player::read(const QJsonObject &json){
 	}
 }
 
-void Player::write(QJsonObject &json) const{
+void Player::write(QJsonObject & json) const {
 	json["name"] = QString::fromStdString(name_);
 
 	QJsonArray dice;
 
-	for( const std::pair<const DiceType, Dice>& d : dice_ ){
+	for( const std::pair<const DiceType, Dice> & d : dice_ ) {
 		QJsonObject diceObject;
 
 		diceObject["type"] = static_cast<int>(d.first);
@@ -140,7 +140,7 @@ void Player::write(QJsonObject &json) const{
 
 	QJsonArray units;
 
-	for( const std::pair<const UnitType, unsigned>& u : units_ ){
+	for( const std::pair<const UnitType, unsigned> & u : units_ ) {
 		QJsonObject unitObject;
 
 		unitObject["type"] = static_cast<int>(u.first.id());
@@ -152,16 +152,16 @@ void Player::write(QJsonObject &json) const{
 	json["units"] = units;
 }
 
-std::ostream & operator<< (std::ostream & out, const Player& in){
+std::ostream & operator<< (std::ostream & out, const Player & in) {
 	out << "{\n\tname: " << in.name_ << "\n\tdice:\n";
 
-	for( const std::pair<const DiceType, Dice>& d : in.dice_ ){
+	for( const std::pair<const DiceType, Dice> & d : in.dice_ ) {
 		out << "\t\t" << d.first << " =>\t" << d.second << '\n';
 	}
 
 	out << "\tunits:\n";
 
-	for( const std::pair<const UnitType, unsigned>& u : in.units_ ){
+	for( const std::pair<const UnitType, unsigned> & u : in.units_ ) {
 		out << "\t\t" << u.first << " =>\t" << u.second << '\n';
 	}
 

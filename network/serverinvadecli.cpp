@@ -2,9 +2,9 @@
 
 #include <QDebug>
 
-ServerInvadeCLI::ServerInvadeCLI(int port, QObject *parent) :
+ServerInvadeCLI::ServerInvadeCLI(int port, QObject * parent) :
 	QObject(parent),
-	server_{port, this}{
+	server_{port, this} {
 
 	if (!server_.isListening()) {
 		qDebug() << tr("Unable to start the server: %1.").arg(server_.errorString());

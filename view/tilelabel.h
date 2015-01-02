@@ -5,21 +5,20 @@
 #include <QMouseEvent>
 #include "view/images.h"
 
-class TileLabel : public QLabel
-{
+class TileLabel : public QLabel {
 
-Q_OBJECT
+		Q_OBJECT
 
-public:
-	explicit TileLabel(QWidget * parent = 0 );
-	~TileLabel();
+	public:
+		explicit TileLabel(QWidget * parent = 0 );
+		~TileLabel();
 
-signals:
-	void leftClicked();
-	void rightClicked();
+	signals:
+		void leftClicked();
+		void rightClicked();
 
-protected:
-	void mousePressEvent ( QMouseEvent * event) ;
+	protected:
+		void mousePressEvent ( QMouseEvent * event) ;
 };
 
 

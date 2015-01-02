@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class Effect : char{
+enum class Effect : char {
 	NO_EFFECT = 1,
 	INCREASED_MOVEMENT = 2,
 	INCREMENT_SOLDIER = 3,
@@ -12,7 +12,7 @@ enum class Effect : char{
 	TWO_EFFECTS = 6
 };
 
-std::ostream & operator<< (std::ostream & out, const Effect& in);
+std::ostream & operator<< (std::ostream & out, const Effect & in);
 
 bool operator<(const int first, const Effect & second);
 bool operator>(const int first, const Effect & second);

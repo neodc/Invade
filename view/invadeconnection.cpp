@@ -1,9 +1,9 @@
 #include "invadeconnection.h"
 #include "ui_invadeconnection.h"
 
-InvadeConnection::InvadeConnection(QWidget *parent) :
+InvadeConnection::InvadeConnection(QWidget * parent) :
 	QDialog(parent),
-	ui(new Ui::InvadeConnection){
+	ui(new Ui::InvadeConnection) {
 	ui->setupUi(this);
 
 	ui->host->setText("127.0.0.1");
@@ -12,27 +12,27 @@ InvadeConnection::InvadeConnection(QWidget *parent) :
 	connect( ui->server, &QCheckBox::stateChanged, this,  &InvadeConnection::showHost);
 }
 
-InvadeConnection::~InvadeConnection(){
+InvadeConnection::~InvadeConnection() {
 	delete ui;
 }
 
-bool InvadeConnection::server(){
+bool InvadeConnection::server() {
 	return ui->server->isChecked();
 }
 
-QString InvadeConnection::host(){
+QString InvadeConnection::host() {
 	return ui->host->text();
 }
 
-QString InvadeConnection::name(){
+QString InvadeConnection::name() {
 	return ui->name->text();
 }
 
-int InvadeConnection::port(){
+int InvadeConnection::port() {
 	return ui->port->value();
 }
 
-void InvadeConnection::showHost(){
+void InvadeConnection::showHost() {
 	ui->host->setEnabled( !ui->server->isChecked() );
 	ui->name->setEnabled( !ui->server->isChecked() );
 }

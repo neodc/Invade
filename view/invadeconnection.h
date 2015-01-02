@@ -7,11 +7,11 @@ namespace Ui {
 	class InvadeConnection;
 }
 
-class InvadeConnection : public QDialog{
+class InvadeConnection : public QDialog {
 		Q_OBJECT
 
 	public:
-		explicit InvadeConnection(QWidget *parent = 0);
+		explicit InvadeConnection(QWidget * parent = 0);
 		~InvadeConnection();
 
 		bool server();
@@ -20,7 +20,7 @@ class InvadeConnection : public QDialog{
 		int port();
 
 	private:
-		Ui::InvadeConnection *ui;
+		Ui::InvadeConnection * ui;
 
 	private slots:
 		void showHost();

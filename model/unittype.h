@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-class UnitType{
+class UnitType {
 	public:
 		static const UnitType NORMAL;
 		static const UnitType ELITE_A;
@@ -29,13 +29,13 @@ class UnitType{
 		bool elite() const;
 		unsigned bombshell() const;
 		unsigned id() const;
-		bool operator==(const UnitType& other) const;
-		bool operator!=(const UnitType& other) const;
-		bool operator<(const UnitType& other) const;
+		bool operator==(const UnitType & other) const;
+		bool operator!=(const UnitType & other) const;
+		bool operator<(const UnitType & other) const;
 
 		static const UnitType & fromId(unsigned i);
 };
 
-std::ostream & operator<<(std::ostream & out, const UnitType& in);
+std::ostream & operator<<(std::ostream & out, const UnitType & in);
 
 #endif // UNITTYPE_H
