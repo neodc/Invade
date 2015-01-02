@@ -530,7 +530,7 @@ void InvadeUI::rafraichir(SujetDObservation *){
 	QPalette greenPalette;
 	QPalette blackPalette;
 	greenPalette.setColor(QPalette::WindowText,Qt::green);
-	blackPalette.setColor(QPalette::WindowText,Qt::black);
+	//blackPalette.setColor(QPalette::WindowText,Qt::DefaultContextMenu);
 
 	invade_.model().hasEffect(Effect::NO_EFFECT)? noEffect->setPalette(greenPalette): noEffect->setPalette(blackPalette);
 	invade_.model().hasEffect(Effect::INCREASED_MOVEMENT)? increasedMovement->setPalette(greenPalette): increasedMovement->setPalette(blackPalette);
