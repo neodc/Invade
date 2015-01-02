@@ -474,10 +474,12 @@ void InvadeUI::rafraichir(SujetDObservation *){
 			break;
 		case Phase::PLAYING_MOVE:
 			ui->PhaseMove_->setEnabled(true);
+			ui->PhaseMove_->setText("Move Soldiers >");
 			nbActions_.setText(QString("Remaining actions : %1").arg(invade_.model().nbActions()));
 			break;
 		case Phase::PLAYING_COMMANDER:
 			ui->PhaseMove_->setEnabled(true);
+			ui->PhaseMove_->setText("Move Soldiers (Commander) >");
 			nbActions_.setText(QString("Remaining actions : %1").arg(invade_.model().nbActions()));
 			break;
 		case Phase::PLAYING_ATTACK:
