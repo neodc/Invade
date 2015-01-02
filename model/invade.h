@@ -50,6 +50,7 @@ class Invade : public SujetDObservation{
 		const Board & board() const;
 		const Player & constPlayer(const Side side) const;
 		bool hasEffect(Effect e) const;
+		const std::set<Effect> effects() const;
 		Side current() const;
 		Side winner() const;
 		Phase phase() const;

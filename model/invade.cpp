@@ -393,6 +393,10 @@ bool Invade::hasEffect(Effect e) const{
 	return effects_.count(e) != 0;
 }
 
+const std::set<Effect> Invade::effects() const{
+	return effects_;
+}
+
 bool Invade::isVictory(){
 	if( player(!current_).nbUnit() == 0 ){
 		return true;

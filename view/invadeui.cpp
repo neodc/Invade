@@ -182,6 +182,9 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget *parent) : QMai
 }
 
 void InvadeUI::nextPhase(){
+	if (invade_.model().phase() == Phase::PLAYING_EFFECT && invade_.model().effects().empty()){
+		invade_.chooseEffect(Effect::NO_EFFECT);
+	}
 	invade_.endPhase();
 	PosTmp = Position{100,100};
 	DiceTmp = NULL;
