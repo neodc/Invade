@@ -287,9 +287,9 @@ bool Invade::canMoveCommander(const Position origin, const Position dest) const 
 
 	int diff;
 	if( Board::distanceX(origin, dest) != 0 ) {
-		diff = constPlayer(current_).dice(DiceType::ABS) - Board::distanceX(origin, dest);
+		diff = constPlayer(current_).dice(DiceType::ABS) - Board::distanceX(origin, dest) + board().unitAt(origin).type().speed();
 	} else {
-		diff = constPlayer(current_).dice(DiceType::ORD) - Board::distanceY(origin, dest);
+		diff = constPlayer(current_).dice(DiceType::ORD) - Board::distanceY(origin, dest) + board().unitAt(origin).type().speed();
 	}
 
 	if( hasEffect(Effect::INCREASED_MOVEMENT) ) {
@@ -343,8 +343,8 @@ bool Invade::canAttack(const Position origin, const Position dest, bool bombshel
 	unsigned defenseOpponentBase = constPlayer(!current_).dice(DiceType::ATT);
 	unsigned defenseOpponent = defenseOpponentBase + board_.unitAt(dest).type().accuracy();
 
-	if ((current_ == Side::NORTH && (origin.y < dest.y))
-			|| (current_ == Side::SOUTH && (origin.y > dest.y))) {
+	if ((current_ == Side::NORTH && (origin.y > dest.y))
+			|| (current_ == Side::SOUTH && (origin.y < dest.y))) {
 		accuracyCurrent++;
 	}
 	if (hasEffect(Effect::IMPROVED_ATTACK)) {
@@ -366,8 +366,8 @@ bool Invade::attack(const Position origin, const Position dest, bool bombshell) 
 	unsigned accuracyCurrent = player(current_).dice(DiceType::ATT) + board_.unitAt(origin).type().accuracy();
 	unsigned defenseOpponentBase = player(!current_).dice(DiceType::ATT);
 
-	if ((current_ == Side::NORTH && (origin.y < dest.y))
-			|| (current_ == Side::SOUTH && (origin.y > dest.y))) {
+	if ((current_ == Side::NORTH && (origin.y > dest.y))
+			|| (current_ == Side::SOUTH && (origin.y < dest.y))) {
 		accuracyCurrent++;
 	}
 	if (hasEffect(Effect::IMPROVED_ATTACK)) {
