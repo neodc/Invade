@@ -9,6 +9,7 @@
 
 class Images {
 		static QImage tile_;
+		static QImage tileSelected_;
 		static QImage pawn_;
 		static QImage A_;
 		static QImage B_;

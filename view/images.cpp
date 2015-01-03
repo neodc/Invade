@@ -1,7 +1,7 @@
 #include "images.h"
 
 QImage Images::tile_;
-
+QImage Images::tileSelected_;
 QImage Images::pawn_;
 QImage Images::A_;
 QImage Images::B_;
@@ -14,7 +14,7 @@ std::map<unsigned, QImage> Images::effArrows_;
 
 void Images::reload() {
 	tile_.load(":/new/images/boardTile.png");
-
+	tileSelected_ = changeImage(tile_, 0, 0, -50);
 	pawn_.load(":/new/images/pawn.png");
 	A_.load(":/new/images/A.png");
 	B_.load(":/new/images/B.png");
@@ -33,7 +33,8 @@ void Images::reload() {
 QPixmap Images::tile(bool selected) {
 	QPixmap pix;
 	if (selected) {
-		pix.convertFromImage(changeImage(tile_, 0, 0, -50));
+		pix.convertFromImage(tileSelected_);
+//		pix.convertFromImage(changeImage(tile_, 0, 0, -50));
 	} else {
 		pix.convertFromImage(tile_);
 	}
