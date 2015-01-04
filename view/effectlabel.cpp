@@ -1,13 +1,11 @@
 #include "effectlabel.h"
 
-EffectLabel::EffectLabel(Effect type, const QString & text, QWidget * parent ) : QLabel(parent) {
+EffectLabel::EffectLabel(Effect type, const QString & text, QWidget * parent ) : QLabel(parent), type_(type) {
 	this->setText(text);
-	type_ = type;
 }
 
 EffectLabel::~EffectLabel() {
 }
-
 
 void EffectLabel::setType(Effect type) {
 	type_ = type;

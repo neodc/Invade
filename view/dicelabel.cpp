@@ -1,7 +1,6 @@
 #include "dicelabel.h"
 
-DiceLabel::DiceLabel(DiceType type, int size, QWidget * parent ) : QLabel(parent) {
-	type_ = type;
+DiceLabel::DiceLabel(DiceType type, int size, QWidget * parent ) : QLabel(parent), type_(type) {
 	this->setMaximumSize(QSize(size, size));
 	this->setScaledContents(true);
 }

@@ -29,7 +29,6 @@ SOURCES += main.cpp\
     view/sujetDObservation.cpp \
     view/dicelabel.cpp \
     view/invadeui.cpp \
-    view/elitelabel.cpp \
     view/effectlabel.cpp \
 	network/clientinvade.cpp \
     view/tilelabel.cpp \
@@ -37,7 +36,8 @@ SOURCES += main.cpp\
 	view/invadeconnection.cpp \
     network/serverinvadeUI.cpp \
     network/serverinvade.cpp \
-    network/serverinvadecli.cpp
+    network/serverinvadecli.cpp \
+    view/unitlabel.cpp
 
 HEADERS  += \
 	model/dicetype.h \
@@ -55,7 +55,6 @@ HEADERS  += \
     view/observateur.h \
     view/dicelabel.h \
     view/invadeui.h \
-    view/elitelabel.h \
 	view/effectlabel.h \
 	network/clientinvade.h \
     view/tilelabel.h \
@@ -63,7 +62,8 @@ HEADERS  += \
 	view/invadeconnection.h \
     network/serverinvadeUI.h \
     network/serverinvade.h \
-    network/serverinvadecli.h
+    network/serverinvadecli.h \
+    view/unitlabel.h
 
 
 FORMS	+= invadeui.ui \

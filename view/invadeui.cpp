@@ -1,7 +1,7 @@
+#include <QMessageBox>
 #include "invadeui.h"
 #include "ui_invadeui.h"
 
-#include <QMessageBox>
 
 InvadeUI::InvadeUI(QString name, QString host, int port, QWidget * parent) : QMainWindow(parent), ui(new Ui::InvadeUI) {
 	ui->setupUi(this);
@@ -45,10 +45,10 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget * parent) : QMa
 	Arrows->setScaledContents(true);
 	Arrows->setMaximumSize(QSize(48, 48));
 
-	Soldier = new EliteLabel(UnitType::NORMAL, 40);
-	EliteA = new EliteLabel(UnitType::ELITE_A, 40);
-	EliteB = new EliteLabel(UnitType::ELITE_B, 40);
-	EliteC = new EliteLabel(UnitType::ELITE_C, 40);
+	Soldier = new UnitLabel(UnitType::NORMAL, 40);
+	EliteA = new UnitLabel(UnitType::ELITE_A, 40);
+	EliteB = new UnitLabel(UnitType::ELITE_B, 40);
+	EliteC = new UnitLabel(UnitType::ELITE_C, 40);
 
 	SoldierValue = new QLabel(this);
 	EliteAValue = new QLabel(this);
@@ -71,10 +71,10 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget * parent) : QMa
 	ArrowsEnemy->setScaledContents(true);
 	ArrowsEnemy->setMaximumSize(QSize(32, 32));
 
-	SoldierEnemy = new EliteLabel(UnitType::NORMAL, 27);
-	EliteAEnemy = new EliteLabel(UnitType::ELITE_A, 27);
-	EliteBEnemy = new EliteLabel(UnitType::ELITE_B, 27);
-	EliteCEnemy = new EliteLabel(UnitType::ELITE_C, 27);
+	SoldierEnemy = new UnitLabel(UnitType::NORMAL, 27);
+	EliteAEnemy = new UnitLabel(UnitType::ELITE_A, 27);
+	EliteBEnemy = new UnitLabel(UnitType::ELITE_B, 27);
+	EliteCEnemy = new UnitLabel(UnitType::ELITE_C, 27);
 
 	SoldierValueEnemy = new QLabel(this);
 	EliteAValueEnemy = new QLabel(this);
@@ -97,10 +97,10 @@ InvadeUI::InvadeUI(QString name, QString host, int port, QWidget * parent) : QMa
 	connect(EFF, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
 	connect(ATT, &DiceLabel::leftClicked, this, &InvadeUI::swapDice);
 
-	connect(Soldier, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
-	connect(EliteA, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
-	connect(EliteB, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
-	connect(EliteC, &EliteLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(Soldier, &UnitLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(EliteA, &UnitLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(EliteB, &UnitLabel::clicked, this, &InvadeUI::selectUnit);
+	connect(EliteC, &UnitLabel::clicked, this, &InvadeUI::selectUnit);
 
 	connect(noEffect, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
 	connect(increasedMovement, &EffectLabel::clicked, this, &InvadeUI::chooseEffect);
@@ -224,8 +224,8 @@ void InvadeUI::selectUnit() {
 	if (!Widget) {
 		return;
 	}
-	EliteLabel * sender = dynamic_cast<EliteLabel *>(Widget);
-	selectedUnitType = sender->type().type();
+	UnitLabel * sender = dynamic_cast<UnitLabel *>(Widget);
+	selectedUnitType = sender->type();
 	rafraichir(nullptr);
 }
 
