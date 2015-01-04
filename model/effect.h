@@ -13,97 +13,97 @@ enum class Effect : char {
 };
 
 /*!
- * \brief operator<< overload
- * \param out the output stream.
- * \param in the Effect.
- * \return the output stream.
+ * \brief Operator<< overload
+ * \param out The output stream.
+ * \param in The Effect.
+ * \return The output stream.
  */
 std::ostream & operator<< (std::ostream & out, const Effect & in);
 
 /**
- * @brief operator < overload
- * @param first an int
- * @param second an effect
- * @return true if first is smaller than second
+ * @brief Operator < overload
+ * @param first An int
+ * @param second An effect
+ * @return True if first is smaller than second, false otherwise.
  */
 bool operator<(const int first, const Effect & second);
 /**
- * @brief operator > overload
- * @param first an int
- * @param second an effect
- * @return true if first is higher than second
+ * @brief Operator > overload
+ * @param first An int
+ * @param second An effect
+ * @return True if first is higher than second, false otherwise.
  */
 bool operator>(const int first, const Effect & second);
 /**
- * @brief operator <= overload
- * @param first an int
- * @param second an effect
- * @return true if first is smaller or equal than second
+ * @brief Operator <= overload
+ * @param first An int
+ * @param second An effect
+ * @return True if first is smaller or equal than second, false otherwise.
  */
 bool operator<=(const int first, const Effect & second);
 /**
- * @brief operator >= overload
- * @param first an int
- * @param second an effect
- * @return true if first is higher or equal than second
+ * @brief Operator >= overload
+ * @param first An int
+ * @param second An effect
+ * @return True if first is higher or equal than second, false otherwise.
  */
 bool operator>=(const int first, const Effect & second);
 /**
- * @brief operator == overload
- * @param first an int
- * @param second an effect
- * @return true if first is equal to second
+ * @brief Operator == overload
+ * @param first An int
+ * @param second An effect
+ * @return True if first is equal to second, false otherwise.
  */
 bool operator==(const int first, const Effect & second);
 /**
- * @brief operator != overload
- * @param first an int
- * @param second an effect
- * @return true if first is not equal to second
+ * @brief Operator != overload
+ * @param first An int
+ * @param second An effect
+ * @return True if first is not equal to second, false otherwise.
  */
 bool operator!=(const int first, const Effect & second);
 
 
 /**
- * @brief operator < overload
- * @param first an effect
- * @param second an int
- * @return true if first is smaller than second
+ * @brief Operator < overload
+ * @param first An effect
+ * @param second An int
+ * @return True if first is smaller than second
  */
 bool operator<(const Effect & first, const int second);
 /**
- * @brief operator > overload
- * @param first an effect
- * @param second an int
- * @return true if first is higher than second
+ * @brief Operator > overload
+ * @param first An effect
+ * @param second An int
+ * @return True if first is higher than second
  */
 bool operator>(const Effect & first, const int second);
 /**
- * @brief operator <= overload
- * @param first an effect
- * @param second an int
- * @return true if first is smaller or equal than second
+ * @brief Operator <= overload
+ * @param first An effect
+ * @param second An int
+ * @return True if first is smaller or equal than second
  */
 bool operator<=(const Effect & first, const int second);
 /**
- * @brief operator >= overload
- * @param first an effect
- * @param second an int
- * @return true if first is higher or equal than second
+ * @brief Operator >= overload
+ * @param first An effect
+ * @param second An int
+ * @return True if first is higher or equal than second
  */
 bool operator>=(const Effect & first, const int second);
 /**
- * @brief operator == overload
- * @param first an effect
- * @param second an int
- * @return true if first is equal to second
+ * @brief Operator == overload
+ * @param first An effect
+ * @param second An int
+ * @return True if first is equal to second
  */
 bool operator==(const Effect & first, const int second);
 /**
- * @brief operator != overload
- * @param first an effect
- * @param second an int
- * @return true if first is not equal to second
+ * @brief Operator != overload
+ * @param first An effect
+ * @param second An int
+ * @return True if first is not equal to second
  */
 bool operator!=(const Effect & first, const int second);
 
