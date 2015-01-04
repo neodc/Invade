@@ -13,7 +13,8 @@
 #include <QJsonObject>
 
 /*!
- * \brief The Invade class
+ * \file invade.h
+ * \brief Definition of the Invade class
  */
 class Invade : public SujetDObservation {
 		Board board_;

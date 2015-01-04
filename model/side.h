@@ -1,7 +1,10 @@
 #ifndef SIDE_H
 #define SIDE_H
 #include <iostream>
-
+/*!
+ * \file side.h
+ * \brief Definition of the Side enum
+ */
 enum class Side : char {
 	NORTH, /*! The north side */
 	SOUTH  /*! The south side */

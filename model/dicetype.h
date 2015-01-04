@@ -2,7 +2,8 @@
 #define DICETYPE_H
 #include <iostream>
 /*!
- * \brief The DiceType enum
+ * \file dicetype.h
+ * \brief Definition of the DiceType enum
  */
 enum class DiceType : char {
 	ABS, /*! The Abscissa dice*/

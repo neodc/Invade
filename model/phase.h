@@ -3,7 +3,8 @@
 #include <iostream>
 
 /*!
- * \brief The Phase enum
+ * \file phase.h
+ * \brief Definition of the Phase enum
  */
 enum class Phase : char {
 	NO_PLAYER,			/*! The phase where there is no players*/

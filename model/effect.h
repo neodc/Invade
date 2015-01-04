@@ -2,7 +2,10 @@
 #define EFFECT_H
 
 #include <iostream>
-
+/*!
+ * \file effect.h
+ * \brief Definition of the Effect enum
+ */
 enum class Effect : char {
 	NO_EFFECT = 1,			/*! The no effect Effect */
 	INCREASED_MOVEMENT = 2,	/*! The increased movement Effect */

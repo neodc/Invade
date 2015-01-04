@@ -2,7 +2,10 @@
 #define POSITION_H
 #include <iostream>
 #include <QString>
-
+/*!
+ * \file position.h
+ * \brief Definition of a position.
+ */
 typedef struct {
 	unsigned x; /*! The abscissa of the point*/
 	unsigned y; /*! The ordinate of the point*/

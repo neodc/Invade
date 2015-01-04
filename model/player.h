@@ -10,7 +10,8 @@
 #include "unittype.h"
 
 /*!
- * \brief The Player class
+ * \file player.h
+ * \brief Definition of the Player class
  */
 class Player {
 		std::string name_;

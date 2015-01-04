@@ -2,7 +2,10 @@
 #define UNITTYPE_H
 
 #include <iostream>
-
+/*!
+ * \file unittype.h
+ * \brief Definition of the UnitType class
+ */
 class UnitType {
 	public:
 		static const UnitType NORMAL;	/*! A normal soldier */

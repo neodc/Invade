@@ -7,7 +7,8 @@
 #include <iostream>
 
 /*!
- * \brief The Dice class
+ * \file dice.h
+ * \brief Definition of the Dice class
  */
 class Dice {
 	private:

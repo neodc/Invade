@@ -7,7 +7,8 @@
 #include "unit.h"
 
 /*!
- * \brief The Board class
+ * \file board.h
+ * \brief Definition of the Board class
  */
 class Board {
 

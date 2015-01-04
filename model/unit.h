@@ -6,7 +6,10 @@
 
 #include "unittype.h"
 #include "side.h"
-
+/*!
+ * \file unit.h
+ * \brief Definition of the Unit class
+ */
 class Unit {
 		UnitType type_;
 		Side side_;
