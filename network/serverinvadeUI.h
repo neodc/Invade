@@ -17,7 +17,7 @@
 #include "network/serverinvade.h"
 
 namespace Ui {
-	class ServerInvade;
+	class ServerInvadeUI;
 }
 
 /*!
@@ -36,7 +36,7 @@ class ServerInvadeUI : public QDialog {
 		~ServerInvadeUI();
 
 	private:
-		Ui::ServerInvade * ui;
+		Ui::ServerInvadeUI * ui;
 		ServerInvade server_;
 };
 

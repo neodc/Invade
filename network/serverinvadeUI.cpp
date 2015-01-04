@@ -1,5 +1,5 @@
 #include "serverinvadeUI.h"
-#include "ui_serverinvade.h"
+#include "ui_serverinvadeUI.h"
 
 #include <QMessageBox>
 #include <QTcpSocket>
@@ -8,7 +8,7 @@
 
 ServerInvadeUI::ServerInvadeUI(int port, QWidget * parent) :
 	QDialog(parent),
-	ui(new Ui::ServerInvade),
+	ui(new Ui::ServerInvadeUI),
 	server_{port, this} {
 
 	ui->setupUi(this);
