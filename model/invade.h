@@ -57,8 +57,8 @@ class Invade : public SujetDObservation {
 
 		/*!
 		 * \brief Swaps two dices.
-		 * \param d1 the first dice.
-		 * \param d2 the second dice.
+		 * \param d1 The first dice.
+		 * \param d2 The second dice.
 		 */
 		void swapDice(const DiceType d1, const DiceType d2);
 
@@ -79,60 +79,60 @@ class Invade : public SujetDObservation {
 
 		/*!
 		 * \brief Tells if the unit can move.
-		 * \param origin the original position of the unit.
-		 * \param dest the destination of the unit.
+		 * \param origin The original position of the unit.
+		 * \param dest The destination of the unit.
 		 * \return True if the unit can move, false if not.
 		 */
 		bool canMove(const Position origin, const Position dest) const;
 		/*!
-		 * \brief Moves the unit.
+		 * \brief Moves a unit.
 		 * \param origin the original position of the unit.
-		 * \param dest the destination of the unit.
+		 * \param dest The destination of the unit.
 		 * \return True if the unit has moved, false if not.
 		 */
 		bool move(const Position origin, const Position dest);
 		/*!
 		 * \brief Tells if we can add a unit in the board.
-		 * \param p the position where we want to add the unit
-		 * \param type the unit.
+		 * \param p The position where we want to add the unit
+		 * \param type The unit type.
 		 * \return True if we can add a unit, false if not.
 		 */
 		bool canAddUnit(const Position p, const UnitType type) const;
 		/*!
 		 * \brief Add a unit in the board.
-		 * \param p the position where we want to add the unit
-		 * \param type the unit.
+		 * \param p The position where we want to add the unit
+		 * \param type The unit type.
 		 * \return True if the unit was added, false if not.
 		 */
 		bool addUnit(const Position p, const UnitType type);
 
 		/*!
 		 * \brief Tells if the unit moved by the commander can move.
-		 * \param origin the original position of the unit.
-		 * \param dest the destination of the unit.
+		 * \param origin The original position of the unit.
+		 * \param dest The destination of the unit.
 		 * \return True if the unit can move, false if not.
 		 */
 		bool canMoveCommander(const Position origin, const Position dest) const;
 		/*!
 		 * \brief Moves the unit moved by the commander.
-		 * \param origin the original position of the unit.
-		 * \param dest the destination of the unit.
+		 * \param origin The original position of the unit.
+		 * \param dest The destination of the unit.
 		 * \return True if the unit has moved, false if not.
 		 */
 		bool moveCommander(const Position origin, const Position dest);
 		/*!
 		 * \brief Tells if the unit can attack.
-		 * \param origin the original position of the unit.
-		 * \param dest attacked unit.
+		 * \param origin The original position of the unit.
+		 * \param dest Attacked unit.
 		 * \param bombshell Tells if the attack is a bombshell or not
 		 * \return True if the unit can attack, false if not.
 		 */
 		bool canAttack(const Position origin, const Position dest, bool bombshell = false) const;
 		/*!
-		 * \brief Effectues the attack.
-		 * \param origin the original position of the unit.
-		 * \param dest attacked unit.
-		 * \param bombshell Tells if the attack is a bombshell or not
+		 * \brief Effectuate the attack.
+		 * \param origin The position of the attacking unit.
+		 * \param dest Attacked unit.
+		 * \param bombshell Tells if the attack use a bombshell or not
 		 * \return True if attack has succeed, false if not.
 		 */
 		bool attack(const Position origin, const Position dest, bool bombshell = false);
@@ -178,7 +178,15 @@ class Invade : public SujetDObservation {
 		 * \brief nbActions Retuns the number of remaining actions of the phase.
 		 */
 		unsigned nbActions() const;
+		/*!
+		 * \brief Update the state of the object to reflect the state of the json object.
+		 * \param json The json object to read.
+		 */
 		void read(const QJsonObject & json);
+		/*!
+		 * \brief Update the state of the json object to reflect the state of  the object.
+		 * \param json The json object to write.
+		 */
 		void write(QJsonObject & json) const;
 
 	private:

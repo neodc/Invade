@@ -1,3 +1,7 @@
+/*!
+ * \file serverinvadeUI.h
+ * \brief Definition of the ServerInvadeUI class.
+ */
 #ifndef SERVERINVADEUI_H
 #define SERVERINVADEUI_H
 
@@ -16,10 +20,18 @@ namespace Ui {
 	class ServerInvade;
 }
 
+/*!
+ * \brief Graphic view of the server.
+ */
 class ServerInvadeUI : public QDialog {
 		Q_OBJECT
 
 	public:
+		/*!
+		 * \brief Construct a new instance of ServerInvadeUI.
+		 * \param port The port to listen to.
+		 * \param parent The parent of the object.
+		 */
 		explicit ServerInvadeUI(int port, QWidget * parent = 0);
 		~ServerInvadeUI();
 

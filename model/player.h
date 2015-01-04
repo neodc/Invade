@@ -81,7 +81,15 @@ class Player {
 		 * \brief Returns the total number of unit the player has.
 		 */
 		unsigned nbUnit() const;
+		/*!
+		 * \brief Update the state of the object to reflect the state of the json object.
+		 * \param json The json object to read.
+		 */
 		void read(const QJsonObject & json);
+		/*!
+		 * \brief Update the state of the json object to reflect the state of  the object.
+		 * \param json The json object to write.
+		 */
 		void write(QJsonObject & json) const;
 
 	private:

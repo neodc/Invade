@@ -116,7 +116,15 @@ class Board {
 		 * \brief reset reset all the unit in the board.
 		 */
 		void reset();
+		/*!
+		 * \brief Update the state of the object to reflect the state of the json object.
+		 * \param json The json object to read.
+		 */
 		void read(const QJsonObject & json);
+		/*!
+		 * \brief Update the state of the json object to reflect the state of  the object.
+		 * \param json The json object to write.
+		 */
 		void write(QJsonObject & json) const;
 		/*!
 		 * \brief operator<< overload
