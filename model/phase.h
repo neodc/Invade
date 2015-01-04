@@ -16,7 +16,7 @@ enum class Phase : char {
 	PLAYING_EFFECT,		/*! The phase where we must choose our effects*/
 	PLAYING_MOVE,		/*! The phase where we must move or add our units*/
 	PLAYING_COMMANDER,	/*! The phase where we must move the unit moved by the commander*/
-	PLAYING_ATTACK,		/*! The phase where we must attacks/
+	PLAYING_ATTACK,		/*! The phase where we must attacks*/
 	END					/*! The phase where the game has ended*/
 };
 
