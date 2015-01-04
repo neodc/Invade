@@ -412,10 +412,6 @@ const std::set<Effect> Invade::effects() const {
 }
 
 bool Invade::isVictory() {
-	if( player(!current_).nbUnit() == 0 ) {
-		return true;
-	}
-
 	Position p{0, 0};
 	if( current_ == Side::NORTH ) {
 		p.y = board_.dimensions().y - 1;
