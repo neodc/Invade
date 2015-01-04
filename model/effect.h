@@ -1,10 +1,15 @@
+/*!
+ * \file effect.h
+ * \brief Definition of the Effect enum
+ */
 #ifndef EFFECT_H
 #define EFFECT_H
 
 #include <iostream>
+
 /*!
- * \file effect.h
- * \brief Definition of the Effect enum
+ * \brief The Effect enum
+ * Represent the effects a player can choose.
  */
 enum class Effect : char {
 	NO_EFFECT = 1,			/*! The no effect Effect */

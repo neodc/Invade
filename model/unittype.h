@@ -1,10 +1,14 @@
+/*!
+ * \file unittype.h
+ * \brief Definition of the UnitType class
+ */
 #ifndef UNITTYPE_H
 #define UNITTYPE_H
 
 #include <iostream>
 /*!
- * \file unittype.h
- * \brief Definition of the UnitType class
+ * \brief The UnitType class
+ * Represent the types a unit can have, with value who belongs to this type.
  */
 class UnitType {
 	public:

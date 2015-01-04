@@ -1,3 +1,7 @@
+/*!
+ * \file board.h
+ * \brief Definition of the Board class
+ */
 #ifndef BOARD_H
 #define BOARD_H
 #include <map>
@@ -5,10 +9,9 @@
 #include <QJsonObject>
 #include "position.h"
 #include "unit.h"
-
 /*!
- * \file board.h
- * \brief Definition of the Board class
+ * \brief The Board class
+ * Manage a invade board.
  */
 class Board {
 

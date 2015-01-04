@@ -1,9 +1,14 @@
-#ifndef SIDE_H
-#define SIDE_H
-#include <iostream>
 /*!
  * \file side.h
  * \brief Definition of the Side enum
+ */
+#ifndef SIDE_H
+#define SIDE_H
+#include <iostream>
+
+/*!
+ * \brief The Side enum
+ * Represent a side where the invade players can be.
  */
 enum class Side : char {
 	NORTH, /*! The north side */

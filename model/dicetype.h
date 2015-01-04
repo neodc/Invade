@@ -1,9 +1,14 @@
-#ifndef DICETYPE_H
-#define DICETYPE_H
-#include <iostream>
 /*!
  * \file dicetype.h
  * \brief Definition of the DiceType enum
+ */
+#ifndef DICETYPE_H
+#define DICETYPE_H
+#include <iostream>
+
+/*!
+ * \brief The DiceType enum
+ * Represent the value a invade dice can have.
  */
 enum class DiceType : char {
 	ABS, /*! The Abscissa dice*/

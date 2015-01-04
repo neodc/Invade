@@ -1,3 +1,7 @@
+/*!
+ * \file dice.h
+ * \brief Definition of the Dice class
+ */
 #ifndef DICE_H
 #define DICE_H
 #include <stdio.h>
@@ -7,8 +11,8 @@
 #include <iostream>
 
 /*!
- * \file dice.h
- * \brief Definition of the Dice class
+ * \brief The Dice class
+ * Manage a invade dice.
  */
 class Dice {
 	private:

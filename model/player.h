@@ -1,3 +1,7 @@
+/*!
+ * \file player.h
+ * \brief Definition of the Player class
+ */
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -8,10 +12,9 @@
 #include "dicetype.h"
 #include "dice.h"
 #include "unittype.h"
-
 /*!
- * \file player.h
- * \brief Definition of the Player class
+ * \brief The Player class
+ * Represents a invade player.
  */
 class Player {
 		std::string name_;

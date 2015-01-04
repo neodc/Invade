@@ -1,3 +1,7 @@
+/*!
+ * \file invade.h
+ * \brief Definition of the Invade class
+ */
 #ifndef INVADE_H
 #define INVADE_H
 
@@ -11,10 +15,9 @@
 #include <map>
 #include <set>
 #include <QJsonObject>
-
 /*!
- * \file invade.h
- * \brief Definition of the Invade class
+ * \brief The Invade class
+ * Represent a invade game.
  */
 class Invade : public SujetDObservation {
 		Board board_;

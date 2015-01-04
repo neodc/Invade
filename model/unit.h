@@ -1,3 +1,7 @@
+/*!
+ * \file unit.h
+ * \brief Definition of the Unit class
+ */
 #ifndef UNIT_H
 #define UNIT_H
 
@@ -7,8 +11,8 @@
 #include "unittype.h"
 #include "side.h"
 /*!
- * \file unit.h
- * \brief Definition of the Unit class
+ * \brief The Unit class
+ * Represents a invade unit.
  */
 class Unit {
 		UnitType type_;

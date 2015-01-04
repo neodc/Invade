@@ -1,10 +1,14 @@
+/*!
+ * \file phase.h
+ * \brief Definition of the Phase enum
+ */
 #ifndef PHASE_H
 #define PHASE_H
 #include <iostream>
 
 /*!
- * \file phase.h
- * \brief Definition of the Phase enum
+ * \brief The Phase enum
+ * Represents the phases of a invade game.
  */
 enum class Phase : char {
 	NO_PLAYER,			/*! The phase where there is no players*/
